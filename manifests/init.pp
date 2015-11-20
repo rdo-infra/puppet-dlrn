@@ -20,6 +20,14 @@
 #   (optional) If set, enable lsyncd daemon and use this host as the target
 #     for synchronization
 #   Defaults to undef
+#
+# === Examples
+#
+#  class { 'delorean': }
+#
+# === Authors
+#
+# Javier Peña <jpena@redhat.com>
 
 
 class delorean (

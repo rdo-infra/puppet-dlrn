@@ -1,0 +1,23 @@
+{
+  "name": "jpena-delorean",
+  "version": "0.1.0",
+  "author": "jpena",
+  "summary": "Configure a Delorean instance",
+  "license": "Apache-2.0",
+  "source": "https://github.com/javierpena/puppet-delorean",
+  "project_page": "https://github.com/javierpena/puppet-delorean",
+  "issues_url": "https://github.com/javierpena/puppet-delorean/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
+    {"name":"spiette-selinux","version_requirement":">= 0.5.4"},
+    {"name":"blentz-selinux_types","version_requirement":">= 0.1.0"},
+    {"name":"saz-ssh","version_requirement":">= 2.8.1"},
+    {"name":"saz-sudo","version_requirement":">= 3.1.0"},
+    {"name":"puppetlabs-vcsrepo","version_requirement":">= 1.3.1"},
+    {"name":"puppetlabs-lvm","version_requirement":">= 0.5.0"},
+    {"name":"ceritsc-yum","version_requirement":">= 0.9.6"},
+    {"name":"crayfishx-firewalld","version_requirement":">= 2.0.0"},
+    {"name":"maestrodev-wget","version_requirement":">= 1.7.1"}
+  ]
+}
+
