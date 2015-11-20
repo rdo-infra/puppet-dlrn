@@ -1,0 +1,5 @@
+[openstack-kilo]
+name=openstack-kilo
+baseurl=http://repos.fedorapeople.org/repos/openstack/openstack-kilo/el7/
+enabled=1
+gpgcheck=0
