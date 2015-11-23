@@ -64,18 +64,17 @@ define delorean::worker (
     home       => "/home/$name",
     managehome => true,
     uid        => $uid,
-    require    => File['/home'],
+    require    => Mount['/home'],
   }
 
-  file { "/home/$name":
+  file {"/home/$name":
     ensure  => directory,
-    mode    => '0644',
-    require => User["$name"],
-  } ->
-  file {"/home/$name owner":
-    path    => "/home/$name",
     recurse => true,
     owner   => "$name",
+  } ->
+  exec { "set 0755 perms to /home/$name":
+    command => "chmod 0755 /home/$name",
+    path    => '/usr/bin',
   } ->
   file { "/home/$name/data":
     ensure => directory,

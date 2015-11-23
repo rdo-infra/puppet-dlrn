@@ -142,6 +142,7 @@ class delorean (
     ensure  => mounted,
     device  => '/dev/vgdelorean/lvol1',
     fstype  => 'ext4',
+    options => 'defaults',
     require => Filesystem['/dev/vgdelorean/lvol1'],
   }
 
