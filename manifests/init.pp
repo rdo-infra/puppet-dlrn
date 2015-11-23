@@ -58,7 +58,7 @@ class delorean (
                          'rpm-build', 'git', 'python-pip', 'git-remote-hg',
                          'python-virtualenv', 'httpd', 'gcc', 'createrepo',
                          'screen', 'python3', 'python-tox', 'git-review',
-                         'logrotate', 'postfix', 'lsyncd' ]
+                         'logrotate', 'postfix', 'lsyncd', 'firewalld' ]
   package { $required_packages: ensure => 'installed' }
 
   service { 'httpd':
@@ -90,8 +90,9 @@ class delorean (
   }
 
   service { 'firewalld':
-    ensure      => 'running',
-    enable      => true,
+    ensure  => 'running',
+    enable  => true,
+    require => Package ['firewalld'],
   } ->
   firewalld_service { 'Allow SSH':
     ensure  => 'present',
@@ -119,23 +120,19 @@ class delorean (
   physical_volume { '/dev/vdb':
     ensure  => present,
     require => Package['lvm2'],
-  }
-
+  } ->
   volume_group { 'vgdelorean':
     ensure           => present,
     physical_volumes => '/dev/vdb',
-  }
-
+  } ->
   logical_volume { 'lvol1':
     ensure       => present,
     volume_group => 'vgdelorean',
-  }
-
+  } ->
   filesystem { '/dev/vgdelorean/lvol1':
     ensure  => present,
     fs_type => 'ext4',
-  }
-
+  } ->
   mount { '/home':
     ensure  => present,
     device  => '/dev/vgdelorean/lvol1',
