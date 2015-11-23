@@ -125,6 +125,11 @@ class delorean (
     ensure           => present,
     physical_volumes => '/dev/vdb',
   } ->
+  exec { 'activate vgdelorean':
+    command => 'vgchange -a y vgdelorean',
+    path    => '/usr/sbin',
+    creates => '/dev/vgdelorean',
+  } ->
   logical_volume { 'lvol1':
     ensure       => present,
     volume_group => 'vgdelorean',
