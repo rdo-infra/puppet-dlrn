@@ -69,8 +69,9 @@ define delorean::worker (
 
   file { "/home/$name":
     ensure  => directory,
-    mode    => '0755',
+    mode    => '0644',
     owner   => "$name",
+    recurse => true,
     require => User["$name"],
   } ->
   file { "/home/$name/data":

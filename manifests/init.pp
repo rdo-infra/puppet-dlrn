@@ -81,7 +81,6 @@ class delorean (
 
   group {'mock':
     ensure  => 'present',
-    gid     => '1000',
     members => ['root'],
   }
 
@@ -208,7 +207,6 @@ class delorean (
     target         => 'fedora',
     distgit_branch => 'rpm-master',
     distro_branch  => 'master',
-    uid            => 1005,
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/f22',
@@ -222,7 +220,6 @@ class delorean (
     target         => 'fedora-rawhide',
     distgit_branch => 'rpm-master',
     distro_branch  => 'master',
-    uid            => 1006,
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/f24','/var/www/html/fedora24'],
@@ -233,7 +230,6 @@ class delorean (
     target         => 'centos',
     distgit_branch => 'rpm-master',
     distro_branch  => 'master',
-    uid            => 1000,
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/centos7', '/var/www/html/centos70'],
@@ -244,7 +240,6 @@ class delorean (
     target         => 'centos-liberty',
     distgit_branch => 'rpm-liberty',
     distro_branch  => 'stable/liberty',
-    uid            => 1003,
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/centos7-liberty', '/var/www/html/liberty/centos7'],
@@ -255,7 +250,6 @@ class delorean (
     target         => 'centos-kilo',
     distgit_branch => 'rpm-kilo',
     distro_branch  => 'stable/kilo',
-    uid            => 1001,
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/centos7-kilo', '/var/www/html/kilo/centos7'],
