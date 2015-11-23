@@ -92,7 +92,7 @@ class delorean (
   service { 'firewalld':
     ensure  => 'running',
     enable  => true,
-    require => Package ['firewalld'],
+    require => Package['firewalld'],
   } ->
   firewalld_service { 'Allow SSH':
     ensure  => 'present',
