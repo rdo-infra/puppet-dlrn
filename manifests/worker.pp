@@ -106,6 +106,7 @@ define delorean::worker (
     command => "virtualenv /home/$name/.venv",
     path    => '/usr/bin',
     creates => "/home/$name/.venv",
+    cwd     => "/home/$name",
     user    => "$name",
   }
 
@@ -117,9 +118,10 @@ define delorean::worker (
   } 
 
   file { "/home/$name/setup_delorean.sh":
-   ensure  => present,
-   mode    => '0755',
-   content => "source /home/$name/.venv/bin/activate
+    ensure  => present,
+    mode    => '0755',
+    cwd     => "/home/$name",
+    content => "source /home/$name/.venv/bin/activate
 pip install -r requirements.txt
 pip install -r test-requirements.txt
 python setup.py develop",
@@ -208,11 +210,12 @@ python setup.py develop",
     group  => "$name",
   } ->
   exec { "$name-venvpatch":
-    command => "patch -b -p1 < /home/$name/sh_patch.txt",
-    path    => '/usr/bin',
-    user    => "$name",
-    cwd     => "/home/$name/.venv/lib/python2.7/site-packages/",
-    creates => "/home/$name/.venv/lib/python2.7/site-packages/sh.py.orig",
+    command  => "patch -b -p1 < /home/$name/sh_patch.txt",
+    path     => '/usr/bin',
+    user     => "$name",
+    cwd      => "/home/$name/.venv/lib/python2.7/site-packages/",
+    creates  => "/home/$name/.venv/lib/python2.7/site-packages/sh.py.orig",
+    requires => Exec["venv-$name"],
   }
 
 
