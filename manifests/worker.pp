@@ -64,15 +64,18 @@ define delorean::worker (
     home       => "/home/$name",
     managehome => true,
     uid        => $uid,
+    require    => File['/home'],
   }
-
 
   file { "/home/$name":
     ensure  => directory,
     mode    => '0644',
-    owner   => "$name",
-    recurse => true,
     require => User["$name"],
+  } ->
+  file {"/home/$name owner":
+    path    => "/home/$name",
+    recurse => true,
+    owner   => "$name",
   } ->
   file { "/home/$name/data":
     ensure => directory,

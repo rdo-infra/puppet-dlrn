@@ -139,7 +139,7 @@ class delorean (
     fs_type => 'ext4',
   } ->
   mount { '/home':
-    ensure  => present,
+    ensure  => mounted,
     device  => '/dev/vgdelorean/lvol1',
     fstype  => 'ext4',
     require => Filesystem['/dev/vgdelorean/lvol1'],
