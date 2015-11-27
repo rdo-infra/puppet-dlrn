@@ -31,11 +31,11 @@ This module can configure the basic parameters required by a Delorean instace, p
 
 ## Setup
 
-- yum -y install puppet augeas
-- git clone https://github.com/javierpena/puppet-delorean
-- cd puppet-delorean
-- puppet module build
-- puppet module install pkg/jpena-delorean-*.tar.gz
+    $ yum -y install puppet augeas
+    $ git clone https://github.com/javierpena/puppet-delorean
+    $ cd puppet-delorean
+    $ puppet module build
+    $ puppet module install pkg/jpena-delorean-*.tar.gz
 
 ## Usage
 

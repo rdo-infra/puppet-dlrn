@@ -22,5 +22,17 @@ class delorean::web(
     cache_dir   => '/var/cache/wget',
     require     => Package['httpd'],
   }
+
+  file { '/usr/local/bin/update-web-index.sh':
+    ensure => present,
+    mode   => '0755',
+    source => 'puppet:///modules/delorean/update-web-index.sh',
+  } ->
+  cron { 'update-web-index':
+    command => '/usr/local/bin/update-web-index.sh',
+    user    => 'root',
+    hour    => '3',
+    minute  => '0',
+  }
 }
 

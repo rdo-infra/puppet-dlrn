@@ -35,6 +35,20 @@ describe 'delorean::web' do
         :require     => 'Package[httpd]',
       )
     end
+
+    it 'creates the update-web-index cron job' do
+      is_expected.to contain_file('/usr/local/bin/update-web-index.sh').with(
+        :ensure => 'present',
+        :mode   => '0755',
+        :source => 'puppet:///modules/delorean/update-web-index.sh',
+      ).with_before(/Cron\[update-web-index\]/)
+      is_expected.to contain_cron('update-web-index').with(
+        :command => '/usr/local/bin/update-web-index.sh',
+        :user    => 'root',
+        :hour    => '3',
+        :minute  => '0',
+      )
+    end
   end
 
 end
