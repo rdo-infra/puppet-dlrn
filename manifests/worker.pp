@@ -58,107 +58,106 @@ define delorean::worker (
   $enable_cron    = false,
   $symlinks       = undef ) {
 
-  user { "$name":
+  user { $name:
     comment    => $name,
     groups     => ['users', 'mock'],
-    home       => "/home/$name",
+    home       => "/home/${name}",
     managehome => true,
     uid        => $uid,
     require    => Mount['/home'],
   }
 
-  file {"/home/$name":
+  file {"/home/${name}":
     ensure  => directory,
     recurse => true,
-    owner   => "$name",
+    owner   => $name,
   } ->
-  exec { "set 0755 perms to /home/$name":
-    command => "chmod 0755 /home/$name",
+  exec { "set 0755 perms to /home/${name}":
+    command => "chmod 0755 /home/${name}",
     path    => '/usr/bin',
   } ->
-  file { "/home/$name/data":
+  file { "/home/${name}/data":
     ensure => directory,
     mode   => '0755',
-    owner  => "$name",
-    group  => "$name",
+    owner  => $name,
+    group  => $name,
   } ->
-  file { "/home/$name/data/repos":
+  file { "/home/${name}/data/repos":
     ensure => directory,
     mode   => '0755',
-    owner  => "$name",
-    group  => "$name",
+    owner  => $name,
+    group  => $name,
   } ->
-  file { "/home/$name/data/repos/delorean-deps.repo":
+  file { "/home/${name}/data/repos/delorean-deps.repo":
     ensure => present,
-    source => "puppet:///modules/delorean/$name-delorean-deps.repo",
+    source => "puppet:///modules/delorean/${name}-delorean-deps.repo",
     mode   => '0644',
-    owner  => "$name",
-    group  => "$name",
+    owner  => $name,
+    group  => $name,
   }
 
 
-  exec { "$name-sshkeygen":
-    command     => "ssh-keygen -t rsa -P \"\" -f /home/$name/.ssh/id_rsa",
-    path        => '/usr/bin',
-    creates     => "/home/$name/.ssh/id_rsa",
-    user        => "$name",
-  } 
-
-  exec { "venv-$name":
-    command => "virtualenv /home/$name/.venv",
+  exec { "${name}-sshkeygen":
+    command => "ssh-keygen -t rsa -P \"\" -f /home/${name}/.ssh/id_rsa",
     path    => '/usr/bin',
-    creates => "/home/$name/.venv",
-    cwd     => "/home/$name",
-    user    => "$name",
+    creates => "/home/${name}/.ssh/id_rsa",
+    user    => $name,
   }
 
-  vcsrepo { "/home/$name/delorean":
+  exec { "venv-${name}":
+    command => "virtualenv /home/${name}/.venv",
+    path    => '/usr/bin',
+    creates => "/home/${name}/.venv",
+    cwd     => "/home/${name}",
+    user    => $name,
+  }
+
+  vcsrepo { "/home/${name}/delorean":
     ensure   => present,
     provider => git,
     source   => 'https://github.com/openstack-packages/delorean',
-    user     => "$name",
-  } 
+    user     => $name,
+  }
 
-  file { "/home/$name/setup_delorean.sh":
+  file { "/home/${name}/setup_delorean.sh":
     ensure  => present,
     mode    => '0755',
-    content => "source /home/$name/.venv/bin/activate
+    content => "source /home/${name}/.venv/bin/activate
 pip install -r requirements.txt
 pip install -r test-requirements.txt
 python setup.py develop",
   }
 
   if $disable_email {
-    $delorean_mailserver = ""
+    $delorean_mailserver = ''
   } else {
-    $delorean_mailserver = "localhost"
+    $delorean_mailserver = 'localhost'
   }
 
-
-  exec { "pip-install-$name":
-    command => "/home/$name/setup_delorean.sh",
-    cwd     => "/home/$name/delorean",
+  exec { "pip-install-${name}":
+    command => "/home/${name}/setup_delorean.sh",
+    cwd     => "/home/${name}/delorean",
     path    => '/usr/bin',
-    creates => "/home/$name/.venv/bin/delorean",
-    require => [Exec["venv-$name"],Vcsrepo["/home/$name/delorean"],File["/home/$name/setup_delorean.sh"]],
-    user    => "$name",
+    creates => "/home/${name}/.venv/bin/delorean",
+    require => [Exec["venv-${name}"], Vcsrepo["/home/${name}/delorean"], File["/home/${name}/setup_delorean.sh"]],
+    user    => $name,
   }
- 
-  file { "/usr/local/share/delorean/$name":
-    ensure  => directory,
-    mode    => '0755',
+
+  file { "/usr/local/share/delorean/${name}":
+    ensure => directory,
+    mode   => '0755',
   } ->
-  file { "/usr/local/share/delorean/$name/projects.ini":
+  file { "/usr/local/share/delorean/${name}/projects.ini":
     ensure  => present,
     content => template('delorean/projects.ini.erb'),
   }
 
-  sudo::conf { "$name":
+  sudo::conf { $name:
       priority => 10,
-      content  => "$name ALL=(ALL) NOPASSWD: /bin/rm",
+      content  => "${name} ALL=(ALL) NOPASSWD: /bin/rm",
   }
 
-  file { "/etc/logrotate.d/delorean-$name":
+  file { "/etc/logrotate.d/delorean-${name}":
     ensure  => present,
     content => template('delorean/logrotate.erb'),
     mode    => '0644',
@@ -167,35 +166,35 @@ python setup.py develop",
   if $enable_cron {
     if $name == 'centos-kilo'{
       # Kilo is a special case
-      cron { "$name":
-        command => "/usr/local/bin/run-delorean-kilo.sh",
-        user    => "$name",
+      cron { $name:
+        command => '/usr/local/bin/run-delorean-kilo.sh',
+        user    => $name,
         hour    => '*',
         minute  => '*/5'
       }
     } else {
-      cron { "$name":
-        command => "/usr/local/bin/run-delorean.sh",
-        user    => "$name",
+      cron { $name:
+        command => '/usr/local/bin/run-delorean.sh',
+        user    => $name,
         hour    => '*',
         minute  => '*/5'
       }
-   }
+    }
   }
 
   # Set up symlinks
   if $symlinks {
     file { $symlinks :
       ensure  => link,
-      target  => "/home/$name/data/repos",
+      target  => "/home/${name}/data/repos",
       require => Package['httpd'],
     }
   }
 
   # Set up synchronization
   if $::delorean::backup_server  {
-    delorean::lsyncdconfig { "lsync-$name":
-      path         => "/home/$name",
+    delorean::lsyncdconfig { "lsync-${name}":
+      path         => "/home/${name}",
       sshd_port    => $::delorean::sshd_port,
       remoteserver => $::delorean::backup_server,
     }
@@ -203,30 +202,30 @@ python setup.py develop",
 
   # Apply patch to sh.py in venv, according to 
   # https://github.com/amoffat/sh/pull/237
-  file { "/home/$name/sh_patch.txt":
+  file { "/home/${name}/sh_patch.txt":
     ensure => present,
-    source => "puppet:///modules/delorean/sh_patch.txt",
+    source => 'puppet:///modules/delorean/sh_patch.txt',
     mode   => '0644',
-    owner  => "$name",
-    group  => "$name",
+    owner  => $name,
+    group  => $name,
   } ->
-  exec { "$name-venvpatch":
-    command => "patch -b -p1 < /home/$name/sh_patch.txt",
+  exec { "${name}-venvpatch":
+    command => "patch -b -p1 < /home/${name}/sh_patch.txt",
     path    => '/usr/bin',
-    user    => "$name",
-    cwd     => "/home/$name/.venv/lib/python2.7/site-packages/",
-    creates => "/home/$name/.venv/lib/python2.7/site-packages/sh.py.orig",
-    require => Exec["venv-$name"],
+    user    => $name,
+    cwd     => "/home/${name}/.venv/lib/python2.7/site-packages/",
+    creates => "/home/${name}/.venv/lib/python2.7/site-packages/sh.py.orig",
+    require => Exec["venv-${name}"],
   }
 
 
   # Special case for fedora-rawhide-master
   if $name == 'fedora-rawhide-master' {
-    file { "/home/$name/delorean/scripts/fedora-rawhide.cfg":
+    file { "/home/${name}/delorean/scripts/fedora-rawhide.cfg":
       ensure => present,
       source => 'puppet:///modules/delorean/fedora-rawhide.cfg',
       mode   => '0644',
-      owner  => "$name",
+      owner  => $name,
     }
   }
 
@@ -236,15 +235,15 @@ python setup.py develop",
     $worker_os      = $components[0]
     $worker_version = $components[1]
 
-    file { "/home/$name/delorean/scripts/$worker_os-$worker_version.cfg":
+    file { "/home/${name}/delorean/scripts/${worker_os}-${worker_version}.cfg":
       ensure  => present,
-      content => template("delorean/$worker_os.cfg.erb")
+      content => template("delorean/${worker_os}.cfg.erb")
     }
 
-    file { "/var/www/html/$worker_os-$worker_version":
+    file { "/var/www/html/${worker_os}-${worker_version}":
       ensure  => directory,
       mode    => '0755',
-      path    => "/var/www/html/$worker_version",
+      path    => "/var/www/html/${worker_version}",
       require => Package['httpd'],
     }
   }

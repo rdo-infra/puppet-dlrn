@@ -15,12 +15,12 @@ class delorean::fail2ban(
   package { $fail2ban_pkgs: ensure => 'installed' }
 
   file { '/etc/fail2ban/jail.d/01-sshd.conf':
-   ensure  => present,
-   mode    => '0644',
-   content => "[sshd]
+    ensure  => present,
+    mode    => '0644',
+    content => "[sshd]
 enabled = true
-port = $sshd_port",
-   require  => Package['fail2ban'],
+port = ${sshd_port}",
+    require => Package['fail2ban'],
   } ->
   service { 'fail2ban':
     ensure  => 'running',

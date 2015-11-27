@@ -12,7 +12,7 @@ class delorean::web(
     require     => Package['httpd'],
   }
 
-  file { "/var/www/html/images":
+  file { '/var/www/html/images':
     ensure  => directory,
     mode    => '0755',
     require => Package['httpd'],

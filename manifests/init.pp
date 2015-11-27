@@ -41,7 +41,7 @@ class delorean (
     mode => 'permissive'
   }
 
-  selinux_port { "tcp/$::delorean::sshd_port":
+  selinux_port { "tcp/${::delorean::sshd_port}":
     seltype => 'ssh_port_t',
   } ->
   class { 'ssh':
@@ -53,12 +53,12 @@ class delorean (
   file { '/var/log/delorean':
     ensure => 'directory',
   }
- 
+
   $required_packages = [ 'lvm2', 'xfsprogs', 'yum-utils', 'vim', 'mock',
-                         'rpm-build', 'git', 'python-pip', 'git-remote-hg',
-                         'python-virtualenv', 'httpd', 'gcc', 'createrepo',
-                         'screen', 'python3', 'python-tox', 'git-review',
-                         'logrotate', 'postfix', 'lsyncd', 'firewalld' ]
+                      'rpm-build', 'git', 'python-pip', 'git-remote-hg',
+                      'python-virtualenv', 'httpd', 'gcc', 'createrepo',
+                      'screen', 'python3', 'python-tox', 'git-review',
+                      'logrotate', 'postfix', 'lsyncd', 'firewalld' ]
   package { $required_packages: ensure => 'installed' }
 
   service { 'httpd':
@@ -75,7 +75,7 @@ class delorean (
 
   augeas { 'postfix.cf' :
     context => '/files/etc/postfix/main.cf',
-    changes => "set inet_interfaces 127.0.0.1",
+    changes => 'set inet_interfaces 127.0.0.1',
     notify  => Service['postfix'],
   }
 
@@ -85,8 +85,8 @@ class delorean (
   }
 
   service { 'network':
-    ensure      => 'running',
-    enable      => true,
+    ensure => 'running',
+    enable => true,
   }
 
   service { 'firewalld':
@@ -112,8 +112,8 @@ class delorean (
   }
 
   augeas { 'ifcfg-eth0':
-    context => '/files/etc/sysconfig/network-scripts/ifcfg-eth0',    
-    changes => "set DNS1 8.8.8.8",
+    context => '/files/etc/sysconfig/network-scripts/ifcfg-eth0',
+    changes => 'set DNS1 8.8.8.8',
     notify  => Service['network'],
   }
 
@@ -165,7 +165,7 @@ class delorean (
     path        => '/usr/sbin',
     refreshonly => true,
   }
- 
+
   file { '/usr/local/share/delorean':
     ensure => directory,
     mode   => '0755'
@@ -213,9 +213,9 @@ class delorean (
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/f22',
-                       '/var/www/html/f21',
-                       '/var/www/html/fedora22',
-                       '/var/www/html/fedora21'],
+                        '/var/www/html/f21',
+                        '/var/www/html/fedora22',
+                        '/var/www/html/fedora21'],
   }
 
   delorean::worker { 'fedora-rawhide-master':
@@ -262,23 +262,23 @@ class delorean (
 
   class { '::delorean::rdoinfo': }
   class { '::delorean::promoter': }
-  class { '::delorean::fail2ban': 
+  class { '::delorean::fail2ban':
     sshd_port => 3300,
   }
   class { '::delorean::web': }
 
   if $backup_server {
     concat { 'lsyncd.conf':
-      path => '/etc/lsyncd.conf',
+      path  => '/etc/lsyncd.conf',
       owner => root,
       group => root,
-      mode => '0644',
-    } 
+      mode  => '0644',
+    }
 
     service { 'lsyncd':
-     ensure  => 'running',
-     enable  => true,
-    }   
+      ensure => 'running',
+      enable => true,
+    }
 
     Delorean::Worker<||>       -> Service <| title == 'lsyncd' |>
     Delorean::Lsyncdconfig<||> -> Service <| title == 'lsyncd' |>

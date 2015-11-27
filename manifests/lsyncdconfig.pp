@@ -17,7 +17,7 @@
 #
 
 define delorean::lsyncdconfig (
-  $path, 
+  $path,
   $sshd_port,
   $remoteserver = 'backupserver.example.com' ) {
 

@@ -6,23 +6,23 @@
 class delorean::rdoinfo (
 ) {
 
-  user { "rdoinfo":
-    comment    => "rdoinfo user",
+  user { 'rdoinfo':
+    comment    => 'rdoinfo user',
     groups     => ['users', 'mock'],
-    home       => "/home/rdoinfo",
+    home       => '/home/rdoinfo',
     managehome => true,
-  } ->   
-  file { "/home/rdoinfo":
-    ensure  => directory,
-    mode    => '0755',
-    owner   => "rdoinfo",
   } ->
-  vcsrepo { "/home/rdoinfo/rdoinfo":
+  file { '/home/rdoinfo':
+    ensure => directory,
+    mode   => '0755',
+    owner  => 'rdoinfo',
+  } ->
+  vcsrepo { '/home/rdoinfo/rdoinfo':
     ensure   => present,
     provider => git,
     source   => 'https://github.com/redhat-openstack/rdoinfo',
-    user     => "rdoinfo",
-  } 
+    user     => 'rdoinfo',
+  }
 
   file { '/usr/local/bin/rdoinfo-update.sh':
     ensure => present,
@@ -31,7 +31,7 @@ class delorean::rdoinfo (
   }
 
   cron { 'rdoinfo':
-    command => "/usr/local/bin/rdoinfo-update.sh",
+    command => '/usr/local/bin/rdoinfo-update.sh',
     user    => 'rdoinfo',
     hour    => '*',
     minute  => '7'
