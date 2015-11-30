@@ -68,9 +68,10 @@ define delorean::worker (
   }
 
   file {"/home/${name}":
-    ensure  => directory,
-    recurse => true,
-    owner   => $name,
+    ensure                  => directory,
+    recurse                 => true,
+    selinux_ignore_defaults => true,
+    owner                   => $name,
   } ->
   exec { "set 0755 perms to /home/${name}":
     command => "chmod 0755 /home/${name}",
