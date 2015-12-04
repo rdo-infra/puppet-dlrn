@@ -54,7 +54,7 @@ This is a simplistic manifest, that sets everything based on default values. Spe
 Once you have been able to check that everything is configured as expected, you can use the following manifest to set the Delorean instance in "production mode":
 
 ```puppet
-class { 'delorean': 
+class { 'delorean':
   backup_server          => 'testbackup.example.com',
   sshd_port              => 3300,
   disable_email          => false,
@@ -70,10 +70,10 @@ This is the higher level class, that will configure a Delorean instance.
 
 ```puppet
 class { 'delorean':
-  sshd_port              = 1234,
-  disable_email          = true,
-  enable_worker_cronjobs = false,
-  backup_server          = undef,
+  sshd_port              => 1234,
+  disable_email          => true,
+  enable_worker_cronjobs => false,
+  backup_server          => undef,
 }
 ```
 
@@ -95,7 +95,7 @@ This class is used internally, and configures fail2ban for Delorean.
 
 ```puppet
 class { 'delorean::fail2ban' :
-  sshd_port = 1234,
+  sshd_port => 1234,
 }
 ```
 
