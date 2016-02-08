@@ -206,16 +206,16 @@ class delorean (
   }
 
   delorean::worker { 'fedora-master':
-    distro         => 'f22',
+    distro         => 'f23',
     target         => 'fedora',
     distgit_branch => 'rpm-master',
     distro_branch  => 'master',
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/f22',
-                        '/var/www/html/f21',
+                        '/var/www/html/f23',
                         '/var/www/html/fedora22',
-                        '/var/www/html/fedora21'],
+                        '/var/www/html/fedora23'],
   }
 
   delorean::worker { 'fedora-rawhide-master':
