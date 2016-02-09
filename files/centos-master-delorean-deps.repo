@@ -1,13 +1,6 @@
 [delorean-liberty-testing]
 name=delorean-liberty-testing
-baseurl=http://cbs.centos.org/repos/cloud7-openstack-liberty-testing/$basearch/os/
-enabled=1
-gpgcheck=0
-priority=2
-
-[delorean-common-testing]
-name=delorean-common-testing
-baseurl=http://cbs.centos.org/repos/cloud7-openstack-common-testing/$basearch/os/
+baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-liberty/
 enabled=1
 gpgcheck=0
 priority=2
