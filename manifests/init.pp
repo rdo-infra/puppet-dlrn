@@ -54,8 +54,8 @@ class delorean (
     ensure => 'directory',
   }
 
-  $required_packages = [ 'lvm2', 'xfsprogs', 'yum-utils', 'vim', 'mock',
-                      'rpm-build', 'git', 'python-pip', 'git-remote-hg',
+  $required_packages = [ 'lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
+                      'mock', 'rpm-build', 'git', 'python-pip',
                       'python-virtualenv', 'httpd', 'gcc', 'createrepo',
                       'screen', 'python-tox', 'git-review',
                       'logrotate', 'postfix', 'lsyncd', 'firewalld' ]
