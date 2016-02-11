@@ -163,6 +163,7 @@ delorean::worker { 'fedora-master':
                       '/var/www/html/f21',
                       '/var/www/html/fedora22',
                       '/var/www/html/fedora21'],
+  release        => 'mitaka',
 }
 ```
 
@@ -186,6 +187,9 @@ Enable the cron jobs for this Delorean worker.
 
 ####`symlinks`
 This is a list that specifies a set of symbolic links that will be created, pointing to `/home/$user/data/repos`.
+
+####`release`
+This is the release name this worker will be targetting, in lower case. For example, 'mitaka' or 'liberty'.
 
 ## Limitations
 

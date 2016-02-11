@@ -246,6 +246,7 @@ class delorean (
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/centos7-liberty', '/var/www/html/liberty/centos7'],
+    release        => 'liberty',
   }
 
   delorean::worker { 'centos-kilo':
@@ -256,6 +257,7 @@ class delorean (
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/centos7-kilo', '/var/www/html/kilo/centos7'],
+    release        => 'kilo',
   }
 
   Mount['/home'] -> Delorean::Worker <||>

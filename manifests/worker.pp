@@ -35,6 +35,10 @@
 #   Example: ['/var/www/html/f22','/var/www/html/f21']
 #   Defaults to undef
 #
+# [*release*]
+#   (optional) Release this worker will be using (all lowercase)
+#   Example: 'mitaka'
+#   Defaults to undef
 # 
 # === Example
 #
@@ -46,6 +50,7 @@
 #    uid            => 1000,
 #    disable_email  => true,
 #    enable_cron    => false,
+#    release        => 'mitaka',
 #  }
 
 define delorean::worker (
@@ -56,7 +61,8 @@ define delorean::worker (
   $uid            = undef,
   $disable_email  = true,
   $enable_cron    = false,
-  $symlinks       = undef ) {
+  $symlinks       = undef,
+  $release        = undef ) {
 
   user { $name:
     comment    => $name,

@@ -177,6 +177,21 @@ describe 'delorean::worker' do
           )
         end
       end
+
+      context 'when specifying release' do
+        before :each do
+          params.merge!(:release => 'mitaka')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'sets tags in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+            .with_content(/tags=mitaka$/)
+        end
+      end
     end
   end
 
