@@ -118,6 +118,7 @@ define delorean::worker (
     provider => git,
     source   => 'https://github.com/openstack-packages/delorean',
     user     => $name,
+    require  => File["/home/${name}"]
   }
 
   file { "/home/${name}/setup_delorean.sh":

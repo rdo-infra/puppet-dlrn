@@ -11,6 +11,7 @@ class delorean::promoter (
     groups     => ['users'],
     home       => '/home/promoter',
     managehome => true,
+    require    => Mount['/home'],
   } ->
   file { '/home/promoter/.ssh':
     ensure => directory,

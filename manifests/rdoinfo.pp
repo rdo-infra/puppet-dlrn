@@ -11,6 +11,7 @@ class delorean::rdoinfo (
     groups     => ['users', 'mock'],
     home       => '/home/rdoinfo',
     managehome => true,
+    require    => Mount['/home'],
   } ->
   file { '/home/rdoinfo':
     ensure => directory,
