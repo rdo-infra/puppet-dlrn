@@ -57,7 +57,7 @@ class delorean (
   $required_packages = [ 'lvm2', 'xfsprogs', 'yum-utils', 'vim', 'mock',
                       'rpm-build', 'git', 'python-pip', 'git-remote-hg',
                       'python-virtualenv', 'httpd', 'gcc', 'createrepo',
-                      'screen', 'python3', 'python-tox', 'git-review',
+                      'screen', 'python-tox', 'git-review',
                       'logrotate', 'postfix', 'lsyncd', 'firewalld' ]
   package { $required_packages: ensure => 'installed' }
 
