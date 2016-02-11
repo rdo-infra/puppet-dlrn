@@ -240,7 +240,7 @@ python setup.py develop",
 
     file { "/home/${name}/delorean/scripts/${worker_os}-${worker_version}.cfg":
       ensure  => present,
-      content => template("delorean/${worker_os}.cfg.erb")
+      content => template("delorean/${worker_os}.cfg.erb"),
       require => Vcsrepo["/home/${name}/delorean"],
     }
 
