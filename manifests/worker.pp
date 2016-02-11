@@ -217,17 +217,18 @@ python setup.py develop",
     user    => $name,
     cwd     => "/home/${name}/.venv/lib/python2.7/site-packages/",
     creates => "/home/${name}/.venv/lib/python2.7/site-packages/sh.py.orig",
-    require => Exec["venv-${name}"],
+    require => Exec["pip-install-${name}"],
   }
 
 
   # Special case for fedora-rawhide-master
   if $name == 'fedora-rawhide-master' {
     file { "/home/${name}/delorean/scripts/fedora-rawhide.cfg":
-      ensure => present,
-      source => 'puppet:///modules/delorean/fedora-rawhide.cfg',
-      mode   => '0644',
-      owner  => $name,
+      ensure  => present,
+      source  => 'puppet:///modules/delorean/fedora-rawhide.cfg',
+      mode    => '0644',
+      owner   => $name,
+      require => Vcsrepo["/home/${name}/delorean"],
     }
   }
 
@@ -240,6 +241,7 @@ python setup.py develop",
     file { "/home/${name}/delorean/scripts/${worker_os}-${worker_version}.cfg":
       ensure  => present,
       content => template("delorean/${worker_os}.cfg.erb")
+      require => Vcsrepo["/home/${name}/delorean"],
     }
 
     file { "/var/www/html/${worker_os}-${worker_version}":
