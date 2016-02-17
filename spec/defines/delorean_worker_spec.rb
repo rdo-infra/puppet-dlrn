@@ -211,6 +211,11 @@ describe 'delorean::worker' do
   end
 
   context 'with special case for centos-kilo' do
+    before :each do
+      params.merge!(:release => 'kilo')
+      params.merge!(:target  => 'centos-kilo')
+    end
+
     let :title do
       'centos-kilo'
     end
@@ -228,8 +233,11 @@ describe 'delorean::worker' do
         :require => 'Package[httpd]',
       )
     end
+
+    it 'sets proper baseurl in projects.ini' do
+        is_expected.to contain_file("/usr/local/share/delorean/centos-kilo/projects.ini")
+        .with_content(/baseurl=http:\/\/trunk.rdoproject.org\/centos-kilo$/)
+    end
   end
-
-
 end
 

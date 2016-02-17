@@ -151,6 +151,12 @@ python setup.py develop",
     user    => $name,
   }
 
+  if $release {
+    $baseurl_target = $target
+  } else {
+    $baseurl_target = $distro
+  }
+
   file { "/usr/local/share/delorean/${name}":
     ensure => directory,
     mode   => '0755',
