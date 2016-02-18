@@ -151,7 +151,8 @@ python setup.py develop",
   }
 
   if $release {
-    $baseurl_target = $target
+    $baseurl_components = split($distro_branch, '/')
+    $baseurl_target     = "${distro}-${baseurl_components[1]}"
   } else {
     $baseurl_target = $distro
   }
