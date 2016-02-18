@@ -178,21 +178,11 @@ python setup.py develop",
   }
 
   if $enable_cron {
-    if $name == 'centos-kilo'{
-      # Kilo is a special case
-      cron { $name:
-        command => '/usr/local/bin/run-delorean-kilo.sh',
-        user    => $name,
-        hour    => '*',
-        minute  => '*/5'
-      }
-    } else {
-      cron { $name:
-        command => '/usr/local/bin/run-delorean.sh',
-        user    => $name,
-        hour    => '*',
-        minute  => '*/5'
-      }
+    cron { $name:
+      command => '/usr/local/bin/run-delorean.sh',
+      user    => $name,
+      hour    => '*',
+      minute  => '*/5'
     }
   }
 
