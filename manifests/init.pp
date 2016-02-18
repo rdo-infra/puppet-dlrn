@@ -177,12 +177,6 @@ class delorean (
     mode   => '0755',
   }
 
-  file { '/usr/local/bin/run-delorean-kilo.sh':
-    ensure => present,
-    source => 'puppet:///modules/delorean/run-delorean-kilo.sh',
-    mode   => '0755',
-  }
-
   file { '/root/fix-fails.sql':
     ensure => present,
     source => 'puppet:///modules/delorean/fix-fails.sql',
