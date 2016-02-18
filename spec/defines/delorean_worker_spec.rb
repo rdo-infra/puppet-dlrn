@@ -12,7 +12,7 @@ describe 'delorean::worker' do
   end
 
   let :params do { 
-    :distro         => 'centos-master',
+    :distro         => 'centos7',
     :target         => 'centos',
     :distgit_branch => 'rpm-master',
     :distro_branch  => 'master',
@@ -212,8 +212,9 @@ describe 'delorean::worker' do
 
   context 'with special case for centos-kilo' do
     before :each do
-      params.merge!(:release => 'kilo')
-      params.merge!(:target  => 'centos-kilo')
+      params.merge!(:release       => 'kilo')
+      params.merge!(:target        => 'centos-kilo')
+      params.merge!(:distro_branch => 'stable/kilo')
     end
 
     let :title do
@@ -236,7 +237,7 @@ describe 'delorean::worker' do
 
     it 'sets proper baseurl in projects.ini' do
         is_expected.to contain_file("/usr/local/share/delorean/centos-kilo/projects.ini")
-        .with_content(/baseurl=http:\/\/trunk.rdoproject.org\/centos-kilo$/)
+        .with_content(/baseurl=http:\/\/trunk.rdoproject.org\/centos7-kilo$/)
     end
   end
 end
