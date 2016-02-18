@@ -70,7 +70,6 @@ define delorean::worker (
     home       => "/home/${name}",
     managehome => true,
     uid        => $uid,
-    require    => Mount['/home'],
   }
 
   file {"/home/${name}":
