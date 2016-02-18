@@ -1,13 +1,16 @@
 ---
+enable_worker_cronjobs: &enable_cron false
+disable_worker_email: &disable_email true
+
 delorean::workers:
   centos-master:
     name: 'centos-master'
     distro: 'centos7'
-    target: 'centos-master'
+    target: 'centos'
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
-    disable_email: ::delorean::disable_email
-    enable_cron: ::delorean::enable_worker_cronjobs
+    disable_email: *disable_email
+    enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70']
   centos-liberty:
     name: 'centos-liberty'
@@ -15,8 +18,8 @@ delorean::workers:
     target: 'centos-liberty'
     distgit_branch: 'rpm-liberty'
     distro_branch: 'stable/liberty'
-    disable_email: ::delorean::disable_email
-    enable_cron: ::delorean::enable_worker_cronjobs
+    disable_email: *disable_email
+    enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7-liberty', '/var/www/html/liberty/centos7']
     release: 'liberty'
   centos-kilo:
@@ -25,18 +28,18 @@ delorean::workers:
     target: 'centos-kilo'
     distgit_branch: 'rpm-kilo'
     distro_branch: 'stable/kilo'
-    disable_email: ::delorean::disable_email
-    enable_cron: ::delorean::enable_worker_cronjobs
+    disable_email: *disable_email
+    enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7-kilo', '/var/www/html/kilo/centos7']
     release: 'kilo'
   fedora-master:
     name: 'fedora-master'
     distro: 'f23'
-    target: 'centos-master'
+    target: 'fedora'
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
-    disable_email: ::delorean::disable_email
-    enable_cron: ::delorean::enable_worker_cronjobs
+    disable_email: *disable_email
+    enable_cron: *enable_cron
     symlinks: ['/var/www/html/f23', '/var/www/html/f22', '/var/www/html/fedora22', '/var/www/html/fedora23' ]
   fedora-rawhide-master:
     name: 'fedora-rawhide-master'
@@ -44,7 +47,7 @@ delorean::workers:
     target: 'fedora-rawhide'
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
-    disable_email: ::delorean::disable_email
-    enable_cron: ::delorean::enable_worker_cronjobs
+    disable_email: *disable_email
+    enable_cron: *enable_cron
     symlinks: ['/var/www/html/f24', '/var/www/html/fedora24']
 

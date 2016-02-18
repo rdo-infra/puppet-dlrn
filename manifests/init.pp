@@ -8,14 +8,6 @@
 #   (optional) Additional port where sshd should listen
 #   Defaults to 3300
 #
-# [*disable_email*]
-#   (optional) Disable e-mail notifications
-#   Defaults to true
-#
-# [*enable_worker_cronjobs*]
-#   (optional) Enable worker cron jobs
-#   Defaults to false
-#
 # [*backup_server*]
 #   (optional) If set, enable lsyncd daemon and use this host as the target
 #     for synchronization
@@ -32,8 +24,6 @@
 
 class delorean (
   $sshd_port              = 3300,
-  $disable_email          = true,
-  $enable_worker_cronjobs = false,
   $backup_server          = undef,
 ) {
 
