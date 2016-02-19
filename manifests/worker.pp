@@ -74,13 +74,12 @@ define delorean::worker (
   }
 
   file {"/home/${name}":
-    ensure                  => directory,
-    recurse                 => true,
-    selinux_ignore_defaults => true,
-    owner                   => $name,
+    ensure => directory,
+    owner  => $name,
+    mode   => '0755',
   } ->
-  exec { "set 0755 perms to /home/${name}":
-    command => "chmod 0755 /home/${name}",
+  exec { "ensure home contents belong to ${name}":
+    command => "chown -R ${name}:${name} /home/${name}",
     path    => '/usr/bin',
   } ->
   file { "/home/${name}/data":
@@ -102,7 +101,6 @@ define delorean::worker (
     owner  => $name,
     group  => $name,
   }
-
 
   exec { "${name}-sshkeygen":
     command => "ssh-keygen -t rsa -P \"\" -f /home/${name}/.ssh/id_rsa",
