@@ -40,11 +40,10 @@ describe 'delorean::worker' do
 
         it 'sets owner on home directory' do
           is_expected.to contain_file("/home/#{user}").with(
-            :ensure                  => 'directory',
-            :recurse                 => 'true',
-            :selinux_ignore_defaults => 'true',
-            :owner                   => "#{user}",
-          ).with_before(/Exec\[set 0755 perms to \/home\/#{user}\]/)
+            :ensure => 'directory',
+            :mode   => '0755',
+            :owner  => "#{user}",
+          ).with_before(/Exec\[ensure home contents belong to #{user}\]/)
         end
 
         it 'creates the data directory' do
