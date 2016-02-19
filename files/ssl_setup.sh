@@ -13,7 +13,7 @@ echo
 
 read dummy
 
-dnf install mod_ssl
+yum -y install mod_ssl
 sed -i 's/^SSLCertificateFile.*/SSLCertificateFile\ \/etc\/pki\/tls\/certs\/trunk_rdoproject_org.crt/' /etc/httpd/conf.d/ssl.conf
 sed -i 's/^SSLCertificateKeyFile.*/SSLCertificateKeyFile\ \/etc\/pki\/tls\/private\/trunk.rdoproject.org.key/' /etc/httpd/conf.d/ssl.conf
 sed -i 's/^#SSLCertificateChainFile.*/SSLCertificateChainFile\ \/etc\/pki\/tls\/certs\/DigiCertCA.crt/' /etc/httpd/conf.d/ssl.conf
