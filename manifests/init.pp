@@ -27,7 +27,7 @@ class delorean (
   $backup_server          = undef,
 ) {
 
-  class { '::delorean::common': 
+  class { '::delorean::common':
     sshd_port => $sshd_port,
   }
 
@@ -59,5 +59,4 @@ class delorean (
   create_resources(delorean::worker,$workers)
 
   Class['::delorean::common'] -> Delorean::Worker <||>
-
 }

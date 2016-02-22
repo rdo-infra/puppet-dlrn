@@ -34,7 +34,6 @@ describe 'delorean::worker' do
             :groups     => ['users','mock'],
             :uid        => nil,
             :managehome => 'true',
-            :require    => 'Mount[/home]',
           )
         end 
 
