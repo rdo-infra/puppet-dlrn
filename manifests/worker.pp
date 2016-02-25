@@ -38,7 +38,7 @@
 # [*release*]
 #   (optional) Release this worker will be using (all lowercase)
 #   Example: 'mitaka'
-#   Defaults to undef
+#   Defaults to 'mitaka'
 # 
 # === Example
 #
@@ -62,7 +62,7 @@ define delorean::worker (
   $disable_email  = true,
   $enable_cron    = false,
   $symlinks       = undef,
-  $release        = undef ) {
+  $release        = 'mitaka' ) {
 
   user { $name:
     comment    => $name,

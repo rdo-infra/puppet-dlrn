@@ -107,6 +107,11 @@ describe 'delorean::worker' do
           is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
           .with_content(/smtpserver=$/)
         end
+
+        it 'sets the default release value' do
+          is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+          .with_content(/tags=mitaka$/)
+        end
       end
 
       context 'with specific uid' do
@@ -179,7 +184,7 @@ describe 'delorean::worker' do
 
       context 'when specifying release' do
         before :each do
-          params.merge!(:release => 'mitaka')
+          params.merge!(:release => 'liberty')
         end
 
         let :title do
@@ -188,7 +193,7 @@ describe 'delorean::worker' do
 
         it 'sets tags in projects.ini' do
             is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
-            .with_content(/tags=mitaka$/)
+            .with_content(/tags=liberty$/)
         end
       end
     end

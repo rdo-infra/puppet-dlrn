@@ -210,6 +210,7 @@ class delorean (
                         '/var/www/html/f23',
                         '/var/www/html/fedora22',
                         '/var/www/html/fedora23'],
+    release        => 'mitaka',
   }
 
   delorean::worker { 'fedora-rawhide-master':
@@ -220,6 +221,7 @@ class delorean (
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/f24','/var/www/html/fedora24'],
+    release        => 'mitaka',
   }
 
   delorean::worker { 'centos-master':
@@ -230,6 +232,7 @@ class delorean (
     disable_email  => $disable_email,
     enable_cron    => $enable_worker_cronjobs,
     symlinks       => ['/var/www/html/centos7', '/var/www/html/centos70'],
+    release        => 'mitaka',
   }
 
   delorean::worker { 'centos-liberty':
