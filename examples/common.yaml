@@ -12,6 +12,7 @@ delorean::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70']
+    release: 'mitaka'
   centos-liberty:
     name: 'centos-liberty'
     distro: 'centos7'
@@ -41,6 +42,7 @@ delorean::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/f23', '/var/www/html/f22', '/var/www/html/fedora22', '/var/www/html/fedora23' ]
+    release: 'mitaka'
   fedora-rawhide-master:
     name: 'fedora-rawhide-master'
     distro: 'f24'
@@ -50,4 +52,4 @@ delorean::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/f24', '/var/www/html/fedora24']
-
+    release: 'mitaka'
