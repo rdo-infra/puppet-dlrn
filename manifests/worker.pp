@@ -149,7 +149,7 @@ python setup.py develop",
     user    => $name,
   }
 
-  if $release {
+  if $release != 'mitaka' {
     $baseurl_components = split($distro_branch, '/')
     $baseurl_target     = "${distro}-${baseurl_components[1]}"
   } else {
