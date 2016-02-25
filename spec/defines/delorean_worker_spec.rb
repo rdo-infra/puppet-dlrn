@@ -213,6 +213,17 @@ describe 'delorean::worker' do
     end
   end
 
+  context 'when running on master' do
+    let :title do
+      'centos-master'
+    end
+
+    it 'sets proper baseurl in projects.ini' do
+        is_expected.to contain_file("/usr/local/share/delorean/centos-master/projects.ini")
+        .with_content(/baseurl=http:\/\/trunk.rdoproject.org\/centos7$/)
+    end
+  end
+
   context 'with special case for centos-kilo' do
     before :each do
       params.merge!(:release       => 'kilo')
