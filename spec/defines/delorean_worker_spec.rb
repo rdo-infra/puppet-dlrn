@@ -91,14 +91,6 @@ describe 'delorean::worker' do
             :cwd     => "/home/#{user}/delorean",
             :creates => "/home/#{user}/.venv/bin/delorean",
           )
-          is_expected.to contain_file("/home/#{user}/sh_patch.txt").with(
-            :ensure => 'present',
-            :source => 'puppet:///modules/delorean/sh_patch.txt',
-            :mode   => '0644',
-            :owner  => "#{user}",
-            :group  => "#{user}",
-          ).with_before(/Exec\[#{user}-venvpatch\]/)
-          is_expected.to contain_exec("#{user}-venvpatch")
         end
 
         it { is_expected.not_to contain_cron("#{user}") }

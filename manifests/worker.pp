@@ -202,25 +202,6 @@ python setup.py develop",
     }
   }
 
-  # Apply patch to sh.py in venv, according to 
-  # https://github.com/amoffat/sh/pull/237
-  file { "/home/${name}/sh_patch.txt":
-    ensure => present,
-    source => 'puppet:///modules/delorean/sh_patch.txt',
-    mode   => '0644',
-    owner  => $name,
-    group  => $name,
-  } ->
-  exec { "${name}-venvpatch":
-    command => "patch -b -p1 < /home/${name}/sh_patch.txt",
-    path    => '/usr/bin',
-    user    => $name,
-    cwd     => "/home/${name}/.venv/lib/python2.7/site-packages/",
-    creates => "/home/${name}/.venv/lib/python2.7/site-packages/sh.py.orig",
-    require => Exec["pip-install-${name}"],
-  }
-
-
   # Special case for fedora-rawhide-master
   if $name == 'fedora-rawhide-master' {
     file { "/home/${name}/delorean/scripts/fedora-rawhide.cfg":
