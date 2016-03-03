@@ -15,5 +15,5 @@ LOGFILE=/home/${USER}/delorean-logs/delorean-run.$(date +%s).log
 cd ~/delorean
 
 echo `date` "Starting delorean run." >> $LOGFILE
-delorean --config-file /usr/local/share/delorean/${USER}/projects.ini --info-repo /home/rdoinfo/rdoinfo/ --head-only 2>> $LOGFILE
+delorean --config-file /usr/local/share/delorean/${USER}/projects.ini --info-repo /home/rdoinfo/rdoinfo/ 2>> $LOGFILE
 echo `date` "Delorean run complete." >> $LOGFILE
