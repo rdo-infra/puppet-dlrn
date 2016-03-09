@@ -80,6 +80,7 @@ define delorean::worker (
   exec { "ensure home contents belong to ${name}":
     command => "chown -R ${name}:${name} /home/${name}",
     path    => '/usr/bin',
+    timeout => 900,
   } ->
   file { "/home/${name}/data":
     ensure => directory,
