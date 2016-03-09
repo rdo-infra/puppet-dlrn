@@ -13,6 +13,16 @@ delorean::workers:
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70']
     release: 'mitaka'
+  centos-mitaka:
+    name: 'centos-mitaka'
+    distro: 'centos7'
+    target: 'centos'
+    distgit_branch: 'rpm-mitaka'
+    distro_branch: 'stable/mitaka'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    symlinks: ['/var/www/html/centos7-mitaka', '/var/www/html/mitaka/centos7']
+    release: 'mitaka'
   centos-liberty:
     name: 'centos-liberty'
     distro: 'centos7'

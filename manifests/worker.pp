@@ -213,8 +213,8 @@ python setup.py develop",
     }
   }
 
-  # Special case for *-liberty and *-kilo
-  if $name =~ /^(centos|fedora)\-(kilo|liberty)/ {
+  # Special case for *-mitaka, *-liberty and *-kilo
+  if $name =~ /^(centos|fedora)\-(kilo|liberty|mitaka)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
