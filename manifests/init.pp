@@ -235,6 +235,17 @@ class delorean (
     release        => 'mitaka',
   }
 
+  delorean::worker { 'centos-mitaka':
+    distro         => 'centos7',
+    target         => 'centos-mitaa',
+    distgit_branch => 'rpm-mitaka',
+    distro_branch  => 'stable/mitaka',
+    disable_email  => $disable_email,
+    enable_cron    => $enable_worker_cronjobs,
+    symlinks       => ['/var/www/html/centos7-mitaka', '/var/www/html/mitaka/centos7'],
+    release        => 'mitaka',
+  }
+
   delorean::worker { 'centos-liberty':
     distro         => 'centos7',
     target         => 'centos-liberty',
