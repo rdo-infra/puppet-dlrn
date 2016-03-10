@@ -237,7 +237,7 @@ class delorean (
 
   delorean::worker { 'centos-mitaka':
     distro         => 'centos7',
-    target         => 'centos-mitaa',
+    target         => 'centos-mitaka',
     distgit_branch => 'rpm-mitaka',
     distro_branch  => 'stable/mitaka',
     disable_email  => $disable_email,
