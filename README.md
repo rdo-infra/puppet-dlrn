@@ -200,6 +200,9 @@ This is a list that specifies a set of symbolic links that will be created, poin
 ####`release`
 This is the release name this worker will be targetting, in lower case. For example, 'mitaka' or 'liberty'.
 
+####`gerrit_user` 
+This is a user to run Gerrit reviews for packages after build failures. If set to undef (default), Gerrit reviews are disabled for this worker.
+
 ## Limitations
 
 The module has been tested on Fedora and CentOS.

@@ -103,6 +103,11 @@ describe 'delorean::worker' do
             is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
             .with_content(/tags=mitaka$/)
         end
+
+        it 'does not set a gerrit user in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+            .with_content(/gerrit=$/)
+        end
       end
 
       context 'with specific uid' do
@@ -185,6 +190,28 @@ describe 'delorean::worker' do
         it 'sets tags in projects.ini' do
             is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
             .with_content(/tags=liberty$/)
+        end
+      end
+
+      context 'when setting a gerrit user' do
+        before :each do
+          params.merge!(:gerrit_user => 'foo')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'sets a gerrit user in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+            .with_content(/gerrit=yes$/)
+        end
+
+        it 'configures the gerrit user' do
+          is_expected.to contain_exec("Set gerrit user for #{user}").with(
+            :command => "git config --global --add gitreview.username foo",
+            :require => "File[/home/#{user}]",
+          )
         end
       end
     end
