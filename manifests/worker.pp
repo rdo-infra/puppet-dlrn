@@ -43,7 +43,7 @@
 # [*gerrit_user*]
 #   (optional) User to run Gerrit reviews after build failures. If set to undef,
 #     do not enable Gerrit reviews
-#   Example: 'rdo-dlrn'
+#   Example: 'rdo-trunk'
 #   Defaults to undef
 # 
 # === Example

@@ -13,7 +13,7 @@ delorean::workers:
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70']
     release: 'mitaka'
-#   gerrit_user: 'rdo-dlrn'
+#   gerrit_user: 'rdo-trunk'
   centos-mitaka:
     name: 'centos-mitaka'
     distro: 'centos7'
