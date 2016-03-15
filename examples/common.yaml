@@ -1,0 +1,66 @@
+---
+enable_worker_cronjobs: &enable_cron false
+disable_worker_email: &disable_email true
+
+delorean::workers:
+  centos-master:
+    name: 'centos-master'
+    distro: 'centos7'
+    target: 'centos'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70']
+    release: 'mitaka'
+#   gerrit_user: 'rdo-dlrn'
+  centos-mitaka:
+    name: 'centos-mitaka'
+    distro: 'centos7'
+    target: 'centos-mitaka'
+    distgit_branch: 'rpm-mitaka'
+    distro_branch: 'stable/mitaka'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    symlinks: ['/var/www/html/centos7-mitaka', '/var/www/html/mitaka/centos7']
+    release: 'mitaka'
+  centos-liberty:
+    name: 'centos-liberty'
+    distro: 'centos7'
+    target: 'centos-liberty'
+    distgit_branch: 'rpm-liberty'
+    distro_branch: 'stable/liberty'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    symlinks: ['/var/www/html/centos7-liberty', '/var/www/html/liberty/centos7']
+    release: 'liberty'
+  centos-kilo:
+    name: 'centos-kilo'
+    distro: 'centos7'
+    target: 'centos-kilo'
+    distgit_branch: 'rpm-kilo'
+    distro_branch: 'stable/kilo'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    symlinks: ['/var/www/html/centos7-kilo', '/var/www/html/kilo/centos7']
+    release: 'kilo'
+  fedora-master:
+    name: 'fedora-master'
+    distro: 'f23'
+    target: 'fedora'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    symlinks: ['/var/www/html/f23', '/var/www/html/f22', '/var/www/html/fedora22', '/var/www/html/fedora23' ]
+    release: 'mitaka'
+  fedora-rawhide-master:
+    name: 'fedora-rawhide-master'
+    distro: 'f24'
+    target: 'fedora-rawhide'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    symlinks: ['/var/www/html/f24', '/var/www/html/fedora24']
+    release: 'mitaka'

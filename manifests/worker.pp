@@ -39,6 +39,12 @@
 #   (optional) Release this worker will be using (all lowercase)
 #   Example: 'mitaka'
 #   Defaults to 'mitaka'
+#
+# [*gerrit_user*]
+#   (optional) User to run Gerrit reviews after build failures. If set to undef,
+#     do not enable Gerrit reviews
+#   Example: 'rdo-dlrn'
+#   Defaults to undef
 # 
 # === Example
 #
@@ -62,7 +68,8 @@ define delorean::worker (
   $disable_email  = true,
   $enable_cron    = false,
   $symlinks       = undef,
-  $release        = 'mitaka' ) {
+  $release        = 'mitaka',
+  $gerrit_user    = undef ) {
 
   user { $name:
     comment    => $name,
@@ -70,7 +77,6 @@ define delorean::worker (
     home       => "/home/${name}",
     managehome => true,
     uid        => $uid,
-    require    => Mount['/home'],
   }
 
   file {"/home/${name}":
@@ -234,5 +240,16 @@ python setup.py develop",
       require => Package['httpd'],
     }
   }
-}
 
+  # Set up gerrit, if configured
+  if $gerrit_user {
+    exec { "Set gerrit user for ${name}":
+      command     => "git config --global --add gitreview.username ${gerrit_user}",
+      path        => '/usr/bin',
+      user        => $name,
+      cwd         => "/home/${name}",
+      environment => "HOME=/home/${name}",
+      require     => File["/home/${name}"],
+    }
+  }
+}

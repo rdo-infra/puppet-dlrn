@@ -20,9 +20,7 @@ scratch.
 The Delorean infrastructure on an instance contains the following components:
 
 - A number of `workers`. A worker is basically a local user, with a local Delorean checkout from the GitHub repo, and some associated configuration.
-
 - An `rdoinfo` user. This user simply hosts a local checkout of the [rdoinfo repository](https://github.com/redhat-openstack/rdoinfo), which is refreshed periodically using a crontab entry.
-
 - A web server to host the generated repos.
 
 You can find more information on the Delorean instance architecture [here](https://github.com/redhat-openstack/delorean-instance/blob/master/docs/delorean-instance.md).
@@ -31,7 +29,7 @@ This module can configure the basic parameters required by a Delorean instace, p
 
 ## Setup
 
-    $ yum -y install puppet augeas
+    $ yum -y install puppet
     $ git clone https://github.com/javierpena/puppet-delorean
     $ cd puppet-delorean
     $ puppet module build
@@ -39,7 +37,9 @@ This module can configure the basic parameters required by a Delorean instace, p
 
 ## Usage
 
-Once the puppet-delorean module is installed, the simplest Puppet manifest that creates a Delorean environment for you is:
+Once the puppet-delorean module is installed, you will need to create a suitable Hiera file to define the workers. You have an example file at `examples/common.yaml`. Just place it at `/var/lib/hiera/common.yaml`, and it will create the same configuration that is currently being used at the production Delorean environment. If you need a different set of workers, just modify the file accordingly to suit your needs.
+
+The simplest Puppet manifest that creates a Delorean environment for you is:
 
 ```puppet
 class { 'delorean': }
@@ -51,14 +51,15 @@ This is a simplistic manifest, that sets everything based on default values. Spe
 - E-mail notifications when package builds fail.
 - The cron jobs used to trigger periodic Delorean runs.
 
-Once you have been able to check that everything is configured as expected, you can use the following manifest to set the Delorean instance in "production mode":
+Once you have been able to check that everything is configured as expected, you need to do two things to set the Delorean instance in "production mode":
+
+- Set `enable_worker_cronjobs: &enable_cron true` and `disable_worker_email: &disable_email false` in /`var/lib/hiera/common.yaml`.
+- Change the Puppet manifest to look like the following:
 
 ```puppet
 class { 'delorean':
   backup_server          => 'testbackup.example.com',
   sshd_port              => 3300,
-  disable_email          => false,
-  enable_worker_cronjobs => true,
 }
 ```
 
@@ -71,8 +72,6 @@ This is the higher level class, that will configure a Delorean instance.
 ```puppet
 class { 'delorean':
   sshd_port              => 1234,
-  disable_email          => true,
-  enable_worker_cronjobs => false,
   backup_server          => undef,
 }
 ```
@@ -80,14 +79,21 @@ class { 'delorean':
 ####`sshd_port`
 Specifies the alternate port sshd will use to listen to. This is useful when you need to access your Delorean instance over the Internet, to reduce the amount of automated attacks against sshd.
 
-####`disable_email`
-Disable e-mails when a package build fails. Set this to true until the worker runs are stable, to avoid spamming package maintainers with spurious failure e-mails.
-
-####`enable_worker_cronjobs`
-Enable cron jobs for Delorean workers. By default it is set to false, to give you some time to check that the configuration is correct. Set it to true to enable normal operations.
-
 ####`backup_server`
 The Delorean instance architecture includes a secondary server, where all repos are synchronized using lsyncd. If this variable is set, the required lsyncd configuration will be created to enable this synchronization. Be aware that you will need to configure passwordless SSH access to root@backup_server for this to work.
+
+### Class: delorean::common
+
+This class is used internally, to configure the common OS-specific aspects required by Delorean.
+
+```puppet
+class { 'delorean::common':
+  sshd_port              => 1234,
+}
+```
+
+####`sshd_port`
+Specifies the alternate port sshd will use to listen to.
 
 ### Class: delorean::fail2ban
 
@@ -179,6 +185,9 @@ Specifies the branch for the dist-git: `rpm-master` for trunk packages, `rpm-lib
 ####`distro_branch`
 Specifies the branch for upstream git: `master`, `stable/liberty`, etc.
 
+####`uid`
+Specifies the UID to use for the worker user. Defaults ti `undef`, which means "let the operating system choose automatically".
+
 ####`disable_email`
 Disable e-mails when a package build fails.
 
@@ -191,7 +200,10 @@ This is a list that specifies a set of symbolic links that will be created, poin
 ####`release`
 This is the release name this worker will be targetting, in lower case. For example, 'mitaka' or 'liberty'.
 
+####`gerrit_user` 
+This is a user to run Gerrit reviews for packages after build failures. If set to undef (default), Gerrit reviews are disabled for this worker.
+
 ## Limitations
 
-For now, the module has only been tested under Fedora.
+The module has been tested on Fedora and CentOS.
 

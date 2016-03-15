@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'hiera'
 
 describe 'delorean' do
 
@@ -12,50 +13,53 @@ describe 'delorean' do
         :processorcount         => 2 }
     end
 
+    let(:hiera_config) { 'spec/fixtures/hiera.yaml' }
+    hiera = Hiera.new(:config => 'spec/fixtures/hiera.yaml')
+
     context 'with default parameters' do
-      it 'sets SELinux to permissive' do
-        is_expected.to contain_class('selinux').with(
-          :mode => 'permissive'
-        )
-      end
-
-      it 'sets the default port in sshd_config' do
-        is_expected.to contain_class('ssh').with(
-          :server_options => { 'Port' => [22, 3300] }
-        )
-      end
-
-      it 'does not enable cron or e-mail notifications' do
-        is_expected.to contain_delorean__worker('centos-master').with(
-          :disable_email => 'true',
-          :enable_cron   => 'false',
-        )
-      end
-
       it 'does not configure lsyncd' do
         is_expected.not_to contain_concat('lsyncd.conf')
         is_expected.not_to contain_service('lsyncd')
+      end
+
+      it 'creates delorean workers based on Hiera template' do
+        is_expected.to contain_delorean__worker('centos-master').with(
+          :name           => 'centos-master',
+          :distro         => 'centos7',
+          :target         => 'centos',
+          :distgit_branch => 'rpm-master',
+          :distro_branch  => 'master',
+          :disable_email  => :true,
+          :enable_cron    => :false,
+          :symlinks       => ['/var/www/html/centos7', '/var/www/html/centos70']
+        )
+        is_expected.to contain_delorean__worker('centos-liberty').with(
+          :name           => 'centos-liberty',
+          :distro         => 'centos7',
+          :target         => 'centos-liberty',
+          :distgit_branch => 'rpm-liberty',
+          :distro_branch  => 'stable/liberty',
+          :disable_email  => :true,
+          :enable_cron    => :false,
+          :symlinks       => ['/var/www/html/centos7-liberty', '/var/www/html/liberty/centos7'],
+          :release        => 'liberty'
+        )
+      end
+
+      it 'ensures delorean::common is executed before any worker' do
+        is_expected.to contain_class('delorean::common').with_before(/Delorean::Worker\[.+\]/)
       end
     end
 
     context 'with specific parameters' do
       let :params do { 
-        :sshd_port              => 1234,
-        :disable_email          => false,
-        :enable_worker_cronjobs => true,
-        :backup_server          => 'foo.example.com', }
+        :sshd_port     => 1234,
+        :backup_server => 'foo.example.com' }
       end
 
-      it 'sets the proper port in sshd_config' do
-        is_expected.to contain_class('ssh').with(
-          :server_options => { 'Port' => [22, 1234] }
-        )
-      end
-
-      it 'sets the proper worker options' do
-        is_expected.to contain_delorean__worker('centos-master').with(
-          :disable_email => 'false',
-          :enable_cron   => 'true',
+      it 'sets sshd options for delorean::common' do
+        is_expected.to contain_class('delorean::common').with(
+          :sshd_port => 1234,
         )
       end
 
