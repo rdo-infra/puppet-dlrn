@@ -244,9 +244,12 @@ python setup.py develop",
   # Set up gerrit, if configured
   if $gerrit_user {
     exec { "Set gerrit user for ${name}":
-      command => "git config --global --add gitreview.username ${gerrit_user}",
-      path    => '/usr/bin',
-      require => File["/home/${name}"],
+      command     => "git config --global --add gitreview.username ${gerrit_user}",
+      path        => '/usr/bin',
+      user        => $name,
+      cwd         => "/home/${name}",
+      environment => "HOME=/home/${name}",
+      require     => File["/home/${name}"],
     }
   }
 }
