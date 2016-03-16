@@ -212,6 +212,16 @@ describe 'delorean::worker' do
             :command => "git config --global --add gitreview.username foo",
             :require => "File[/home/#{user}]",
           )
+
+          is_expected.to contain_exec("Set git user for #{user}").with(
+            :command => "git config --global user.name foo",
+            :require => "File[/home/#{user}]",
+          )
+
+          is_expected.to contain_exec("Set git email for #{user}").with(
+            :command => "git config --global user.email foo@rdoproject.org",
+            :require => "File[/home/#{user}]",
+          )
         end
       end
     end

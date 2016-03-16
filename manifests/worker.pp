@@ -251,5 +251,23 @@ python setup.py develop",
       environment => "HOME=/home/${name}",
       require     => File["/home/${name}"],
     }
+
+    exec { "Set git user for ${name}":
+      command     => "git config --global user.name ${gerrit_user}",
+      path        => '/usr/bin',
+      user        => $name,
+      cwd         => "/home/${name}",
+      environment => "HOME=/home/${name}",
+      require     => File["/home/${name}"],
+    }
+
+    exec { "Set git email for ${name}":
+      command     => "git config --global user.email ${gerrit_user}@rdoproject.org",
+      path        => '/usr/bin',
+      user        => $name,
+      cwd         => "/home/${name}",
+      environment => "HOME=/home/${name}",
+      require     => File["/home/${name}"],
+    }
   }
 }
