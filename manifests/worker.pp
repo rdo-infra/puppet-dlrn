@@ -156,7 +156,8 @@ python setup.py develop",
     user    => $name,
   }
 
-  if $release != 'mitaka' {
+  # Special case for non-master
+  if $name =~ /^(centos|fedora)\-(kilo|liberty|mitaka)/ {
     $baseurl_components = split($distro_branch, '/')
     $baseurl_target     = "${distro}-${baseurl_components[1]}"
   } else {
