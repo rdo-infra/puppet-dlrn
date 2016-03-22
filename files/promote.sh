@@ -18,6 +18,8 @@ if [ -z "$2" ]; then
     exit 1
 fi
 
+LINKNAME=${3:-current-passed-ci}
+
 cd /home/${2}/data/repos
 
 # verify uniqueness
@@ -27,5 +29,5 @@ if [ "$a" != "1" ]; then
     exit 1
 fi
 
-ln -nsvf */*/*${1}* current-passed-ci
-echo "$1" >> promote.log
+ln -nsvf */*/*${1}* $LINKNAME
+echo "$1" >> promote-${LINKNAME}.log
