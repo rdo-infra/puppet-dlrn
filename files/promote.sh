@@ -1,5 +1,13 @@
 #!/bin/bash -xe
 
+# Ensure we don't allow any special characters into the script
+for ARG in $@ ; do
+    if [[ ! $ARG =~ ^[a-zA-Z0-9_-]+$ ]] ; then
+        echo "Invalid parameter format : $ARG"
+        exit 1
+    fi
+done
+
 if [ -z "$1" ]; then
     echo "Please give me a hash to point at!"
     exit 1
@@ -10,6 +18,8 @@ if [ -z "$2" ]; then
     exit 1
 fi
 
+LINKNAME=${3:-current-passed-ci}
+
 cd /home/${2}/data/repos
 
 # verify uniqueness
@@ -19,5 +29,5 @@ if [ "$a" != "1" ]; then
     exit 1
 fi
 
-ln -nsvf */*/*${1}* current-passed-ci
-echo "$1" >> promote.log
+ln -nsvf */*/*${1}* $LINKNAME
+echo "$1" >> promote-${LINKNAME}.log
