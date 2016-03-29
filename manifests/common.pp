@@ -181,4 +181,8 @@ class delorean::common (
     ensure => 120,
   }
 
+  class { 'sudo':
+    purge               => false,
+    config_file_replace => false,
+  }
 }
