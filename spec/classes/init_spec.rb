@@ -31,7 +31,7 @@ describe 'delorean' do
           :distro_branch  => 'master',
           :disable_email  => :true,
           :enable_cron    => :false,
-          :symlinks       => ['/var/www/html/centos7', '/var/www/html/centos70']
+          :symlinks       => ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
         )
         is_expected.to contain_delorean__worker('centos-liberty').with(
           :name           => 'centos-liberty',
