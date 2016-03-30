@@ -99,34 +99,38 @@ class delorean::common (
     notify  => Service['network'],
   }
 
-  physical_volume { '/dev/vdb':
-    ensure  => present,
-    require => Package['lvm2'],
-  } ->
-  volume_group { 'vgdelorean':
-    ensure           => present,
-    physical_volumes => '/dev/vdb',
-  } ->
-  exec { 'activate vgdelorean':
-    command => 'vgchange -a y vgdelorean',
-    path    => '/usr/sbin',
-    creates => '/dev/vgdelorean',
-  } ->
-  logical_volume { 'lvol1':
-    ensure       => present,
-    volume_group => 'vgdelorean',
-  } ->
-  filesystem { '/dev/vgdelorean/lvol1':
-    ensure  => present,
-    fs_type => 'ext4',
-  } ->
-  mount { '/home':
-    ensure  => mounted,
-    device  => '/dev/vgdelorean/lvol1',
-    fstype  => 'ext4',
-    options => 'defaults',
-    require => Filesystem['/dev/vgdelorean/lvol1'],
+  # Only create vgdelorean in vdb if it exists
+  if member(split($::blockdevices,','),'vdb') {
+    physical_volume { '/dev/vdb':
+      ensure  => present,
+      require => Package['lvm2'],
+    } ->
+    volume_group { 'vgdelorean':
+      ensure           => present,
+      physical_volumes => '/dev/vdb',
+    } ->
+    exec { 'activate vgdelorean':
+      command => 'vgchange -a y vgdelorean',
+      path    => '/usr/sbin',
+      creates => '/dev/vgdelorean',
+    } ->
+    logical_volume { 'lvol1':
+      ensure       => present,
+      volume_group => 'vgdelorean',
+    } ->
+    filesystem { '/dev/vgdelorean/lvol1':
+      ensure  => present,
+      fs_type => 'ext4',
+    } ->
+    mount { '/home':
+      ensure  => mounted,
+      device  => '/dev/vgdelorean/lvol1',
+      fstype  => 'ext4',
+      options => 'defaults',
+      require => Filesystem['/dev/vgdelorean/lvol1'],
+    }
   }
+
 
   file { '/etc/sysctl.d/00-disable-ipv6.conf':
     ensure => present,

@@ -59,4 +59,6 @@ class delorean (
   create_resources(delorean::worker,$workers)
 
   Class['::delorean::common'] -> Delorean::Worker <||>
+  Class['::delorean::common'] -> Class['::delorean::rdoinfo']
+  Class['::delorean::common'] -> Class['::delorean::promoter']
 }

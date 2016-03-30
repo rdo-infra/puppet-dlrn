@@ -10,6 +10,7 @@ describe 'delorean' do
         :concat_basedir         => '/tmp',
         :puppetversion          => '3.7.0',
         :sudoversion            => '1.8.15',
+        :blockdevices           => 'vda,vdb',
         :processorcount         => 2 }
     end
 
