@@ -1,6 +1,6 @@
-# == Class: delorean::common
+# == Class: dlrn::common
 #
-# This class creates the common setup to any Delorean instance
+# This class creates the common setup to any DLRN instance
 #
 # === Parameters:
 #
@@ -10,30 +10,26 @@
 #
 # === Examples
 #
-#  class { 'delorean::common': }
+#  class { 'dlrn::common': }
 #
 # === Authors
 #
 # Javier Peña <jpena@redhat.com>
 
-class delorean::common (
+class dlrn::common (
   $sshd_port              = 3300,
 ) {
   class { 'selinux':
     mode => 'permissive'
   }
 
-  selinux_port { "tcp/${::delorean::common::sshd_port}":
+  selinux_port { "tcp/${::dlrn::common::sshd_port}":
     seltype => 'ssh_port_t',
   } ->
   class { 'ssh':
     server_options => {
-      'Port' => [22, $::delorean::common::sshd_port],
+      'Port' => [22, $::dlrn::common::sshd_port],
     },
-  }
-
-  file { '/var/log/delorean':
-    ensure => 'directory',
   }
 
   $required_packages = [ 'lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
@@ -100,6 +96,8 @@ class delorean::common (
   }
 
   # Only create vgdelorean in vdb if it exists
+  # Note we are keeping the VG name to avoid issues if applying to an already
+  # existing environment
   if member(split($::blockdevices,','),'vdb') {
     physical_volume { '/dev/vdb':
       ensure  => present,
@@ -134,14 +132,14 @@ class delorean::common (
 
   file { '/etc/sysctl.d/00-disable-ipv6.conf':
     ensure => present,
-    source => 'puppet:///modules/delorean/00-disable-ipv6.conf',
+    source => 'puppet:///modules/dlrn/00-disable-ipv6.conf',
     mode   => '0644',
     notify => Exec['sysctl-p'],
   }
 
   file { '/etc/sysctl.d/01-lsyncd-inotify.conf':
     ensure => present,
-    source => 'puppet:///modules/delorean/01-lsyncd-inotify.conf',
+    source => 'puppet:///modules/dlrn/01-lsyncd-inotify.conf',
     mode   => '0644',
     notify => Exec['sysctl-p'],
   }
@@ -152,32 +150,32 @@ class delorean::common (
     refreshonly => true,
   }
 
-  file { '/usr/local/share/delorean':
+  file { '/usr/local/share/dlrn':
     ensure => directory,
     mode   => '0755'
   }
 
-  file { '/usr/local/bin/run-delorean.sh':
+  file { '/usr/local/bin/run-dlrn.sh':
     ensure => present,
-    source => 'puppet:///modules/delorean/run-delorean.sh',
+    source => 'puppet:///modules/dlrn/run-dlrn.sh',
     mode   => '0755',
   }
 
   file { '/root/fix-fails.sql':
     ensure => present,
-    source => 'puppet:///modules/delorean/fix-fails.sql',
+    source => 'puppet:///modules/dlrn/fix-fails.sql',
     mode   => '0600',
   }
 
   file { '/root/README_SSL.txt':
     ensure => present,
-    source => 'puppet:///modules/delorean/README_SSL.txt',
+    source => 'puppet:///modules/dlrn/README_SSL.txt',
     mode   => '0600',
   }
 
   file { '/root/ssl_setup.sh':
     ensure => present,
-    source => 'puppet:///modules/delorean/ssl_setup.sh',
+    source => 'puppet:///modules/dlrn/ssl_setup.sh',
     mode   => '0700',
   }
 

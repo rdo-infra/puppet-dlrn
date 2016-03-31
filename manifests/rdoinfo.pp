@@ -1,9 +1,9 @@
-# == Class: delorean::rdoinfo
+# == Class: dlrn::rdoinfo
 #
-#  This class sets up an rdoinfo user for Delorean
+#  This class sets up an rdoinfo user for DLRN
 #
 
-class delorean::rdoinfo (
+class dlrn::rdoinfo (
 ) {
 
   user { 'rdoinfo':
@@ -31,7 +31,7 @@ class delorean::rdoinfo (
 
   file { '/usr/local/bin/rdoinfo-update.sh':
     ensure => present,
-    source => 'puppet:///modules/delorean/rdoinfo-update.sh',
+    source => 'puppet:///modules/dlrn/rdoinfo-update.sh',
     mode   => '0755',
   }
 

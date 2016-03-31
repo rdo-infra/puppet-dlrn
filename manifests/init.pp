@@ -1,6 +1,6 @@
-# == Class: delorean
+# == Class: dlrn
 #
-# Configures a Delorean instance
+# Configures a DLRN instance
 #
 # === Parameters:
 #
@@ -15,28 +15,28 @@
 #
 # === Examples
 #
-#  class { 'delorean': }
+#  class { 'dlrn': }
 #
 # === Authors
 #
 # Javier Peña <jpena@redhat.com>
 
 
-class delorean (
+class dlrn (
   $sshd_port              = 3300,
   $backup_server          = undef,
 ) {
 
-  class { '::delorean::common':
+  class { '::dlrn::common':
     sshd_port => $sshd_port,
   }
 
-  class { '::delorean::rdoinfo': }
-  class { '::delorean::promoter': }
-  class { '::delorean::fail2ban':
+  class { '::dlrn::rdoinfo': }
+  class { '::dlrn::promoter': }
+  class { '::dlrn::fail2ban':
     sshd_port => $sshd_port,
   }
-  class { '::delorean::web': }
+  class { '::dlrn::web': }
 
   if $backup_server {
     concat { 'lsyncd.conf':
@@ -51,14 +51,14 @@ class delorean (
       enable => true,
     }
 
-    Delorean::Worker<||>       -> Service <| title == 'lsyncd' |>
-    Delorean::Lsyncdconfig<||> -> Service <| title == 'lsyncd' |>
+    Dlrn::Worker<||>       -> Service <| title == 'lsyncd' |>
+    Dlrn::Lsyncdconfig<||> -> Service <| title == 'lsyncd' |>
   }
 
-  $workers = hiera_hash('delorean::workers')
-  create_resources(delorean::worker,$workers)
+  $workers = hiera_hash('dlrn::workers')
+  create_resources(dlrn::worker,$workers)
 
-  Class['::delorean::common'] -> Delorean::Worker <||>
-  Class['::delorean::common'] -> Class['::delorean::rdoinfo']
-  Class['::delorean::common'] -> Class['::delorean::promoter']
+  Class['::dlrn::common'] -> Dlrn::Worker <||>
+  Class['::dlrn::common'] -> Class['::dlrn::rdoinfo']
+  Class['::dlrn::common'] -> Class['::dlrn::promoter']
 }

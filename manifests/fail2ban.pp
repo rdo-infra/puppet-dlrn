@@ -1,13 +1,13 @@
-# == Class: delorean::fail2ban
+# == Class: dlrn::fail2ban
 #
-#  This class sets up fail2ban for a Delorean instance
+#  This class sets up fail2ban for a DLRN instance
 #
 # === Parameters:
 #
 # [*sshd_port*]
 #   (required) Additional port where sshd should listen
 
-class delorean::fail2ban(
+class dlrn::fail2ban(
   $sshd_port
 ){
   $fail2ban_pkgs = ['fail2ban','fail2ban-systemd']

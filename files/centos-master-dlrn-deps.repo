@@ -1,5 +1,5 @@
 [delorean-mitaka-testing]
-name=delorean-mitaka-testing
+name=dlrn-mitaka-testing
 baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-mitaka/
 enabled=1
 gpgcheck=0

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'delorean::rdoinfo' do
+describe 'dlrn::rdoinfo' do
   let :facts do
   {   :osfamily               => 'RedHat',
       :operatingsystem        => 'Fedora',
@@ -38,7 +38,7 @@ describe 'delorean::rdoinfo' do
     it 'creates /usr/local/bin/rdoinfo-update.sh' do
       is_expected.to contain_file('/usr/local/bin/rdoinfo-update.sh').with(
         :mode   => '0755',  
-        :source => 'puppet:///modules/delorean/rdoinfo-update.sh',
+        :source => 'puppet:///modules/dlrn/rdoinfo-update.sh',
       )
     end
 

@@ -1,13 +1,12 @@
 [DEFAULT]
 datadir=/home/<%= @name %>/data
-scriptsdir=/home/<%= @name %>/delorean/scripts
+scriptsdir=/home/<%= @name %>/dlrn/scripts
+templatedir=/home/<%= @name %>/dlrn/dlrn/templates
 baseurl=http://trunk.rdoproject.org/<%= @baseurl_target %>
 distro=<%= @distgit_branch %>
 source=<%= @distro_branch %>
 target=<%= @target %>
-smtpserver=<%= @delorean_mailserver %>
+smtpserver=<%= @dlrn_mailserver %>
 reponame=delorean
 tags=<%= @release %>
-<% if @gerrit_user %>
-gerrit=yes
-<% end %>
+<% if @gerrit_user %>gerrit=yes<% end %>

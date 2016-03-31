@@ -1,9 +1,9 @@
-# == Class: delorean::promoter
+# == Class: dlrn::promoter
 #
-#  This class sets up an promoter user for Delorean
+#  This class sets up an promoter user for DLRN
 #
 
-class delorean::promoter (
+class dlrn::promoter (
 ) {
 
   user { 'promoter':
@@ -34,7 +34,7 @@ class delorean::promoter (
 
   file { '/usr/local/bin/promote.sh':
     ensure => present,
-    source => 'puppet:///modules/delorean/promote.sh',
+    source => 'puppet:///modules/dlrn/promote.sh',
     mode   => '0755',
   }
 

@@ -1,4 +1,4 @@
-# == Class: delorean::lsyncdconfig
+# == Class: dlrn::lsyncdconfig
 #
 #  This class sets up part of the configuration for lsyncd
 #
@@ -16,14 +16,14 @@
 #     Defaults to 'backupserver.example.com'
 #
 
-define delorean::lsyncdconfig (
+define dlrn::lsyncdconfig (
   $path,
   $sshd_port,
   $remoteserver = 'backupserver.example.com' ) {
 
   ::concat::fragment { "lsyncd.conf:sync:${title}":
     target  => 'lsyncd.conf',
-    content => template('delorean/lsyncd.conf.erb'),
+    content => template('dlrn/lsyncd.conf.erb'),
     order   => '200',
   }
 }

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'delorean::worker' do
+describe 'dlrn::worker' do
   let :facts do
   {   :osfamily               => 'RedHat',
       :operatingsystem        => 'Fedora',
@@ -58,15 +58,22 @@ describe 'delorean::worker' do
             :ensure  => 'directory',
             :mode => '0755',
             :owner   => "#{user}",
-          ).with_before(/File\[\/home\/#{user}\/data\/repos\/delorean-deps.repo\]/)
+          ).with_before(/File\[\/home\/#{user}\/data\/repos\/dlrn-deps.repo\]/)
         end
 
-        it 'creates the delorean-deps.repo file' do
-          is_expected.to contain_file("/home/#{user}/data/repos/delorean-deps.repo").with(
-            :source => "puppet:///modules/delorean/#{user}-delorean-deps.repo",
+        it 'creates the dlrn-deps.repo file' do
+          is_expected.to contain_file("/home/#{user}/data/repos/dlrn-deps.repo").with(
+            :source => "puppet:///modules/dlrn/#{user}-dlrn-deps.repo",
             :mode   => '0644',
             :owner  => "#{user}",
             :group  => "#{user}",
+          )
+        end
+
+        it 'creates the delorean-deps.repo compat symlink' do
+          is_expected.to contain_file("/home/#{user}/data/repos/delorean-deps.repo").with(
+            :ensure => 'link',
+            :target => "/home/#{user}/data/repos/dlrn-deps.repo",
           )
         end
 
@@ -78,34 +85,34 @@ describe 'delorean::worker' do
         end
 
         it 'creates a logrotate entry' do
-          is_expected.to contain_file("/etc/logrotate.d/delorean-#{user}")
+          is_expected.to contain_file("/etc/logrotate.d/dlrn-#{user}")
         end
 
         it 'configures the venv' do
-          is_expected.to contain_file("/home/#{user}/setup_delorean.sh").with(
+          is_expected.to contain_file("/home/#{user}/setup_dlrn.sh").with(
             :ensure  => 'present',
             :mode    => '0755',
           )
           is_expected.to contain_exec("pip-install-#{user}").with(
-            :command => "/home/#{user}/setup_delorean.sh",
-            :cwd     => "/home/#{user}/delorean",
-            :creates => "/home/#{user}/.venv/bin/delorean",
+            :command => "/home/#{user}/setup_dlrn.sh",
+            :cwd     => "/home/#{user}/dlrn",
+            :creates => "/home/#{user}/.venv/bin/dlrn",
           )
         end
 
         it { is_expected.not_to contain_cron("#{user}") }
         it 'does not set smtpserver in projects.ini' do
-          is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+          is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
           .with_content(/smtpserver=$/)
         end
 
         it 'sets the default release in projects.ini' do
-            is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/tags=mitaka$/)
         end
 
         it 'does not set a gerrit user in projects.ini' do
-            is_expected.not_to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+            is_expected.not_to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/gerrit=$/)
         end
       end
@@ -137,7 +144,7 @@ describe 'delorean::worker' do
 
         it 'creates cron job' do
           is_expected.to contain_cron("#{user}").with(
-            :command => '/usr/local/bin/run-delorean.sh',
+            :command => '/usr/local/bin/run-dlrn.sh',
             :user    => "#{user}",
             :hour    => '*',
             :minute  => '*/5',
@@ -155,7 +162,7 @@ describe 'delorean::worker' do
         end
 
         it 'sets smtpserver in projects.ini' do
-            is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/smtpserver=localhost$/)
         end
       end
@@ -188,7 +195,7 @@ describe 'delorean::worker' do
         end
 
         it 'sets tags in projects.ini' do
-            is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/tags=liberty$/)
         end
       end
@@ -204,7 +211,7 @@ describe 'delorean::worker' do
         end
 
         it 'sets a gerrit user in projects.ini' do
-            is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/gerrit=yes$/)
         end
 
@@ -249,8 +256,8 @@ describe 'delorean::worker' do
     end
 
     it 'creates specific mock config file for rawhide' do
-      is_expected.to contain_file('/home/fedora-rawhide-master/delorean/scripts/fedora-rawhide.cfg').with(
-        :source => 'puppet:///modules/delorean/fedora-rawhide.cfg',
+      is_expected.to contain_file('/home/fedora-rawhide-master/dlrn/scripts/fedora-rawhide.cfg').with(
+        :source => 'puppet:///modules/dlrn/fedora-rawhide.cfg',
         :mode   => '0644',
         :owner  => 'fedora-rawhide-master',
       )
@@ -263,7 +270,7 @@ describe 'delorean::worker' do
     end
 
     it 'sets proper baseurl in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/delorean/centos-master/projects.ini")
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-master/projects.ini")
         .with_content(/baseurl=http:\/\/trunk.rdoproject.org\/centos7$/)
     end
   end
@@ -280,8 +287,8 @@ describe 'delorean::worker' do
     end
 
     it 'creates specific mock config file for centos-kilo' do
-      is_expected.to contain_file('/home/centos-kilo/delorean/scripts/centos-kilo.cfg')
-      .with_content(/config_opts\[\'root\'\] = \'delorean-centos-kilo-x86_64\'/)
+      is_expected.to contain_file('/home/centos-kilo/dlrn/scripts/centos-kilo.cfg')
+      .with_content(/config_opts\[\'root\'\] = \'dlrn-centos-kilo-x86_64\'/)
     end
 
     it 'creates directory under /var/www/html' do
@@ -294,7 +301,7 @@ describe 'delorean::worker' do
     end
 
     it 'sets proper baseurl in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/delorean/centos-kilo/projects.ini")
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-kilo/projects.ini")
         .with_content(/baseurl=http:\/\/trunk.rdoproject.org\/centos7-kilo$/)
     end
   end

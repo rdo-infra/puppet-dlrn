@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'delorean::fail2ban' do
+describe 'dlrn::fail2ban' do
   let :facts do
   {   :osfamily               => 'RedHat',
       :operatingsystem        => 'Fedora',

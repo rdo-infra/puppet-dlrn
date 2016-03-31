@@ -1,5 +1,5 @@
 [delorean-liberty-testing]
-name=delorean-liberty-testing
+name=dlrn-liberty-testing
 baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-liberty/
 enabled=1
 gpgcheck=0

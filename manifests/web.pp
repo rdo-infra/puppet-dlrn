@@ -1,9 +1,9 @@
-# == Class: delorean::web
+# == Class: dlrn::web
 #
-#  This class sets up the web content for a Delorean instance
+#  This class sets up the web content for a DLRN instance
 #
 
-class delorean::web(
+class dlrn::web(
 ){
 
   wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
@@ -26,7 +26,7 @@ class delorean::web(
   file { '/usr/local/bin/update-web-index.sh':
     ensure => present,
     mode   => '0755',
-    source => 'puppet:///modules/delorean/update-web-index.sh',
+    source => 'puppet:///modules/dlrn/update-web-index.sh',
   } ->
   cron { 'update-web-index':
     command => '/usr/local/bin/update-web-index.sh',
