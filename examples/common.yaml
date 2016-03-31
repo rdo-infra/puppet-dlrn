@@ -14,6 +14,7 @@ delorean::workers:
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
     release: 'mitaka'
 #   gerrit_user: 'rdo-trunk'
+#   gerrit_email: 'rdo-trunk@rdoproject.org'
   centos-mitaka:
     name: 'centos-mitaka'
     distro: 'centos7'

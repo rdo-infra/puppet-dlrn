@@ -105,7 +105,7 @@ describe 'delorean::worker' do
         end
 
         it 'does not set a gerrit user in projects.ini' do
-            is_expected.to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
+            is_expected.not_to contain_file("/usr/local/share/delorean/#{user}/projects.ini")
             .with_content(/gerrit=$/)
         end
       end
@@ -196,6 +196,7 @@ describe 'delorean::worker' do
       context 'when setting a gerrit user' do
         before :each do
           params.merge!(:gerrit_user => 'foo')
+          params.merge!(:gerrit_email => 'foo@rdoproject.org')
         end
 
         let :title do
@@ -222,6 +223,20 @@ describe 'delorean::worker' do
             :command => "git config --global user.email foo@rdoproject.org",
             :require => "File[/home/#{user}]",
           )
+        end
+      end
+
+      context 'when setting a gerrit user but not an email' do
+        before :each do
+          params.merge!(:gerrit_user => 'foo')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'should fail' do
+          is_expected.to raise_error(Puppet::Error,/gerrit_email not set, but gerrit_user is set/)
         end
       end
     end

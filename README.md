@@ -203,6 +203,9 @@ This is the release name this worker will be targetting, in lower case. For exam
 ####`gerrit_user` 
 This is a user to run Gerrit reviews for packages after build failures. If set to undef (default), Gerrit reviews are disabled for this worker.
 
+####`gerrit_email` 
+This is the email for the user to run Gerrit reviews for packages after build failures. It is required when `gerrit_user` is set, and ignored otherwise.
+
 ## Limitations
 
 The module has been tested on Fedora and CentOS.

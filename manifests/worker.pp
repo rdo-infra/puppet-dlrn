@@ -45,6 +45,11 @@
 #     do not enable Gerrit reviews
 #   Example: 'rdo-trunk'
 #   Defaults to undef
+#
+# [*gerrit_email*]
+#   (optional) E-mail for gerrit_user.
+#   Example: 'rdo-trunk@rdoproject.org'
+#   Defaults to undef
 # 
 # === Example
 #
@@ -69,7 +74,8 @@ define delorean::worker (
   $enable_cron    = false,
   $symlinks       = undef,
   $release        = 'mitaka',
-  $gerrit_user    = undef ) {
+  $gerrit_user    = undef,
+  $gerrit_email   = undef ) {
 
   user { $name:
     comment    => $name,
@@ -244,12 +250,17 @@ python setup.py develop",
 
   # Set up gerrit, if configured
   if $gerrit_user {
+    if ! $gerrit_email {
+        fail("gerrit_email not set, but gerrit_user is set to $gerrit_user")
+    }
+
     exec { "Set gerrit user for ${name}":
       command     => "git config --global --add gitreview.username ${gerrit_user}",
       path        => '/usr/bin',
       user        => $name,
       cwd         => "/home/${name}",
       environment => "HOME=/home/${name}",
+      unless      => "git config --get gitreview.username | grep -w ${gerrit_user}",
       require     => File["/home/${name}"],
     }
 
@@ -259,15 +270,17 @@ python setup.py develop",
       user        => $name,
       cwd         => "/home/${name}",
       environment => "HOME=/home/${name}",
+      unless      => "git config --get user.name | grep -w ${gerrit_user}",
       require     => File["/home/${name}"],
     }
 
     exec { "Set git email for ${name}":
-      command     => "git config --global user.email ${gerrit_user}@rdoproject.org",
+      command     => "git config --global user.email ${gerrit_email}",
       path        => '/usr/bin',
       user        => $name,
       cwd         => "/home/${name}",
       environment => "HOME=/home/${name}",
+      unless      => "git config --get user.email | grep -w ${gerrit_email}",
       require     => File["/home/${name}"],
     }
   }
