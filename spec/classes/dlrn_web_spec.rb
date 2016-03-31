@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'delorean::web' do
+describe 'dlrn::web' do
   let :facts do
   {   :osfamily               => 'RedHat',
       :operatingsystem        => 'Fedora',
@@ -40,7 +40,7 @@ describe 'delorean::web' do
       is_expected.to contain_file('/usr/local/bin/update-web-index.sh').with(
         :ensure => 'present',
         :mode   => '0755',
-        :source => 'puppet:///modules/delorean/update-web-index.sh',
+        :source => 'puppet:///modules/dlrn/update-web-index.sh',
       ).with_before(/Cron\[update-web-index\]/)
       is_expected.to contain_cron('update-web-index').with(
         :command => '/usr/local/bin/update-web-index.sh',

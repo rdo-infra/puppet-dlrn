@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'delorean::promoter' do
+describe 'dlrn::promoter' do
   let :facts do
   {   :osfamily               => 'RedHat',
       :operatingsystem        => 'Fedora',
@@ -37,7 +37,7 @@ describe 'delorean::promoter' do
     it 'creates /usr/local/bin/promote.sh' do
       is_expected.to contain_file('/usr/local/bin/promote.sh').with(
         :mode   => '0755',  
-        :source => 'puppet:///modules/delorean/promote.sh',
+        :source => 'puppet:///modules/dlrn/promote.sh',
       )
     end
 

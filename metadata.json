@@ -1,12 +1,12 @@
 {
-  "name": "jpena-delorean",
+  "name": "jpena-dlrn",
   "version": "0.1.0",
   "author": "jpena",
-  "summary": "Configure a Delorean instance",
+  "summary": "Configure a DLRN instance",
   "license": "Apache-2.0",
-  "source": "https://github.com/javierpena/puppet-delorean",
-  "project_page": "https://github.com/javierpena/puppet-delorean",
-  "issues_url": "https://github.com/javierpena/puppet-delorean/issues",
+  "source": "https://github.com/rdo-infra/puppet-dlrn",
+  "project_page": "https://github.com/rdo-infra/puppet-dlrn",
+  "issues_url": "https://github.com/rdo-infra/puppet-dlrn/issues",
   "dependencies": [
     {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"},
     {"name":"jfryman-selinux","version_requirement":">= 0.3.0"},

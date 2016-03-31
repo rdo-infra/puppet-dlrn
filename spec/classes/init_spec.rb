@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'hiera'
 
-describe 'delorean' do
+describe 'dlrn' do
 
     let :facts do
     {   :osfamily               => 'RedHat',
@@ -23,8 +23,8 @@ describe 'delorean' do
         is_expected.not_to contain_service('lsyncd')
       end
 
-      it 'creates delorean workers based on Hiera template' do
-        is_expected.to contain_delorean__worker('centos-master').with(
+      it 'creates dlrn workers based on Hiera template' do
+        is_expected.to contain_dlrn__worker('centos-master').with(
           :name           => 'centos-master',
           :distro         => 'centos7',
           :target         => 'centos',
@@ -34,7 +34,7 @@ describe 'delorean' do
           :enable_cron    => :false,
           :symlinks       => ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
         )
-        is_expected.to contain_delorean__worker('centos-liberty').with(
+        is_expected.to contain_dlrn__worker('centos-liberty').with(
           :name           => 'centos-liberty',
           :distro         => 'centos7',
           :target         => 'centos-liberty',
@@ -47,8 +47,8 @@ describe 'delorean' do
         )
       end
 
-      it 'ensures delorean::common is executed before any worker' do
-        is_expected.to contain_class('delorean::common').with_before(/Delorean::Worker\[.+\]/)
+      it 'ensures dlrn::common is executed before any worker' do
+        is_expected.to contain_class('dlrn::common').with_before(/Dlrn::Worker\[.+\]/)
       end
     end
 
@@ -58,8 +58,8 @@ describe 'delorean' do
         :backup_server => 'foo.example.com' }
       end
 
-      it 'sets sshd options for delorean::common' do
-        is_expected.to contain_class('delorean::common').with(
+      it 'sets sshd options for dlrn::common' do
+        is_expected.to contain_class('dlrn::common').with(
           :sshd_port => 1234,
         )
       end

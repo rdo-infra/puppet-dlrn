@@ -1,6 +1,6 @@
-# == Class: delorean::worker
+# == Class: dlrn::worker
 #
-#  This class sets up a Delorean worker
+#  This class sets up a DLRN worker
 #
 # === Parameters:
 #
@@ -27,7 +27,7 @@
 #   Defaults to true
 # 
 # [*enable_cron*]
-#   (optional) Enable cron jobs to run Delorean on the worker every 5 minutes
+#   (optional) Enable cron jobs to run DLRN on the worker every 5 minutes
 #   Defaults to false
 #
 # [*symlinks*]
@@ -53,7 +53,7 @@
 # 
 # === Example
 #
-#  delorean::worker {'centos-master':
+#  dlrn::worker {'centos-master':
 #    distro         => 'centos7',
 #    target         => 'centos',
 #    distgit_branch => 'rpm-master',
@@ -64,7 +64,7 @@
 #    release        => 'mitaka',
 #  }
 
-define delorean::worker (
+define dlrn::worker (
   $distro,
   $target,
   $distgit_branch = 'rpm-master',
@@ -107,12 +107,17 @@ define delorean::worker (
     owner  => $name,
     group  => $name,
   } ->
-  file { "/home/${name}/data/repos/delorean-deps.repo":
+  file { "/home/${name}/data/repos/dlrn-deps.repo":
     ensure => present,
-    source => "puppet:///modules/delorean/${name}-delorean-deps.repo",
+    source => "puppet:///modules/dlrn/${name}-dlrn-deps.repo",
     mode   => '0644',
     owner  => $name,
     group  => $name,
+  } ->
+  # Compat symlink
+  file {"/home/${name}/data/repos/delorean-deps.repo":
+    ensure => link,
+    target => "/home/${name}/data/repos/dlrn-deps.repo",
   }
 
   exec { "${name}-sshkeygen":
@@ -130,15 +135,15 @@ define delorean::worker (
     user    => $name,
   }
 
-  vcsrepo { "/home/${name}/delorean":
+  vcsrepo { "/home/${name}/dlrn":
     ensure   => present,
     provider => git,
-    source   => 'https://github.com/openstack-packages/delorean',
+    source   => 'https://github.com/openstack-packages/DLRN',
     user     => $name,
     require  => File["/home/${name}"]
   }
 
-  file { "/home/${name}/setup_delorean.sh":
+  file { "/home/${name}/setup_dlrn.sh":
     ensure  => present,
     mode    => '0755',
     content => "source /home/${name}/.venv/bin/activate
@@ -148,17 +153,17 @@ python setup.py develop",
   }
 
   if $disable_email {
-    $delorean_mailserver = ''
+    $dlrn_mailserver = ''
   } else {
-    $delorean_mailserver = 'localhost'
+    $dlrn_mailserver = 'localhost'
   }
 
   exec { "pip-install-${name}":
-    command => "/home/${name}/setup_delorean.sh",
-    cwd     => "/home/${name}/delorean",
+    command => "/home/${name}/setup_dlrn.sh",
+    cwd     => "/home/${name}/dlrn",
     path    => '/usr/bin',
-    creates => "/home/${name}/.venv/bin/delorean",
-    require => [Exec["venv-${name}"], Vcsrepo["/home/${name}/delorean"], File["/home/${name}/setup_delorean.sh"]],
+    creates => "/home/${name}/.venv/bin/dlrn",
+    require => [Exec["venv-${name}"], Vcsrepo["/home/${name}/dlrn"], File["/home/${name}/setup_dlrn.sh"]],
     user    => $name,
   }
 
@@ -170,13 +175,13 @@ python setup.py develop",
     $baseurl_target = $distro
   }
 
-  file { "/usr/local/share/delorean/${name}":
+  file { "/usr/local/share/dlrn/${name}":
     ensure => directory,
     mode   => '0755',
   } ->
-  file { "/usr/local/share/delorean/${name}/projects.ini":
+  file { "/usr/local/share/dlrn/${name}/projects.ini":
     ensure  => present,
-    content => template('delorean/projects.ini.erb'),
+    content => template('dlrn/projects.ini.erb'),
   }
 
   sudo::conf { $name:
@@ -184,15 +189,15 @@ python setup.py develop",
       content  => "${name} ALL=(ALL) NOPASSWD: /bin/rm",
   }
 
-  file { "/etc/logrotate.d/delorean-${name}":
+  file { "/etc/logrotate.d/dlrn-${name}":
     ensure  => present,
-    content => template('delorean/logrotate.erb'),
+    content => template('dlrn/logrotate.erb'),
     mode    => '0644',
   }
 
   if $enable_cron {
     cron { $name:
-      command => '/usr/local/bin/run-delorean.sh',
+      command => '/usr/local/bin/run-dlrn.sh',
       user    => $name,
       hour    => '*',
       minute  => '*/5'
@@ -209,22 +214,22 @@ python setup.py develop",
   }
 
   # Set up synchronization
-  if $::delorean::backup_server  {
-    delorean::lsyncdconfig { "lsync-${name}":
+  if $::dlrn::backup_server  {
+    dlrn::lsyncdconfig { "lsync-${name}":
       path         => "/home/${name}",
-      sshd_port    => $::delorean::sshd_port,
-      remoteserver => $::delorean::backup_server,
+      sshd_port    => $::dlrn::sshd_port,
+      remoteserver => $::dlrn::backup_server,
     }
   }
 
   # Special case for fedora-rawhide-master
   if $name == 'fedora-rawhide-master' {
-    file { "/home/${name}/delorean/scripts/fedora-rawhide.cfg":
+    file { "/home/${name}/dlrn/scripts/fedora-rawhide.cfg":
       ensure  => present,
-      source  => 'puppet:///modules/delorean/fedora-rawhide.cfg',
+      source  => 'puppet:///modules/dlrn/fedora-rawhide.cfg',
       mode    => '0644',
       owner   => $name,
-      require => Vcsrepo["/home/${name}/delorean"],
+      require => Vcsrepo["/home/${name}/dlrn"],
     }
   }
 
@@ -234,10 +239,10 @@ python setup.py develop",
     $worker_os      = $components[0]
     $worker_version = $components[1]
 
-    file { "/home/${name}/delorean/scripts/${worker_os}-${worker_version}.cfg":
+    file { "/home/${name}/dlrn/scripts/${worker_os}-${worker_version}.cfg":
       ensure  => present,
-      content => template("delorean/${worker_os}.cfg.erb"),
-      require => Vcsrepo["/home/${name}/delorean"],
+      content => template("dlrn/${worker_os}.cfg.erb"),
+      require => Vcsrepo["/home/${name}/dlrn"],
     }
 
     file { "/var/www/html/${worker_os}-${worker_version}":
@@ -251,7 +256,7 @@ python setup.py develop",
   # Set up gerrit, if configured
   if $gerrit_user {
     if ! $gerrit_email {
-        fail("gerrit_email not set, but gerrit_user is set to $gerrit_user")
+        fail("gerrit_email not set, but gerrit_user is set to ${gerrit_user}")
     }
 
     exec { "Set gerrit user for ${name}":

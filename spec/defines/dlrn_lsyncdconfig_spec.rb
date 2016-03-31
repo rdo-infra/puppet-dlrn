@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'delorean::lsyncdconfig' do
+describe 'dlrn::lsyncdconfig' do
   let :facts do
   {   :osfamily               => 'RedHat',
       :operatingsystem        => 'Fedora',

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'delorean::common' do
+describe 'dlrn::common' do
 
     let :facts do
     {   :osfamily               => 'RedHat',

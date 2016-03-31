@@ -1,6 +1,6 @@
 fixtures:
   symlinks:
-    "delorean": "#{source_dir}"
+    "dlrn": "#{source_dir}"
   repositories:
     stdlib: git://github.com/puppetlabs/puppetlabs-stdlib.git
     selinux: git://github.com/spiette/puppet-selinux.git

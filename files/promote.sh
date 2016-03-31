@@ -14,7 +14,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ -z "$2" ]; then
-    echo "Please specify the delorean instance to use!"
+    echo "Please specify the DLRN instance to use!"
     exit 1
 fi
 
