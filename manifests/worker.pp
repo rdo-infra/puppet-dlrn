@@ -251,7 +251,7 @@ python setup.py develop",
   # Set up gerrit, if configured
   if $gerrit_user {
     if ! $gerrit_email {
-        fail("gerrit_email not set, but gerrit_user is set to $gerrit_user")
+        fail("gerrit_email not set, but gerrit_user is set to ${gerrit_user}")
     }
 
     exec { "Set gerrit user for ${name}":
