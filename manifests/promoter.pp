@@ -12,6 +12,12 @@ class delorean::promoter (
     home       => '/home/promoter',
     managehome => true,
   } ->
+  file { '/home/promoter':
+    ensure  => directory,
+    owner   => 'promoter',
+    group   => 'promoter',
+    recurse => true,
+  } ->
   file { '/home/promoter/.ssh':
     ensure => directory,
     mode   => '0700',
