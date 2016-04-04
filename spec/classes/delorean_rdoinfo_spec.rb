@@ -24,7 +24,7 @@ describe 'delorean::rdoinfo' do
         :ensure => 'directory',
         :owner  => 'rdoinfo',
         :mode   => '0755',
-      ).with_before(/Vcsrepo\[\/home\/rdoinfo\/rdoinfo\]/)
+      ).with_before(/Exec\[ensure home contents belong to rdoinfo\]/)
     end
 
     it 'clones the rdoinfo git repo' do

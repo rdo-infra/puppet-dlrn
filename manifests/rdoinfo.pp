@@ -17,6 +17,11 @@ class delorean::rdoinfo (
     mode   => '0755',
     owner  => 'rdoinfo',
   } ->
+  exec { 'ensure home contents belong to rdoinfo':
+    command => 'chown -R rdoinfo:rdoinfo /home/rdoinfo',
+    path    => '/usr/bin',
+    timeout => 100,
+  } ->
   vcsrepo { '/home/rdoinfo/rdoinfo':
     ensure   => present,
     provider => git,

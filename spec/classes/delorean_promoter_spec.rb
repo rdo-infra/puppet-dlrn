@@ -15,6 +15,15 @@ describe 'delorean::promoter' do
     it 'creates user promoter' do
       is_expected.to contain_user('promoter').with(
         :managehome => 'true'
+      ).with_before(/File\[\/home\/promoter/)
+    end
+
+    it 'creates /home/promoter' do
+      is_expected.to contain_file('/home/promoter').with(
+        :ensure  => 'directory',
+        :owner   => 'promoter',
+        :group   => 'promoter',
+        :recurse => true,
       ).with_before(/File\[\/home\/promoter\/.ssh/)
     end
 
