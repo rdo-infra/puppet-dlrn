@@ -93,6 +93,7 @@ define delorean::worker (
   exec { "ensure home contents belong to ${name}":
     command => "chown -R ${name}:${name} /home/${name}",
     path    => '/usr/bin',
+    unless  => 'stat -c %U:%G /home/${name} | grep -w ${name}:${name} > /dev/null',
     timeout => 900,
   } ->
   file { "/home/${name}/data":
