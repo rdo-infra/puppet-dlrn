@@ -1,6 +1,6 @@
-[delorean-liberty-testing]
-name=delorean-liberty-testing
-baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-liberty/
+[delorean-mitaka-testing]
+name=delorean-mitaka-testing
+baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-mitaka/
 enabled=1
 gpgcheck=0
 priority=2
