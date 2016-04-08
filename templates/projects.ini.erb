@@ -9,4 +9,6 @@ target=<%= @target %>
 smtpserver=<%= @dlrn_mailserver %>
 reponame=delorean
 tags=<%= @release %>
+<% if @rsyncdest %>rsyncdest=<%= @rsyncdest %><% end %>
+<% if @rsyncport %>rsyncport=<%= @rsyncport %><% end %>
 <% if @gerrit_user %>gerrit=yes<% end %>
