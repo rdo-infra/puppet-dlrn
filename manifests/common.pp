@@ -36,7 +36,7 @@ class dlrn::common (
                       'mock', 'rpm-build', 'git', 'python-pip',
                       'python-virtualenv', 'httpd', 'gcc', 'createrepo',
                       'screen', 'python-tox', 'git-review', 'python-sh',
-                      'logrotate', 'postfix', 'lsyncd', 'firewalld' ]
+                      'postfix', 'lsyncd', 'firewalld' ]
   package { $required_packages: ensure => 'installed' }
 
   service { 'httpd':
