@@ -190,11 +190,13 @@ python setup.py develop",
       content  => "${name} ALL=(ALL) NOPASSWD: /bin/rm",
   }
 
-  file { "/etc/logrotate.d/dlrn-${name}":
-    ensure  => present,
-    content => template('dlrn/logrotate.erb'),
-    mode    => '0644',
+  cron { "${name}-logrotate":
+    command => 'find /home/${name}/delorean-logs/*.log -mtime 2 -exec rm {} \;',
+    user    => $name,
+    hour    => '4',
+    minute  => '0'
   }
+
 
   if $enable_cron {
     cron { $name:

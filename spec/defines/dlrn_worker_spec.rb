@@ -84,8 +84,13 @@ describe 'dlrn::worker' do
           )
         end
 
-        it 'creates a logrotate entry' do
-          is_expected.to contain_file("/etc/logrotate.d/dlrn-#{user}")
+        it 'creates a log removal cron job' do
+          is_expected.to contain_cron("#{user}-logrotate").with(
+            :command => 'find /home/${name}/delorean-logs/*.log -mtime 2 -exec rm {} \;',
+            :user    => "#{user}",
+            :hour    => '4',
+            :minute  => '0',
+          )
         end
 
         it 'configures the venv' do
