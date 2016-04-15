@@ -51,6 +51,18 @@
 #   Example: 'rdo-trunk@rdoproject.org'
 #   Defaults to undef
 # 
+# [*rsyncdest*]
+#   (optional) destination where builtdir and reports are replicated when build is ok. 
+#     format: <user>@<ip or hostname>:<destdir>
+#   Example: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
+#   Defaults to undef
+#
+# [*rsyncport*]
+#   (optional) port number for ssh in server where builtdir and reports are copied
+#     after built is successfull.
+#   Example: '22'
+#   Defaults to '22'
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
@@ -75,7 +87,9 @@ define dlrn::worker (
   $symlinks       = undef,
   $release        = 'mitaka',
   $gerrit_user    = undef,
-  $gerrit_email   = undef ) {
+  $gerrit_email   = undef,
+  $rsyncdest      = undef,
+  $rsyncport      = 22) {
 
   user { $name:
     comment    => $name,

@@ -120,6 +120,16 @@ describe 'dlrn::worker' do
             is_expected.not_to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/gerrit=$/)
         end
+
+        it 'does not set rsyncdest in projects.ini' do
+            is_expected.not_to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/rsyncdest=/)
+        end
+
+        it 'does set rsyncport to 22 in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/rsyncport=22$/)
+        end
       end
 
       context 'with specific uid' do
@@ -309,6 +319,28 @@ describe 'dlrn::worker' do
         is_expected.to contain_file("/usr/local/share/dlrn/centos-kilo/projects.ini")
         .with_content(/baseurl=http:\/\/trunk.rdoproject.org\/centos7-kilo$/)
     end
+  end
+
+  context 'with rsyncdest parameter parameter' do
+    before :each do
+      params.merge!(:rsyncdest       => 'centos-master@backupserver.example.com:/home/centos-master/data/repos')
+      params.merge!(:rsyncport       => 1022)
+    end
+
+    let :title do
+      'centos-mitaka'
+    end
+
+    it 'sets rsyncdest in projects.ini' do
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-mitaka/projects.ini")
+        .with_content(/rsyncdest=centos-master@backupserver.example.com:\/home\/centos-master\/data\/repos$/)
+    end
+
+    it 'does set rsyncport to 1022 in projects.ini' do
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-mitaka/projects.ini")
+        .with_content(/rsyncport=1022$/)
+    end
+
   end
 end
 
