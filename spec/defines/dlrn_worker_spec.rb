@@ -86,7 +86,7 @@ describe 'dlrn::worker' do
 
         it 'creates a log removal cron job' do
           is_expected.to contain_cron("#{user}-logrotate").with(
-            :command => 'find /home/${name}/delorean-logs/*.log -mtime 2 -exec rm {} \;',
+            :command => "find /home/#{user}/delorean-logs/*.log -mtime 2 -exec rm {} \\;",
             :user    => "#{user}",
             :hour    => '4',
             :minute  => '0',
