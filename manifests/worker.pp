@@ -205,7 +205,7 @@ python setup.py develop",
   }
 
   cron { "${name}-logrotate":
-    command => "find /home/${name}/delorean-logs/*.log -mtime 2 -exec rm {} \;",
+    command => "/usr/bin/find /home/${name}/dlrn-logs/*.log -mtime 2 -exec rm {} \;",
     user    => $name,
     hour    => '4',
     minute  => '0'
