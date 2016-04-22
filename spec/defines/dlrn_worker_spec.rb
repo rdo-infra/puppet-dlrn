@@ -113,7 +113,7 @@ describe 'dlrn::worker' do
 
         it 'sets the default release in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
-            .with_content(/tags=mitaka$/)
+            .with_content(/tags=newton$/)
         end
 
         it 'does not set a gerrit user in projects.ini' do

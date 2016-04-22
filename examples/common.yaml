@@ -56,7 +56,7 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/f23', '/var/www/html/f22', '/var/www/html/fedora22', '/var/www/html/fedora23' ]
-    release: 'mitaka'
+    release: 'newton'
   fedora-rawhide-master:
     name: 'fedora-rawhide-master'
     distro: 'f24'
@@ -66,4 +66,4 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/f24', '/var/www/html/fedora24']
-    release: 'mitaka'
+    release: 'newton'

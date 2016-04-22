@@ -38,7 +38,7 @@
 # [*release*]
 #   (optional) Release this worker will be using (all lowercase)
 #   Example: 'mitaka'
-#   Defaults to 'mitaka'
+#   Defaults to 'newton'
 #
 # [*gerrit_user*]
 #   (optional) User to run Gerrit reviews after build failures. If set to undef,
@@ -85,7 +85,7 @@ define dlrn::worker (
   $disable_email  = true,
   $enable_cron    = false,
   $symlinks       = undef,
-  $release        = 'mitaka',
+  $release        = 'newton',
   $gerrit_user    = undef,
   $gerrit_email   = undef,
   $rsyncdest      = undef,
