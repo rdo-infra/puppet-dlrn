@@ -71,8 +71,9 @@ This is the higher level class, that will configure a DLRN instance.
 
 ```puppet
 class { 'dlrn':
-  sshd_port              => 1234,
-  backup_server          => undef,
+  sshd_port         => 1234,
+  backup_server     => undef,
+  mock_tmpfs_enable => false,
 }
 ```
 
@@ -82,18 +83,25 @@ Specifies the alternate port sshd will use to listen to. This is useful when you
 ####`backup_server`
 The DLRN instance architecture includes a secondary server, where all repos are synchronized using lsyncd. If this variable is set, the required lsyncd configuration will be created to enable this synchronization. Be aware that you will need to configure passwordless SSH access to root@backup_server for this to work.
 
+####`mock_tmpfs_enable`
+Enables the Mock TMPfs plugin. Note this will enable creation of a file system in RAM using up to 6 GB per worker, so be sure you have enough RAM and swap for all workers.
+
 ### Class: dlrn::common
 
 This class is used internally, to configure the common OS-specific aspects required by DLRN.
 
 ```puppet
 class { 'dlrn::common':
-  sshd_port              => 1234,
+  sshd_port         => 1234,
+  mock_tmpfs_enable => false,
 }
 ```
 
 ####`sshd_port`
 Specifies the alternate port sshd will use to listen to.
+
+####`mock_tmpfs_enable`
+Enables the Mock TMPfs plugin. Note this will enable creation of a file system in RAM using up to 6 GB per worker, so be sure you have enough RAM and swap for all workers.
 
 ### Class: dlrn::fail2ban
 

@@ -30,11 +30,16 @@ describe 'dlrn::common' do
         is_expected.to contain_volume_group('vgdelorean')
         is_expected.to contain_physical_volume('/dev/vdb')
       end
+
+      it 'does not create a mock site-defaults.cfg file' do
+        is_expected.not_to contain_file('/etc/mock/site-defaults.cfg')
+      end
     end
 
     context 'with specific parameters' do
       let :params do { 
-        :sshd_port    => 1234,
+        :sshd_port         => 1234,
+        :mock_tmpfs_enable => true
       }
       end
 
@@ -52,5 +57,15 @@ describe 'dlrn::common' do
         is_expected.not_to contain_volume_group('vgdelorean')
         is_expected.not_to contain_physical_volume('/dev/vdb')
       end
-    end 
+
+      it 'creates a mock site-defaults.cfg file' do
+        is_expected.to contain_file('/etc/mock/site-defaults.cfg').with(
+          :backup  => :true,
+          :mode    => '0644',
+          :owner   => 'root',
+          :group   => 'mock',
+          :require => 'Package[mock]',
+        )
+      end
+   end 
 end

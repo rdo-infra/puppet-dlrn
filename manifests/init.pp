@@ -13,6 +13,10 @@
 #     for synchronization
 #   Defaults to undef
 #
+# [*mock_tmpfs_enable*]
+#   (optional) Enable the mock tmpfs plugin. Note this requires a lot of RAM
+#   Defaults to false
+#
 # === Examples
 #
 #  class { 'dlrn': }
@@ -23,12 +27,14 @@
 
 
 class dlrn (
-  $sshd_port              = 3300,
-  $backup_server          = undef,
+  $sshd_port         = 3300,
+  $backup_server     = undef,
+  $mock_tmpfs_enable = false,
 ) {
 
   class { '::dlrn::common':
-    sshd_port => $sshd_port,
+    sshd_port         => $sshd_port,
+    mock_tmpfs_enable => $mock_tmpfs_enable,
   }
 
   class { '::dlrn::rdoinfo': }

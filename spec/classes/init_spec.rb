@@ -55,12 +55,14 @@ describe 'dlrn' do
     context 'with specific parameters' do
       let :params do { 
         :sshd_port     => 1234,
-        :backup_server => 'foo.example.com' }
+        :backup_server => 'foo.example.com',
+        :mock_tmpfs_enable => true}
       end
 
       it 'sets sshd options for dlrn::common' do
         is_expected.to contain_class('dlrn::common').with(
-          :sshd_port => 1234,
+          :sshd_port         => 1234,
+          :mock_tmpfs_enable => :true,
         )
       end
 
