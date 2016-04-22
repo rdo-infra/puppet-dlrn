@@ -246,6 +246,14 @@ describe 'dlrn::worker' do
             :require => "File[/home/#{user}]",
           )
         end
+
+        it 'sets up the required SSH keys' do
+          is_expected.to contain_sshkey("#{user}-review.rdoproject.org").with(
+            :ensure => 'present',
+            :name   => 'review.rdoproject.org',
+            :target => "/home/#{user}/.ssh/known_hosts",
+          )
+        end
       end
 
       context 'when setting a gerrit user but not an email' do
