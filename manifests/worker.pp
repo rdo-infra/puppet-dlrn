@@ -162,8 +162,11 @@ define dlrn::worker (
     ensure  => present,
     mode    => '0755',
     content => "source /home/${name}/.venv/bin/activate
+pip install --upgrade setuptools
 pip install pytz
 pip install -r requirements.txt
+pip install docutils
+pip install imagesize
 pip install -r test-requirements.txt
 python setup.py develop",
   }

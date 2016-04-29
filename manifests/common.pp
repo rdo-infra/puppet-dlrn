@@ -41,7 +41,8 @@ class dlrn::common (
                       'mock', 'rpm-build', 'git', 'python-pip',
                       'python-virtualenv', 'httpd', 'gcc', 'createrepo',
                       'screen', 'python-tox', 'git-review', 'python-sh',
-                      'postfix', 'lsyncd', 'firewalld' ]
+                      'postfix', 'lsyncd', 'firewalld', 'openssl-devel',
+                      'libffi-devel' ]
   package { $required_packages: ensure => 'installed' }
 
   service { 'httpd':
