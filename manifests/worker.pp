@@ -162,11 +162,8 @@ define dlrn::worker (
     ensure  => present,
     mode    => '0755',
     content => "source /home/${name}/.venv/bin/activate
-pip install --upgrade setuptools
-pip install pytz
+pip install --upgrade pip
 pip install -r requirements.txt
-pip install docutils
-pip install imagesize
 pip install -r test-requirements.txt
 python setup.py develop",
   }
@@ -319,9 +316,9 @@ python setup.py develop",
       require => File["/home/${name}"],
     } ->
     file { "/home/${name}/.ssh/known_hosts":
-      mode    => '0644',
-      owner   => $name,
-      group   => $name,
+      mode  => '0644',
+      owner => $name,
+      group => $name,
     }
   }
 }
