@@ -11,7 +11,7 @@ dlrn::workers:
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
-    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
+    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-newton']
     release: 'newton'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
