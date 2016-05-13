@@ -39,17 +39,11 @@ class dlrn::common (
 
   $required_packages = [ 'lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
                       'mock', 'rpm-build', 'git', 'python-pip',
-                      'python-virtualenv', 'httpd', 'gcc', 'createrepo',
+                      'python-virtualenv', 'gcc', 'createrepo',
                       'screen', 'python-tox', 'git-review', 'python-sh',
                       'postfix', 'lsyncd', 'firewalld', 'openssl-devel',
                       'libffi-devel' ]
   package { $required_packages: ensure => 'installed' }
-
-  service { 'httpd':
-    ensure  => 'running',
-    enable  => true,
-    require => Package['httpd'],
-  }
 
   service { 'postfix':
     ensure  => 'running',
@@ -86,6 +80,11 @@ class dlrn::common (
   firewalld_service { 'Allow HTTP':
     ensure  => 'present',
     service => 'http',
+    zone    => 'public',
+  } ->
+  firewalld_service { 'Allow HTTPS':
+    ensure  => 'present',
+    service => 'https',
     zone    => 'public',
   } ->
   firewalld_port { 'Allow custom SSH port':
@@ -177,12 +176,6 @@ class dlrn::common (
     ensure => present,
     source => 'puppet:///modules/dlrn/README_SSL.txt',
     mode   => '0600',
-  }
-
-  file { '/root/ssl_setup.sh':
-    ensure => present,
-    source => 'puppet:///modules/dlrn/ssl_setup.sh',
-    mode   => '0700',
   }
 
   yum::config { 'timeout':

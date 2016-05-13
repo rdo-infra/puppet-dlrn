@@ -4,8 +4,56 @@
 #
 
 class dlrn::web(
+  $enable_https = $dlrn::enable_https,
 ){
 
+  if $enable_https {
+    $cert_file  = '/etc/pki/tls/certs/trunk_rdoproject_org.crt'
+    $cert_key   = '/etc/pki/tls/private/trunk.rdoproject.org.key'
+    $cert_chain = '/etc/pki/tls/certs/DigiCertCA.crt'
+
+    file {"$cert_file":
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0600'
+    } ->
+    file {"$cert_key":
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0600'
+    } ->
+    file {"$cert_chain":
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0600'
+    }
+
+    apache::vhost { 'ssl-trunk.rdoproject.org':
+      port                 => 443,
+      default_vhost        => true,
+      override             => "FileInfo",
+      docroot              => "/var/www/html",
+      servername           => "default",
+      ssl                  => true,
+      ssl_cert             => $cert_file,
+      ssl_key              => $cert_key,
+      ssl_chain            => $cert_chain,
+      ssl_protocol         => 'ALL -SSLv2 -SSLv3',
+      ssl_honorcipherorder => 'on',
+    }
+  }
+
+  class { 'apache': 
+    default_vhost => false,
+  } 
+
+  apache::vhost { 'trunk.rdoproject.org':
+    port          => 80,
+    default_vhost => true,
+    override      => "FileInfo", 
+    docroot       => "/var/www/html",
+    servername    => "default"
+  } ->
   wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
     destination => '/var/www/html/index.html',
     cache_dir   => '/var/cache/wget',
