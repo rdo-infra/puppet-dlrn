@@ -1,0 +1,6 @@
+<% if @distro_branch == "master" %>
+RedirectMatch "^/(.*)/current-passed-ci" http://buildlogs.centos.org/centos/7/cloud/x86_64/rdo-trunk-master-tested 
+RedirectMatch "^/(.*)/current-tripleo" http://buildlogs.centos.org/centos/7/cloud/x86_64/rdo-trunk-master-tripleo
+<% else %>
+RedirectMatch "^/(.*)/current-passed-ci" http://buildlogs.centos.org/centos/7/cloud/x86_64/rdo-trunk-<%= @release %>-tested 
+<% end %>

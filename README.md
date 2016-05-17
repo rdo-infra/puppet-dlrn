@@ -86,6 +86,17 @@ The DLRN instance architecture includes a secondary server, where all repos are 
 ####`mock_tmpfs_enable`
 Enables the Mock TMPfs plugin. Note this will enable creation of a file system in RAM using up to 6 GB per worker, so be sure you have enough RAM and swap for all workers.
 
+####`server_type`
+Defines the server_type. It can be set to primary (default) or passive. Even when enabled in workers hiera configuration, passive servers will not enable:
+- cron jobs for run-dlrn.sh
+- rsync of new builds (they are suposed to be the destination of the synchronization)
+- Opening reviews in gerrit automatically on FTBFS
+- Sending mails on build failure
+Additionally, passive servers will redirect to buildlogs when users trying to access to current-passed-ci or current-tripleo
+
+####`enable_https`
+Enable https in apache configuration (requires proper certificates installed in the system). Default is false.
+
 ### Class: dlrn::common
 
 This class is used internally, to configure the common OS-specific aspects required by DLRN.
@@ -139,6 +150,19 @@ This class is used internally, to set up the Apache instance for DLRN and fetch 
 ```puppet
 class { 'dlrn::web' : }
 ```
+
+####`enable_https`
+Enable https in apache configuration (requires proper certificates installed in the system). By default it takes the value from dlrn::enable_https parameter.
+
+####`cert_file`
+Location of SSL encryption certificate for https. Required if enable_https is true.
+
+####`cert_key`
+Location of SSL encryption certificate key for https. Required if enable_https is true.
+
+####`cert_chain`
+Location of SSL chain for https. Required if enable_https is true.
+
 
 ### Define dlrn::lsyncdconfig
 
@@ -214,11 +238,14 @@ This is a user to run Gerrit reviews for packages after build failures. If set t
 ####`gerrit_email` 
 This is the email for the user to run Gerrit reviews for packages after build failures. It is required when `gerrit_user` is set, and ignored otherwise.
 
-###`rsyncdest`
+####`rsyncdest`
 This is the destination where builtdir and reports are replicated when build is ok in scp-like format. Defaults to `undef`, which means that replication is disabled.
 
-###`rsyncport`
+####`rsyncport`
 This is the port number for ssh in server where builtdir and reports are replicated. Defaults to `22`.
+
+####`server_type`
+This defines if the server where the worker is being configured is primary or passive (see explanation in Class: dlrn section). Defaults to the value defined in dlrn class (`primary` by default).
 
 ## Limitations
 

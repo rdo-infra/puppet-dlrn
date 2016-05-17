@@ -1,6 +1,9 @@
 ---
 enable_worker_cronjobs: &enable_cron false
 disable_worker_email: &disable_email true
+dlrn::web::cert_file: '/etc/pki/tls/certs/trunk_rdoproject_org.crt'
+dlrn::web::cert_key: '/etc/pki/tls/private/trunk.rdoproject.org.key'
+dlrn::web::cert_chain: '/etc/pki/tls/certs/DigiCertCA.crt'
 
 dlrn::workers:
   centos-master:
