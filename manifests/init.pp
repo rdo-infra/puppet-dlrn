@@ -28,7 +28,7 @@
 # [*enable_https*]
 #   (optional) Enable ssl in apache configuration (requires proper certificates
 #   installed in the system.
-#   Defaults to true
+#   Defaults to false
 #
 # === Examples
 #
@@ -44,7 +44,7 @@ class dlrn (
   $backup_server     = undef,
   $mock_tmpfs_enable = false,
   $server_type       = "primary",
-  $enable_https      = true,
+  $enable_https      = false,
 ) {
 
   class { '::dlrn::common':

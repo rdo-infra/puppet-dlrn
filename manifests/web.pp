@@ -2,26 +2,59 @@
 #
 #  This class sets up the web content for a DLRN instance
 #
+# [*enable_https*]
+#   (optional) Enable ssl in apache configuration (requires proper certificates
+#   installed in the system.
+#   Defaults to parameter dlrn::enable_https
+#
+# [*cert_file*]
+#   (optional) Location of SSL encryption certificate if https is enabled.
+#   Default is undef. Required if enable_https is true
+#
+# [*cert_key*]
+#   (optional) Location of SSL encryption certificate key if https is enabled.
+#   Default is undef. Required if enable_https is true
+#
+# [*cert_chain*]
+#   (optional) Location of SSL chain if https is enabled.
+#   Default is undef. Required if enable_https is true
+#
+# === Examples
+#
+#  class { 'dlrn::web':
+#    enable_https => false 
+#  }
+#
 
 class dlrn::web(
   $enable_https = $dlrn::enable_https,
+  $cert_file    = undef,
+  $cert_key     = undef,
+  $cert_chain   = undef,
 ){
 
   if $enable_https {
-    $cert_file  = '/etc/pki/tls/certs/trunk_rdoproject_org.crt'
-    $cert_key   = '/etc/pki/tls/private/trunk.rdoproject.org.key'
-    $cert_chain = '/etc/pki/tls/certs/DigiCertCA.crt'
-
+    exec {"test -f $cert_file":
+      path => "/usr/bin:/usr/sbin:/bin",
+    }->
     file {"$cert_file":
       owner  => 'root',
       group  => 'root',
       mode   => '0600'
-    } ->
+    }
+
+    exec {"test -f $cert_key":
+      path => "/usr/bin:/usr/sbin:/bin",
+    }->
     file {"$cert_key":
       owner  => 'root',
       group  => 'root',
       mode   => '0600'
-    } ->
+    }
+
+    exec {"test -f $cert_chain":
+      path => "/usr/bin:/usr/sbin:/bin",
+    }->
     file {"$cert_chain":
       owner  => 'root',
       group  => 'root',

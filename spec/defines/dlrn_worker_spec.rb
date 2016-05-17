@@ -360,7 +360,7 @@ describe 'dlrn::worker' do
       params.merge!(:server_type    => 'passive')
     end
  
-    context 'with centos-mitacka name' do
+    context 'with centos-mitaka name' do
       before :each do
         params.merge!(:distro_branch   => 'stable/mitaka')
         params.merge!(:release         => 'mitaka')

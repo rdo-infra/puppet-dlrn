@@ -95,7 +95,7 @@ Defines the server_type. It can be set to primary (default) or passive. Even whe
 Additionally, passive servers will redirect to buildlogs when users trying to access to current-passed-ci or current-tripleo
 
 ####`enable_https`
-Enable https in apache configuration (requires proper certificates installed in the system). Default is true.
+Enable https in apache configuration (requires proper certificates installed in the system). Default is false.
 
 ### Class: dlrn::common
 
@@ -150,6 +150,19 @@ This class is used internally, to set up the Apache instance for DLRN and fetch 
 ```puppet
 class { 'dlrn::web' : }
 ```
+
+####`enable_https`
+Enable https in apache configuration (requires proper certificates installed in the system). By default it takes the value from dlrn::enable_https parameter.
+
+####`cert_file`
+Location of SSL encryption certificate for https. Required if enable_https is true.
+
+####`cert_key`
+Location of SSL encryption certificate key for https. Required if enable_https is true.
+
+####`cert_chain`
+Location of SSL chain for https. Required if enable_https is true.
+
 
 ### Define dlrn::lsyncdconfig
 

@@ -82,16 +82,19 @@ class dlrn::common (
     service => 'http',
     zone    => 'public',
   } ->
-  firewalld_service { 'Allow HTTPS':
-    ensure  => 'present',
-    service => 'https',
-    zone    => 'public',
-  } ->
   firewalld_port { 'Allow custom SSH port':
     ensure   => present,
     zone     => 'public',
     port     => $sshd_port,
     protocol => 'tcp',
+  }
+  if ::dlrn::enable_https {
+    firewalld_service { 'Allow HTTPS':
+      ensure  => 'present',
+      service => 'https',
+      zone    => 'public',
+      require => Service['firewalld']
+    }
   }
 
   augeas { 'ifcfg-eth0':

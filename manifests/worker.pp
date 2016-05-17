@@ -63,6 +63,13 @@
 #   Example: '22'
 #   Defaults to '22'
 #
+# [*server_type*]
+#   (optional) server_type can be set to primary or passive. Primary server
+#   check periodically for changes in repos and synchronize every build to a
+#   passive server if rsync is enabled. Passive server receives builds from
+#   primary and redirects current-passed-ci and current-tripleo to buildlogs.
+#   Defaults to parameter dlrn::server_type
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
@@ -273,7 +280,7 @@ python setup.py develop",
   }
 
   # Add compatibility redirects
-  if $name =~ /^(centos)\-(.*)/ and $server_type == "passive"  {
+  if $name =~ /^(centos)\-(.*)/ and $server_type == 'passive'  {
     file { "/home/${name}/data/repos/.htaccess":
       ensure  => present,
       content => template("dlrn/htaccess.erb"),
