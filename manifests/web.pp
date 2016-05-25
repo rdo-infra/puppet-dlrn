@@ -2,10 +2,28 @@
 #
 #  This class sets up the web content for a DLRN instance
 #
+# === Parameters:
+#
+# [*web_domain*]
+#   (mandatory) domain name of the web server
+#   example: trunk.rdoproject.org
+#
 
 class dlrn::web(
+  $web_domain,
 ){
 
+  class { 'apache':
+    default_vhost => false,
+  }
+
+  apache::vhost { $web_domain:
+    port          => 80,
+    default_vhost => true,
+    override      => 'FileInfo',
+    docroot       => '/var/www/html',
+    servername    => 'default'
+  } ->
   wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
     destination => '/var/www/html/index.html',
     cache_dir   => '/var/cache/wget',

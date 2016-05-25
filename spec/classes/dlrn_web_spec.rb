@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'hiera'
 
 describe 'dlrn::web' do
   let :facts do
@@ -11,7 +12,26 @@ describe 'dlrn::web' do
       :processorcount         => 2 }
   end
 
+  let(:hiera_config) { 'spec/fixtures/hiera.yaml' }
+  hiera = Hiera.new(:config => 'spec/fixtures/hiera.yaml')
+
   context 'with default parameters' do
+    it 'installs httpd package' do
+      is_expected.to contain_package('httpd').with( :ensure => 'installed')
+      is_expected.not_to contain_package('mod_ssl')
+    end
+
+    it 'enables httpd service' do
+      is_expected.to contain_service('httpd').with(
+        :ensure  => 'running',
+        :enable  => 'true',
+      )
+    end
+
+    it 'enables http port' do
+      is_expected.to contain_apache__vhost('dummy.example.com').with(:port => 80)
+    end
+
     it 'creates /var/www/html/images' do
       is_expected.to contain_file('/var/www/html/images').with(
         :ensure  => 'directory',

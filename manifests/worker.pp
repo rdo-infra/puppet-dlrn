@@ -63,6 +63,13 @@
 #   Example: '22'
 #   Defaults to '22'
 #
+# [*server_type*]
+#   (optional) server_type can be set to primary or passive. Primary server
+#   check periodically for changes in repos and synchronize every build to a
+#   passive server if rsync is enabled. Passive server receives builds from
+#   primary and redirects current-passed-ci and current-tripleo to buildlogs.
+#   Defaults to parameter dlrn::server_type
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
@@ -89,7 +96,9 @@ define dlrn::worker (
   $gerrit_user    = undef,
   $gerrit_email   = undef,
   $rsyncdest      = undef,
-  $rsyncport      = 22) {
+  $rsyncport      = 22 ,
+  $server_type    = $dlrn::server_type ) {
+
 
   user { $name:
     comment    => $name,
@@ -206,14 +215,14 @@ python setup.py develop",
   }
 
   cron { "${name}-logrotate":
-    command => "/usr/bin/find /home/${name}/dlrn-logs/*.log -mtime +2 -exec rm {} \;",
+    command => "/usr/bin/find /home/${name}/dlrn-logs/*.log -mtime +2 -exec rm {} \\;",
     user    => $name,
     hour    => '4',
     minute  => '0'
   }
 
 
-  if $enable_cron {
+  if $enable_cron and $server_type == 'primary' {
     cron { $name:
       command => '/usr/local/bin/run-dlrn.sh',
       user    => $name,
@@ -271,8 +280,20 @@ python setup.py develop",
     }
   }
 
+  # Add compatibility redirects
+  if $name =~ /^(centos)\-(.*)/ and $server_type == 'passive'  {
+    file { "/home/${name}/data/repos/.htaccess":
+      ensure  => present,
+      content => template('dlrn/htaccess.erb'),
+      mode    => '0644',
+      owner   => $name,
+      group   => $name,
+      require => File["/home/${name}/data/repos"],
+    }
+  }
+
   # Set up gerrit, if configured
-  if $gerrit_user {
+  if $gerrit_user and $server_type == 'primary' {
     if ! $gerrit_email {
         fail("gerrit_email not set, but gerrit_user is set to ${gerrit_user}")
     }

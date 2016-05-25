@@ -17,6 +17,14 @@
 #   (optional) Enable the mock tmpfs plugin. Note this requires a lot of RAM
 #   Defaults to false
 #
+# [*server_type*]
+#   (optional) server_type can be set to primary or passive. Primary server
+#   check periodically for changes in repos and synchronize every build to a
+#   passive server if rsync is enabled. Passive server receives builds from
+#   primary and redirects current-passed-ci and current-tripleo to buildlogs.
+#   Defaults to "Primary"
+#
+#
 # === Examples
 #
 #  class { 'dlrn': }
@@ -30,6 +38,7 @@ class dlrn (
   $sshd_port         = 3300,
   $backup_server     = undef,
   $mock_tmpfs_enable = false,
+  $server_type       = 'primary',
 ) {
 
   class { '::dlrn::common':
