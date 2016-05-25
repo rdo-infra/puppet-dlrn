@@ -18,6 +18,7 @@ describe 'dlrn::worker' do
     :distro_branch  => 'master',
     :disable_email  => true,
     :enable_cron    => false,
+    :server_type    => 'primary',
     }
   end
 
@@ -130,6 +131,11 @@ describe 'dlrn::worker' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/rsyncport=22$/)
         end
+
+        it 'does not create .htaccess file' do
+            is_expected.not_to contain_file("/home/#{user}/data/repos/.htaccess")
+        end
+
       end
 
       context 'with specific uid' do
@@ -348,7 +354,98 @@ describe 'dlrn::worker' do
         is_expected.to contain_file("/usr/local/share/dlrn/centos-mitaka/projects.ini")
         .with_content(/rsyncport=1022$/)
     end
+  end
 
+  context 'with parameter server_type = passive' do
+    before :each do
+      params.merge!(:server_type    => 'passive')
+    end
+ 
+    context 'with centos-mitaka name' do
+      before :each do
+        params.merge!(:distro_branch   => 'stable/mitaka')
+        params.merge!(:release         => 'mitaka')
+        params.merge!(:enable_cron     => true)
+        params.merge!(:gerrit_user     => 'foo')
+        params.merge!(:gerrit_email    => 'foo@rdoproject.org')
+        params.merge!(:disable_email   => false)
+      end
+
+      let :title do
+        'centos-mitaka'
+      end
+
+      it 'creates .httaccess file' do
+        is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
+        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci" http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-mitaka-tested/)
+      end
+
+      it { is_expected.not_to contain_cron("#{title}") }
+
+      it 'does not set a gerrit user in projects.ini' do
+        is_expected.not_to contain_file("/usr/local/share/dlrn/#{title}/projects.ini")
+        .with_content(/gerrit=yes$/)
+      end
+
+      it 'does not set smtpserver in projects.ini' do
+        is_expected.not_to contain_file("/usr/local/share/dlrn/#{title}/projects.ini")
+        .with_content(/smtpserver=/)
+      end
+    end
+
+    context 'with fedora-mitaka name' do
+      before :each do
+        params.merge!(:distro_branch   => 'stable/mitaka')
+        params.merge!(:release         => 'mitaka')
+      end
+
+      let :title do
+        'fedora-mitaka'
+      end
+
+      it 'does not create .httaccess file' do
+        is_expected.not_to contain_file("/home/#{title}/data/repos/.htaccess")
+      end
+
+      it { is_expected.not_to contain_cron("#{title}") }
+    end
+
+    context 'with centos-master name' do
+      before :each do
+        params.merge!(:distro_branch   => 'master')
+        params.merge!(:release         => 'newton')
+        params.merge!(:enable_cron     => true)
+        params.merge!(:rsyncdest       => 'centos-master@backupserver.example.com:/home/centos-master/data/repos')
+        params.merge!(:rsyncport       => 1022)
+      end
+
+      let :title do
+        'centos-master'
+      end
+
+      it 'creates .httaccess file' do
+        is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
+        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci" http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-master-tested/)
+      end
+
+      it 'creates .httaccess file' do
+        is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
+        .with_content(/RedirectMatch "\^\/\(.*\)\/current-tripleo" http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-master-tripleo/)
+      end
+
+      it { is_expected.not_to contain_cron("#{title}") }
+
+      it 'does not set rsyncdest in projects.ini' do
+        is_expected.not_to contain_file("/usr/local/share/dlrn/#{title}/projects.ini")
+        .with_content(/rsyncdest=/)
+      end
+
+      it 'does not set rsyncport in projects.ini' do
+        is_expected.not_to contain_file("/usr/local/share/dlrn/#{title}/projects.ini")
+        .with_content(/rsyncport=/)
+      end
+
+    end
   end
 end
 
