@@ -24,6 +24,10 @@
 #   primary and redirects current-passed-ci and current-tripleo to buildlogs.
 #   Defaults to "Primary"
 #
+# [*enable_https*]
+#   (optional) Enable ssl in apache configuration. Certificates are managed
+#   using letsencrypt service. 
+#   Defaults to false
 #
 # === Examples
 #
@@ -39,6 +43,7 @@ class dlrn (
   $backup_server     = undef,
   $mock_tmpfs_enable = false,
   $server_type       = 'primary',
+  $enable_https      = false
 ) {
 
   class { '::dlrn::common':
@@ -51,7 +56,9 @@ class dlrn (
   class { '::dlrn::fail2ban':
     sshd_port => $sshd_port,
   }
-  class { '::dlrn::web': }
+  class { '::dlrn::web':
+    enable_https => $enable_https
+  }
 
   if $backup_server {
     concat { 'lsyncd.conf':

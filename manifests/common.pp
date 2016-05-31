@@ -167,12 +167,6 @@ class dlrn::common (
     mode   => '0600',
   }
 
-  file { '/root/README_SSL.txt':
-    ensure => present,
-    source => 'puppet:///modules/dlrn/README_SSL.txt',
-    mode   => '0600',
-  }
-
   file { '/root/ssl_setup.sh':
     ensure => present,
     source => 'puppet:///modules/dlrn/ssl_setup.sh',

@@ -3,6 +3,7 @@ enable_worker_cronjobs: &enable_cron false
 disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
+dlrn::web::cert_mail: undef
 
 dlrn::workers:
   centos-master:
