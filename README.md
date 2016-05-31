@@ -117,6 +117,9 @@ Specifies the alternate port sshd will use to listen to.
 ####`mock_tmpfs_enable`
 Enables the Mock TMPfs plugin. Note this will enable creation of a file system in RAM using up to 6 GB per worker, so be sure you have enough RAM and swap for all workers.
 
+####`enable_https`
+Enable ssl in apache configuration. Certificates are managed using Let's Encrypt service. Defaults to false.
+
 ### Class: dlrn::fail2ban
 
 This class is used internally, and configures fail2ban for DLRN.

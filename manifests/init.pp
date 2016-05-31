@@ -49,6 +49,7 @@ class dlrn (
   class { '::dlrn::common':
     sshd_port         => $sshd_port,
     mock_tmpfs_enable => $mock_tmpfs_enable,
+    enable_https      => $enable_https
   }
 
   class { '::dlrn::rdoinfo': }
