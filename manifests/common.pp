@@ -180,12 +180,6 @@ class dlrn::common (
     mode   => '0600',
   }
 
-  file { '/root/ssl_setup.sh':
-    ensure => present,
-    source => 'puppet:///modules/dlrn/ssl_setup.sh',
-    mode   => '0700',
-  }
-
   yum::config { 'timeout':
     ensure => 120,
   }
