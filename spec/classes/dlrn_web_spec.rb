@@ -3,13 +3,14 @@ require 'hiera'
 
 describe 'dlrn::web' do
   let :facts do
-  {   :osfamily               => 'RedHat',
-      :operatingsystem        => 'Fedora',
-      :operatingsystemrelease => '24',
-      :concat_basedir         => '/tmp',
-      :puppetversion          => '3.7.0',
-      :sudoversion            => '1.8.15',
-      :processorcount         => 2 }
+  {   :osfamily                  => 'RedHat',
+      :operatingsystem           => 'Fedora',
+      :operatingsystemrelease    => '24',
+      :operatingsystemmajrelease => '24',
+      :concat_basedir            => '/tmp',
+      :puppetversion             => '3.7.0',
+      :sudoversion               => '1.8.15',
+      :processorcount            => 2 }
   end
 
   let(:hiera_config) { 'spec/fixtures/hiera.yaml' }
@@ -67,6 +68,57 @@ describe 'dlrn::web' do
         :user    => 'root',
         :hour    => '3',
         :minute  => '0',
+      )
+    end
+
+    it 'does not create ssl vhost' do
+      is_expected.not_to contain_apache__vhost('ssl-dummy.example.com').with(:port => 443)
+    end
+
+    it 'does not create ssl certificates' do
+      is_expected.not_to contain_class('letsencrypt')
+      is_expected.not_to contain_letsencrypt__certonly('dummy.example.com')
+    end
+  end
+
+  context 'with enable_https enabled' do
+    let :params do { 
+      :enable_https => true
+    }
+    end
+
+    it 'installs mod_ssl package' do
+      is_expected.to contain_package('mod_ssl')
+    end
+
+    it 'does create ssl vhost' do
+      is_expected.to contain_apache__vhost('ssl-dummy.example.com').with(
+        :port                 => 443,
+        :default_vhost        => true,
+        :override             => 'FileInfo',
+        :docroot              => '/var/www/html',
+        :servername           => 'default',
+        :ssl_cert             => '/etc/letsencrypt/live/dummy.example.com/cert.pem',
+        :ssl_key              => '/etc/letsencrypt/live/dummy.example.com/privkey.pem',
+        :ssl_chain            => '/etc/letsencrypt/live/dummy.example.com/fullchain.pem',
+        :ssl                  => true,
+        :ssl_protocol         => 'ALL -SSLv2 -SSLv3',
+        :ssl_honorcipherorder => 'on'
+      )
+    end
+
+    it 'does create ssl certificates' do
+      is_expected.to contain_class('letsencrypt').with(
+        :configure_epel => false,
+        :email          => 'dummy@example.com',
+        :package_name   => 'certbot',
+      )
+      is_expected.to contain_letsencrypt__certonly('dummy.example.com').with(
+        :plugin               => 'webroot',
+        :webroot_paths        => [ '/var/www/html' ],
+        :domains              => [ 'dummy.example.com' ],
+        :manage_cron          => true,
+        :cron_success_command => '/bin/systemctl reload httpd',
       )
     end
   end

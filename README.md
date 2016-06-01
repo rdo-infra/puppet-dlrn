@@ -74,6 +74,8 @@ class { 'dlrn':
   sshd_port         => 1234,
   backup_server     => undef,
   mock_tmpfs_enable => false,
+  server_type       => 'primary',
+  enable_https      => false
 }
 ```
 
@@ -94,6 +96,9 @@ Defines the server_type. It can be set to primary (default) or passive. Even whe
 - Sending mails on build failure
 Additionally, passive servers will redirect to buildlogs when users trying to access to current-passed-ci or current-tripleo
 
+####`enable_https`
+Enable ssl in apache configuration. Certificates are managed using Let's Encrypt service. Defaults to false.
+
 
 ### Class: dlrn::common
 
@@ -111,6 +116,9 @@ Specifies the alternate port sshd will use to listen to.
 
 ####`mock_tmpfs_enable`
 Enables the Mock TMPfs plugin. Note this will enable creation of a file system in RAM using up to 6 GB per worker, so be sure you have enough RAM and swap for all workers.
+
+####`enable_https`
+Enable ssl in apache configuration. Certificates are managed using Let's Encrypt service. Defaults to false.
 
 ### Class: dlrn::fail2ban
 
@@ -151,6 +159,13 @@ class { 'dlrn::web' : }
 
 ####`web_domain`
 Specifies the domain name used for the web server running in dlrn server.
+
+####`enable_https`
+Enable ssl in apache configuration. Certificates are managed using Let's Encrypt service. Defaults to false.
+
+####`cert_mail`
+The email address to use to register with Let's Encrypt. Required if enable_https is set to true.
+
 
 ### Define dlrn::lsyncdconfig
 
@@ -240,3 +255,4 @@ This defines if the server where the worker is being configured is primary or pa
 
 The module has been tested on Fedora and CentOS.
 
+**Important note about letsencrypt module:**This module requires puppet module letsencrypt > 1.0.0 (commit 3c5d17697f14a32f51b24d11f5c6a164d43c1a54 is required). At the time of writing this version of puppet-dlrn, latest version in puppetforge is 1.0.0 so until it's updated in puppeforge it must be cloned from  https://github.com/danzilio/puppet-letsencrypt.

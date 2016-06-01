@@ -12,6 +12,10 @@
 #   (optional) Enable the mock tmpfs plugin. Note this requires a lot of RAM
 #   Defaults to false
 #
+# [*enable_https*]
+#   (optional) Enable ssl in apache configuration.
+#   Defaults to false
+#
 # === Examples
 #
 #  class { 'dlrn::common': }
@@ -22,7 +26,8 @@
 
 class dlrn::common (
   $sshd_port         = 3300,
-  $mock_tmpfs_enable = false
+  $mock_tmpfs_enable = false,
+  $enable_https      = false,
 ) {
   class { 'selinux':
     mode => 'permissive'
@@ -87,6 +92,14 @@ class dlrn::common (
     zone     => 'public',
     port     => $sshd_port,
     protocol => 'tcp',
+  }
+
+  if $enable_https {
+    firewalld_service { 'Allow HTTPS':
+      ensure  => 'present',
+      service => 'https',
+      zone    => 'public',
+    }
   }
 
   augeas { 'ifcfg-eth0':
@@ -165,18 +178,6 @@ class dlrn::common (
     ensure => present,
     source => 'puppet:///modules/dlrn/fix-fails.sql',
     mode   => '0600',
-  }
-
-  file { '/root/README_SSL.txt':
-    ensure => present,
-    source => 'puppet:///modules/dlrn/README_SSL.txt',
-    mode   => '0600',
-  }
-
-  file { '/root/ssl_setup.sh':
-    ensure => present,
-    source => 'puppet:///modules/dlrn/ssl_setup.sh',
-    mode   => '0700',
   }
 
   yum::config { 'timeout':

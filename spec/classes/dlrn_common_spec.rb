@@ -34,12 +34,36 @@ describe 'dlrn::common' do
       it 'does not create a mock site-defaults.cfg file' do
         is_expected.not_to contain_file('/etc/mock/site-defaults.cfg')
       end
+
+      it 'creates required firewall rules' do
+       is_expected.to contain_firewalld_service('Allow SSH').with(
+         :service => 'ssh',
+         :zone    => 'public',
+       )
+       is_expected.to contain_firewalld_service('Allow HTTP').with(
+         :service => 'http',
+         :zone    => 'public',
+       )
+       is_expected.to contain_firewalld_port('Allow custom SSH port').with(
+         :port     => 3300,
+         :zone     => 'public',
+         :protocol => 'tcp',
+       )
+      end
+
+      it 'does not create firewall rule for https' do
+       is_expected.not_to contain_firewalld_service('Allow HTTPS').with(
+         :service => 'https',
+         :zone    => 'public',
+       )
+      end
     end
 
     context 'with specific parameters' do
       let :params do { 
         :sshd_port         => 1234,
-        :mock_tmpfs_enable => true
+        :mock_tmpfs_enable => true,
+        :enable_https      => true
       }
       end
 
@@ -66,6 +90,13 @@ describe 'dlrn::common' do
           :group   => 'mock',
           :require => 'Package[mock]',
         )
+      end
+
+      it 'creates firewall rule for https' do
+       is_expected.to contain_firewalld_service('Allow HTTPS').with(
+         :service => 'https',
+         :zone    => 'public',
+       )
       end
    end 
 end
