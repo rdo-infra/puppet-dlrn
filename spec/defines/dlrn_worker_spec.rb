@@ -387,9 +387,9 @@ describe 'dlrn::worker' do
         .with_content(/gerrit=yes$/)
       end
 
-      it 'does not set smtpserver in projects.ini' do
-        is_expected.not_to contain_file("/usr/local/share/dlrn/#{title}/projects.ini")
-        .with_content(/smtpserver=/)
+      it 'sets empty smtpserver in projects.ini' do
+        is_expected.to contain_file("/usr/local/share/dlrn/#{title}/projects.ini")
+        .with_content(/smtpserver=$/)
       end
     end
 
