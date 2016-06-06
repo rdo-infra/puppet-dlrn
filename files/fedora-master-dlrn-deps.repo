@@ -1,12 +1,6 @@
-[delorean-liberty-testing]
-name=dlrn-liberty-testing
-baseurl=https://copr-be.cloud.fedoraproject.org/results/apevec/RDO-Liberty/fedora-23-$basearch/
+[fedora-rawhide]
+name=fedora-rawhide
+baseurl=http://download.fedoraproject.org/pub/fedora/linux/development/rawhide/Everything/x86_64/os/
 enabled=1
 gpgcheck=0
-priority=2
 
-[openstack-kilo]
-name=openstack-kilo
-baseurl=http://repos.fedorapeople.org/repos/openstack/openstack-kilo/f22/
-enabled=1
-gpgcheck=0
