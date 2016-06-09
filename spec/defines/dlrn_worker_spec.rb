@@ -132,6 +132,11 @@ describe 'dlrn::worker' do
             .with_content(/rsyncport=22$/)
         end
 
+        it 'sets the rdoinfo driver in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/pkginfo_driver=dlrn.drivers.rdoinfo.RdoInfoDriver$/) 
+        end
+
         it 'does not create .htaccess file' do
             is_expected.not_to contain_file("/home/#{user}/data/repos/.htaccess")
         end

@@ -16,6 +16,7 @@ dlrn::workers:
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-newton']
     release: 'newton'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   rsyncdest: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
@@ -30,6 +31,7 @@ dlrn::workers:
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7-mitaka', '/var/www/html/mitaka/centos7']
     release: 'mitaka'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   centos-liberty:
     name: 'centos-liberty'
     distro: 'centos7'
@@ -40,6 +42,7 @@ dlrn::workers:
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7-liberty', '/var/www/html/liberty/centos7']
     release: 'liberty'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   centos-kilo:
     name: 'centos-kilo'
     distro: 'centos7'
@@ -50,6 +53,7 @@ dlrn::workers:
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7-kilo', '/var/www/html/kilo/centos7']
     release: 'kilo'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   fedora-master:
     name: 'fedora-master'
     distro: 'f23'
@@ -60,6 +64,7 @@ dlrn::workers:
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/f23', '/var/www/html/f22', '/var/www/html/fedora22', '/var/www/html/fedora23' ]
     release: 'newton'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   fedora-rawhide-master:
     name: 'fedora-rawhide-master'
     distro: 'f24'
@@ -70,3 +75,4 @@ dlrn::workers:
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/f24', '/var/www/html/fedora24']
     release: 'newton'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'

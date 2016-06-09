@@ -70,6 +70,12 @@
 #   primary and redirects current-passed-ci and current-tripleo to buildlogs.
 #   Defaults to parameter dlrn::server_type
 #
+# [*pkginfo_driver*]
+#   (optional) DLRN driver to use to manage the distgit repositories.
+#   The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+#   and 'dlrn.drivers.gitrepo.GitRepoDriver'
+#   Defaults to 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
@@ -97,9 +103,9 @@ define dlrn::worker (
   $gerrit_email   = undef,
   $rsyncdest      = undef,
   $rsyncport      = 22 ,
-  $server_type    = $dlrn::server_type ) {
-
-
+  $server_type    = $dlrn::server_type,
+  $pkginfo_driver = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
+) {
   user { $name:
     comment    => $name,
     groups     => ['users', 'mock'],

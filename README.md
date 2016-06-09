@@ -250,9 +250,11 @@ This is the port number for ssh in server where builtdir and reports are replica
 ####`server_type`
 This defines if the server where the worker is being configured is primary or passive (see explanation in Class: dlrn section). Defaults to the value defined
 
+####`pkginfo_driver`
+This is the DLRN driver used to manage the distgit repositories. The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver' and 'dlrn.drivers.gitrepo.GitRepoDriver'. Defaults to `'dlrn.drivers.rdoinfo.RdoInfoDriver'`
 
 ## Limitations
 
 The module has been tested on Fedora and CentOS.
 
-**Important note about letsencrypt module:**This module requires puppet module letsencrypt > 1.0.0 (commit 3c5d17697f14a32f51b24d11f5c6a164d43c1a54 is required). At the time of writing this version of puppet-dlrn, latest version in puppetforge is 1.0.0 so until it's updated in puppeforge it must be cloned from  https://github.com/danzilio/puppet-letsencrypt.
+**Important note about letsencrypt module:**This module requires puppet module letsencrypt > 1.0.0 (commit 3c5d17697f14a32f51b24d11f5c6a164d43c1a54 is required). At the time of writing this version of puppet-dlrn, latest version in puppetforge is 1.0.0 so until it's updated in puppetforge it must be cloned from  https://github.com/danzilio/puppet-letsencrypt.
