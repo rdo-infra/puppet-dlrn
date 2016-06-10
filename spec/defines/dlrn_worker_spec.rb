@@ -266,6 +266,27 @@ describe 'dlrn::worker' do
         end
       end
 
+      context 'when setting the gitrepo driver' do
+        before :each do
+          params.merge!(:pkginfo_driver => 'dlrn.drivers.gitrepo.GitRepoDriver')
+          params.merge!(:gitrepo_skip   => ['pkg1', 'pkg2'])
+        end
+
+        let :title do
+          user
+        end
+
+        it 'sets the proper driver in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/pkginfo_driver=dlrn.drivers.gitrepo.GitRepoDriver$/)
+        end
+
+        it 'sets the proper skip in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/skip=pkg1,pkg2$/)
+        end
+      end
+
       context 'when setting a gerrit user but not an email' do
         before :each do
           params.merge!(:gerrit_user => 'foo')
