@@ -252,6 +252,15 @@ This defines if the server where the worker is being configured is primary or pa
 ####`pkginfo_driver`
 This is the DLRN driver used to manage the distgit repositories. The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver' and 'dlrn.drivers.gitrepo.GitRepoDriver'. Defaults to `'dlrn.drivers.rdoinfo.RdoInfoDriver'`
 
+####`gitrepo_repo` 
+If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be specified, and it is the Git repo to use as a source. Defaults to `http://github.com/openstack/rpm-packaging`
+
+####`gitrepo_dir`
+If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be specified, and it is the directory inside gitrepo_repo wherethe spec files area located. Defaults to `/openstack`
+
+####`gitrepo_skip`
+If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be specified, and it is a list of directories inside gitrepo_dir to be skipped by the gitrepo driver, when finding packages to be built. Defaults to `['openstack-macros']`
+
 ## Limitations
 
 The module has been tested on Fedora and CentOS.

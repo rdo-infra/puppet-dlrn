@@ -17,3 +17,10 @@ smtpserver=<%= @dlrn_mailserver %>
 smtpserver=
 <% end %>
 pkginfo_driver=<%= @pkginfo_driver %>
+<% if @pkginfo_driver == 'dlrn.drivers.gitrepo.GitRepoDriver' %> 
+[gitrepo_driver]
+repo=<%= @gitrepo_repo %>
+directory=<%= @gitrepo_dir %>
+skip=<%= @gitrepo_skip.join(",") %>
+<% end %>
+
