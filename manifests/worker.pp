@@ -76,6 +76,24 @@
 #   and 'dlrn.drivers.gitrepo.GitRepoDriver'
 #   Defaults to 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #
+# [*gitrepo_repo*]
+#   (optional) If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this
+#   option must be specified, and is the Git repo to use as a source.
+#   Defaults to 'http://github.com/openstack/rpm-packaging'
+#
+# [*gitrepo_dir*]
+#   (optional) If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this
+#   option must be specified, and it is the directory inside gitrepo_repo where
+#   the spec files area located
+#   Defaults to '/openstack'
+#
+# [*gitrepo_skip*]
+#   (optional) If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this
+#   option must be specified, and it is a list of directories inside
+#   gitrepo_dir to be skipped by the gitrepo driver, when finding packages to
+#   be built
+#   Defaults to ['openstack-macros']
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
@@ -105,6 +123,9 @@ define dlrn::worker (
   $rsyncport      = 22 ,
   $server_type    = $dlrn::server_type,
   $pkginfo_driver = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
+  $gitrepo_repo   = 'http://github.com/openstack/rpm-packaging',
+  $gitrepo_dir    = '/openstack',
+  $gitrepo_skip   = ['openstack-macros'],
 ) {
   user { $name:
     comment    => $name,
