@@ -8,12 +8,19 @@ source=<%= @distro_branch %>
 target=<%= @target %>
 reponame=delorean
 tags=<%= @release %>
-<% if @server_type == 'primary' %> 
+<% if @server_type == 'primary' %>
 smtpserver=<%= @dlrn_mailserver %>
 <% if @rsyncdest %>rsyncdest=<%= @rsyncdest %><% end %>
 <% if @rsyncport %>rsyncport=<%= @rsyncport %><% end %>
 <% if @gerrit_user %>gerrit=yes<% end %>
-<% elsif @server_type == 'passive' %> 
+<% elsif @server_type == 'passive' %>
 smtpserver=
 <% end %>
 pkginfo_driver=<%= @pkginfo_driver %>
+<% if @pkginfo_driver == 'dlrn.drivers.gitrepo.GitRepoDriver' %>
+[gitrepo_driver]
+repo=<%= @gitrepo_repo %>
+directory=<%= @gitrepo_dir %>
+skip=<%= @gitrepo_skip.join(",") %>
+<% end %>
+
