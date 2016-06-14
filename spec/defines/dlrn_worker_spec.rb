@@ -259,10 +259,9 @@ describe 'dlrn::worker' do
         end
 
         it 'sets up the required SSH keys' do
-          is_expected.to contain_sshkey("#{user}-review.rdoproject.org").with(
+          is_expected.to contain_sshkey('review.rdoproject.org').with(
             :ensure => 'present',
             :name   => 'review.rdoproject.org',
-            :target => "/home/#{user}/.ssh/known_hosts",
           )
         end
       end
