@@ -7,7 +7,8 @@
 3. [Setup - The basics of getting started with puppet-dlrn](#setup)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
+6. [Limitations - OS compatibility, etc.](#limitations)
+7. [Contributing](#contributing)
 
 ## Overview
 This is a Puppet module aimed at setting up a new DLRN instance from
@@ -258,3 +259,7 @@ This is the DLRN driver used to manage the distgit repositories. The current ava
 The module has been tested on Fedora and CentOS.
 
 **Important note about letsencrypt module:**This module requires puppet module letsencrypt > 1.0.0 (commit 3c5d17697f14a32f51b24d11f5c6a164d43c1a54 is required). At the time of writing this version of puppet-dlrn, latest version in puppetforge is 1.0.0 so until it's updated in puppetforge it must be cloned from  https://github.com/danzilio/puppet-letsencrypt.
+
+## Contributing
+
+The project is now using the Gerrit infrastructure at https://review.rdoproject.org, so please submit reviews there.
