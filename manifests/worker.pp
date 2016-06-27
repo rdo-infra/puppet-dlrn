@@ -5,7 +5,7 @@
 # === Parameters:
 #
 # [*distro*]
-#   (required) Distro for worker (f22, centos7...)
+#   (required) Distro for worker (f24, centos7...)
 #
 # [*target*]
 #   (required) Mock target (fedora, centos, fedora-rawhide, centos-liberty...)
@@ -32,7 +32,7 @@
 #
 # [*symlinks*]
 #   (optional) List of directories to be symlinked under to the repo directory
-#   Example: ['/var/www/html/f22','/var/www/html/f21']
+#   Example: ['/var/www/html/f24','/var/www/html/fedora24']
 #   Defaults to undef
 #
 # [*release*]
