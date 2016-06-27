@@ -195,22 +195,20 @@ This defined resource type creates all required configuration for a DLRN worker.
 
 ```puppet
 dlrn::worker { 'fedora-master':
-  distro         => 'f23',
+  distro         => 'f24',
   target         => 'fedora',
   distgit_branch => 'rpm-master',
   distro_branch  => 'master',
   disable_email  => true,
   enable_cron    => false,
-  symlinks       => ['/var/www/html/f23',
-                      '/var/www/html/f22',
-                      '/var/www/html/fedora23',
-                      '/var/www/html/fedora22'],
-  release        => 'mitaka',
+  symlinks       => ['/var/www/html/f24',
+                      '/var/www/html/fedora24'],
+  release        => 'newton',
 }
 ```
 
 ####`distro`
-The distribution used to create DLRN packages. Currently used values are `centos7`, `f23` and `f24`
+The distribution used to create DLRN packages. Currently used values are `centos7`, `f24` and `f25`
 
 ####`target`
 Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-kilo`, `centos-liberty`, 'centos-mitaka' and `fedora-master-rawhide`.
