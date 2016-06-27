@@ -308,34 +308,29 @@ describe 'dlrn::worker' do
     end
   end
 
-  context 'with special case for centos-kilo' do
+  context 'with special case for centos-liberty' do
     before :each do
-      params.merge!(:release       => 'kilo')
-      params.merge!(:target        => 'centos-kilo')
-      params.merge!(:distro_branch => 'stable/kilo')
+      params.merge!(:release       => 'liberty')
+      params.merge!(:target        => 'centos-liberty')
+      params.merge!(:distro_branch => 'stable/liberty')
     end
 
     let :title do
-      'centos-kilo'
+      'centos-liberty'
     end
 
-    it 'creates specific mock config file for centos-kilo' do
-      is_expected.to contain_file('/home/centos-kilo/dlrn/scripts/centos-kilo.cfg')
-      .with_content(/config_opts\[\'root\'\] = \'dlrn-centos-kilo-x86_64\'/)
+    it 'creates specific mock config file for centos-liberty' do
+      is_expected.to contain_file('/home/centos-liberty/dlrn/scripts/centos-liberty.cfg')
+      .with_content(/config_opts\[\'root\'\] = \'dlrn-centos-liberty-x86_64\'/)
     end
 
     it 'creates directory under /var/www/html' do
-      is_expected.to contain_file('/var/www/html/centos-kilo').with(
+      is_expected.to contain_file('/var/www/html/centos-liberty').with(
         :ensure  => 'directory',
         :mode    => '0755',
-        :path    => '/var/www/html/kilo',
+        :path    => '/var/www/html/liberty',
         :require => 'Package[httpd]',
       )
-    end
-
-    it 'sets proper baseurl in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/dlrn/centos-kilo/projects.ini")
-        .with_content(/baseurl=http:\/\/trunk.rdoproject.org\/centos7-kilo$/)
     end
   end
 

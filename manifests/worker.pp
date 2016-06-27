@@ -199,7 +199,7 @@ python setup.py develop",
   }
 
   # Special case for non-master
-  if $name =~ /^(centos|fedora)\-(kilo|liberty|mitaka)/ {
+  if $name =~ /^(centos|fedora)\-(liberty|mitaka)/ {
     $baseurl_components = split($distro_branch, '/')
     $baseurl_target     = "${distro}-${baseurl_components[1]}"
   } else {
@@ -266,8 +266,8 @@ python setup.py develop",
     }
   }
 
-  # Special case for *-mitaka, *-liberty and *-kilo
-  if $name =~ /^(centos|fedora)\-(kilo|liberty|mitaka)/ {
+  # Special case for *-mitaka and *-liberty
+  if $name =~ /^(centos|fedora)\-(liberty|mitaka)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]

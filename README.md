@@ -213,10 +213,10 @@ dlrn::worker { 'fedora-master':
 The distribution used to create DLRN packages. Currently used values are `centos7`, `f23` and `f24`
 
 ####`target`
-Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-kilo`, `centos-liberty`, 'centos-mitaka' and `fedora-master-rawhide`.
+Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-liberty`, 'centos-mitaka' and `fedora-master-rawhide`.
 
 ####`distgit_branch`
-Specifies the branch for the dist-git: `rpm-master` for trunk packages, `rpm-liberty` for stable/liberty, `rpm-kilo` for stable/kilo.
+Specifies the branch for the dist-git: `rpm-master` for trunk packages, `rpm-liberty` for stable/liberty, `rpm-mitaka` for stable/mitaka.
 
 ####`distro_branch`
 Specifies the branch for upstream git: `master`, `stable/liberty`, etc.

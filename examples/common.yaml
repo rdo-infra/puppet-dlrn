@@ -43,17 +43,6 @@ dlrn::workers:
     symlinks: ['/var/www/html/centos7-liberty', '/var/www/html/liberty/centos7']
     release: 'liberty'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-  centos-kilo:
-    name: 'centos-kilo'
-    distro: 'centos7'
-    target: 'centos-kilo'
-    distgit_branch: 'rpm-kilo'
-    distro_branch: 'stable/kilo'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    symlinks: ['/var/www/html/centos7-kilo', '/var/www/html/kilo/centos7']
-    release: 'kilo'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   fedora-master:
     name: 'fedora-master'
     distro: 'f23'
