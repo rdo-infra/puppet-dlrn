@@ -56,23 +56,23 @@ dlrn::workers:
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   fedora-master:
     name: 'fedora-master'
-    distro: 'f23'
+    distro: 'f24'
     target: 'fedora'
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
-    symlinks: ['/var/www/html/f23', '/var/www/html/f22', '/var/www/html/fedora22', '/var/www/html/fedora23' ]
+    symlinks: ['/var/www/html/f24', '/var/www/html/fedora24' ]
     release: 'newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   fedora-rawhide-master:
     name: 'fedora-rawhide-master'
-    distro: 'f24'
+    distro: 'f25'
     target: 'fedora-rawhide'
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
-    symlinks: ['/var/www/html/f24', '/var/www/html/fedora24']
+    symlinks: ['/var/www/html/f25', '/var/www/html/fedora25']
     release: 'newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
