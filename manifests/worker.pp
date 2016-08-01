@@ -30,6 +30,10 @@
 #   (optional) Enable cron jobs to run DLRN on the worker every 5 minutes
 #   Defaults to false
 #
+# [*cron_params*]
+#   (optional) Parameters to add to the DLRN cron command (run-dlrn.sh)
+#   Defaults to empty string
+#
 # [*symlinks*]
 #   (optional) List of directories to be symlinked under to the repo directory
 #   Example: ['/var/www/html/f24','/var/www/html/fedora24']
@@ -115,6 +119,7 @@ define dlrn::worker (
   $uid            = undef,
   $disable_email  = true,
   $enable_cron    = false,
+  $cron_params    = '',
   $symlinks       = undef,
   $release        = 'newton',
   $gerrit_user    = undef,
@@ -251,7 +256,7 @@ python setup.py develop",
 
   if $enable_cron and $server_type == 'primary' {
     cron { $name:
-      command => '/usr/local/bin/run-dlrn.sh',
+      command => "/usr/local/bin/run-dlrn.sh ${cron_params}",
       user    => $name,
       hour    => '*',
       minute  => '*/5'

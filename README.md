@@ -228,6 +228,9 @@ Disable e-mails when a package build fails.
 ####`enable_cron`
 Enable the cron jobs for this DLRN worker.
 
+####`cron_params`
+If enable_cron is true, we can add parameters to the run-dlrn.sh execution using this string.
+
 ####`symlinks`
 This is a list that specifies a set of symbolic links that will be created, pointing to `/home/$user/data/repos`.
 
