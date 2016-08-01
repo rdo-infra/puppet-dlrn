@@ -14,13 +14,25 @@ dlrn::workers:
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
-    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-newton']
+    cron_params: '--head-only'
+    symlinks: ['/var/www/html/centos7-master-head']
     release: 'newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   rsyncdest: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   rsyncport: '3000'
+  centos-newton:
+    name: 'centos-newton'
+    distro: 'centos7'
+    target: 'centos-newton'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-newton']
+    release: 'newton-uc'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   centos-mitaka:
     name: 'centos-mitaka'
     distro: 'centos7'
