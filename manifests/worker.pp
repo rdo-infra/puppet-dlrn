@@ -293,7 +293,7 @@ python setup.py develop",
   }
 
   # Special case for *-mitaka and *-liberty
-  if $name =~ /^(centos|fedora)\-(liberty|mitaka)/ {
+  if $name =~ /^(centos|fedora)\-(liberty|mitaka|newton)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
