@@ -51,6 +51,7 @@ dlrn::workers:
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
+    cron_env: '--head-only'
     symlinks: ['/var/www/html/f24', '/var/www/html/fedora24' ]
     release: 'newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -62,6 +63,7 @@ dlrn::workers:
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
+    cron_env: '--head-only'
     symlinks: ['/var/www/html/f25', '/var/www/html/fedora25']
     release: 'newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
