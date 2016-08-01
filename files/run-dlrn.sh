@@ -31,7 +31,7 @@ cd ~/dlrn
 
 set +e
 echo `date` "Starting DLRN run." >> $LOGFILE
-dlrn --config-file /usr/local/share/dlrn/${USER}/projects.ini --info-repo /home/rdoinfo/rdoinfo/ "$@" 2>> $LOGFILE
+dlrn --config-file /usr/local/share/dlrn/${USER}/projects.ini --info-repo /home/rdoinfo/rdoinfo/ "${DLRN_ENV}" "$@" 2>> $LOGFILE
 RET=$?
 echo `date` "DLRN run complete." >> $LOGFILE
 

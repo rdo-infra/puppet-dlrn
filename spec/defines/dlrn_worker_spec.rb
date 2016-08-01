@@ -170,7 +170,27 @@ describe 'dlrn::worker' do
 
         it 'creates cron job' do
           is_expected.to contain_cron("#{user}").with(
-            :command => '/usr/local/bin/run-dlrn.sh',
+            :command => 'DLRN_ENV= /usr/local/bin/run-dlrn.sh',
+            :user    => "#{user}",
+            :hour    => '*',
+            :minute  => '*/5',
+          )
+        end
+      end
+
+      context 'with enabled cron job and a command-line param' do
+        before :each do
+          params.merge!(:enable_cron => true)
+          params.merge!(:cron_env => '--head-only')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'creates cron job' do
+          is_expected.to contain_cron("#{user}").with(
+            :command => 'DLRN_ENV=--head-only /usr/local/bin/run-dlrn.sh',
             :user    => "#{user}",
             :hour    => '*',
             :minute  => '*/5',
