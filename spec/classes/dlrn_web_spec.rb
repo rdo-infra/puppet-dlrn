@@ -64,7 +64,7 @@ describe 'dlrn::web' do
         :source => 'puppet:///modules/dlrn/update-web-index.sh',
       ).with_before(/Cron\[update-web-index\]/)
       is_expected.to contain_cron('update-web-index').with(
-        :command => '/usr/local/bin/update-web-index.sh',
+        :command => '/usr/local/bin/update-web-index.sh > /dev/null',
         :user    => 'root',
         :hour    => '3',
         :minute  => '0',
