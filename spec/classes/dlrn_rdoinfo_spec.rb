@@ -44,7 +44,7 @@ describe 'dlrn::rdoinfo' do
 
     it 'creates an hourly cron job for rdoinfo-update' do
       is_expected.to contain_cron('rdoinfo').with(
-        :command => '/usr/local/bin/rdoinfo-update.sh',
+        :command => '/usr/local/bin/rdoinfo-update.sh > /dev/null',
         :user    => 'rdoinfo',
         :hour    => '*',
         :minute  => '7',

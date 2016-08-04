@@ -36,7 +36,7 @@ class dlrn::rdoinfo (
   }
 
   cron { 'rdoinfo':
-    command => '/usr/local/bin/rdoinfo-update.sh',
+    command => '/usr/local/bin/rdoinfo-update.sh > /dev/null',
     user    => 'rdoinfo',
     hour    => '*',
     minute  => '7'

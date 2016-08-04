@@ -58,7 +58,7 @@ class dlrn::web(
     source => 'puppet:///modules/dlrn/update-web-index.sh',
   } ->
   cron { 'update-web-index':
-    command => '/usr/local/bin/update-web-index.sh',
+    command => '/usr/local/bin/update-web-index.sh > /dev/null',
     user    => 'root',
     hour    => '3',
     minute  => '0',
