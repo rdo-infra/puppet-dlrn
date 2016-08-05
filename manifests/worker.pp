@@ -184,7 +184,7 @@ define dlrn::worker (
   }
 
   exec { "venv-${name}":
-    command => "virtualenv /home/${name}/.venv",
+    command => "virtualenv --system-site-packages /home/${name}/.venv",
     path    => '/usr/bin',
     creates => "/home/${name}/.venv",
     cwd     => "/home/${name}",
