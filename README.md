@@ -231,6 +231,12 @@ Enable the cron jobs for this DLRN worker.
 ####`cron_env`
 If enable_cron is true, we can add parameters to the run-dlrn.sh execution using this string. It will be used as an environment variable when running the script.
 
+####`cron_hour`
+If enable_cron is true, set the hour for the cron job
+
+####`cron_minute`
+If enable_cron is true, set the minute for the cron job
+
 ####`symlinks`
 This is a list that specifies a set of symbolic links that will be created, pointing to `/home/$user/data/repos`.
 

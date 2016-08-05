@@ -159,7 +159,7 @@ describe 'dlrn::worker' do
         end
       end
 
-      context 'with enabled cron job' do
+      context 'with enabled cron job and default cron params' do
         before :each do
           params.merge!(:enable_cron => true)
         end
@@ -194,6 +194,27 @@ describe 'dlrn::worker' do
             :user    => "#{user}",
             :hour    => '*',
             :minute  => '*/5',
+          )
+        end
+      end
+
+      context 'with enabled cron job and a specific schedule' do
+        before :each do
+          params.merge!(:enable_cron => true)
+          params.merge!(:cron_hour => '*/12')
+          params.merge!(:cron_minute => '30')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'creates cron job' do
+          is_expected.to contain_cron("#{user}").with(
+            :command => 'DLRN_ENV= /usr/local/bin/run-dlrn.sh',
+            :user    => "#{user}",
+            :hour    => '*/12',
+            :minute  => '30',
           )
         end
       end
