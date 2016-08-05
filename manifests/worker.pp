@@ -34,6 +34,14 @@
 #   (optional) Environment variables for DLRN cron command (run-dlrn.sh)
 #   Defaults to empty string
 #
+# [*cron_hour*]
+#   (optional) If enable_cron=true, set the hour for the cron job
+#   Defaults to '*'
+#
+# [*cron_minute*]
+#   (optional) If enable_cron=true, set the minute for the cron job
+#   Defaults to '*/5' (every 5 minutes)
+#
 # [*symlinks*]
 #   (optional) List of directories to be symlinked under to the repo directory
 #   Example: ['/var/www/html/f24','/var/www/html/fedora24']
@@ -120,6 +128,8 @@ define dlrn::worker (
   $disable_email  = true,
   $enable_cron    = false,
   $cron_env       = '',
+  $cron_hour      = '*',
+  $cron_minute    = '*/5',
   $symlinks       = undef,
   $release        = 'newton',
   $gerrit_user    = undef,
@@ -258,8 +268,8 @@ python setup.py develop",
     cron { $name:
       command => "DLRN_ENV=${cron_env} /usr/local/bin/run-dlrn.sh",
       user    => $name,
-      hour    => '*',
-      minute  => '*/5'
+      hour    => $cron_hour,
+      minute  => $cron_minute,
     }
   }
 
