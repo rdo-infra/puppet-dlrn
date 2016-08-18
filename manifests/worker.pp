@@ -25,7 +25,7 @@
 # [*disable_email*]
 #   (optional) Disable e-mail notifications
 #   Defaults to true
-# 
+#
 # [*enable_cron*]
 #   (optional) Enable cron jobs to run DLRN on the worker every 5 minutes
 #   Defaults to false
@@ -52,6 +52,11 @@
 #   Example: 'mitaka'
 #   Defaults to 'newton'
 #
+# [*baseurl*]
+#   (optional) Base URL for the exported repositories
+#   Example: 'https://trunk.rdoproject.org/centos7-mitaka'
+#   Defaults to 'http://localhost'
+#
 # [*gerrit_user*]
 #   (optional) User to run Gerrit reviews after build failures. If set to undef,
 #     do not enable Gerrit reviews
@@ -62,9 +67,9 @@
 #   (optional) E-mail for gerrit_user.
 #   Example: 'rdo-trunk@rdoproject.org'
 #   Defaults to undef
-# 
+#
 # [*rsyncdest*]
-#   (optional) destination where builtdir and reports are replicated when build is ok. 
+#   (optional) destination where builtdir and reports are replicated when build is ok.
 #     format: <user>@<ip or hostname>:<destdir>
 #   Example: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   Defaults to undef
@@ -136,6 +141,7 @@ define dlrn::worker (
   $cron_minute      = '*/5',
   $symlinks         = undef,
   $release          = 'newton',
+  $baseurl          = 'http://localhost',
   $gerrit_user      = undef,
   $gerrit_email     = undef,
   $rsyncdest        = undef,
@@ -237,14 +243,6 @@ python setup.py develop",
     creates => "/home/${name}/.venv/bin/dlrn",
     require => [Exec["venv-${name}"], Vcsrepo["/home/${name}/dlrn"], File["/home/${name}/setup_dlrn.sh"]],
     user    => $name,
-  }
-
-  # Special case for non-master
-  if $name =~ /^(centos|fedora)\-(liberty|mitaka)/ {
-    $baseurl_components = split($distro_branch, '/')
-    $baseurl_target     = "${distro}-${baseurl_components[1]}"
-  } else {
-    $baseurl_target = $distro
   }
 
   file { "/usr/local/share/dlrn/${name}":
