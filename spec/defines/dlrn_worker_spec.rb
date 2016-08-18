@@ -12,7 +12,7 @@ describe 'dlrn::worker' do
       :processorcount         => 2 }
   end
 
-  let :params do { 
+  let :params do {
     :distro         => 'centos7',
     :target         => 'centos',
     :distgit_branch => 'rpm-master',
@@ -37,7 +37,7 @@ describe 'dlrn::worker' do
             :uid        => nil,
             :managehome => 'true',
           )
-        end 
+        end
 
         it 'sets owner on home directory' do
           is_expected.to contain_file("/home/#{user}").with(
@@ -385,9 +385,9 @@ describe 'dlrn::worker' do
       'centos-master'
     end
 
-    it 'sets proper baseurl in projects.ini' do
+    it 'sets default baseurl in projects.ini' do
         is_expected.to contain_file("/usr/local/share/dlrn/centos-master/projects.ini")
-        .with_content(/baseurl=http:\/\/trunk.rdoproject.org\/centos7$/)
+        .with_content(/baseurl=http:\/\/localhost$/)
     end
   end
 
@@ -396,6 +396,7 @@ describe 'dlrn::worker' do
       params.merge!(:release       => 'liberty')
       params.merge!(:target        => 'centos-liberty')
       params.merge!(:distro_branch => 'stable/liberty')
+      params.merge!(:baseurl       => 'https://trunk.rdoproject.org/centos7-foo')
     end
 
     let :title do
@@ -414,6 +415,11 @@ describe 'dlrn::worker' do
         :path    => '/var/www/html/liberty',
         :require => 'Package[httpd]',
       )
+    end
+
+    it 'sets a custom baseurl in projects.ini' do
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-liberty/projects.ini")
+        .with_content(/baseurl=https:\/\/trunk.rdoproject.org\/centos7-foo$/)
     end
   end
 
