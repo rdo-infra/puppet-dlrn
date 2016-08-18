@@ -52,6 +52,11 @@
 #   Example: 'mitaka'
 #   Defaults to 'newton'
 #
+# [*baseurl*]
+#   (optional) Base URL for the exported repositories
+#   Example: 'https://trunk.rdoproject.org/centos7-mitaka'
+#   Defaults to 'https://trunk.rdoproject.org/centos7'
+#
 # [*gerrit_user*]
 #   (optional) User to run Gerrit reviews after build failures. If set to undef,
 #     do not enable Gerrit reviews
@@ -132,6 +137,7 @@ define dlrn::worker (
   $cron_minute    = '*/5',
   $symlinks       = undef,
   $release        = 'newton',
+  $baseurl        = 'https://trunk.rdoproject.org/centos7',
   $gerrit_user    = undef,
   $gerrit_email   = undef,
   $rsyncdest      = undef,
@@ -232,14 +238,6 @@ python setup.py develop",
     creates => "/home/${name}/.venv/bin/dlrn",
     require => [Exec["venv-${name}"], Vcsrepo["/home/${name}/dlrn"], File["/home/${name}/setup_dlrn.sh"]],
     user    => $name,
-  }
-
-  # Special case for non-master
-  if $name =~ /^(centos|fedora)\-(liberty|mitaka)/ {
-    $baseurl_components = split($distro_branch, '/')
-    $baseurl_target     = "${distro}-${baseurl_components[1]}"
-  } else {
-    $baseurl_target = $distro
   }
 
   file { "/usr/local/share/dlrn/${name}":
