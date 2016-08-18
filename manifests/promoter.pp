@@ -38,6 +38,12 @@ class dlrn::promoter (
     mode   => '0755',
   }
 
+  file { '/usr/local/bin/sync-symlinks.sh':
+    ensure => present,
+    source => 'puppet:///modules/dlrn/sync-symlinks.sh',
+    mode   => '0755',
+  }
+
   sudo::conf { 'promoter':
     priority => 99,
     content  => 'promoter ALL= NOPASSWD: /usr/local/bin/promote.sh',
