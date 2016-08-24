@@ -37,9 +37,10 @@ class dlrn::common (
     seltype => 'ssh_port_t',
   } ->
   class { 'ssh':
-    server_options => {
+    server_options     => {
       'Port' => [22, $::dlrn::common::sshd_port],
     },
+    validate_sshd_file => true,
   }
 
   $required_packages = [ 'lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
