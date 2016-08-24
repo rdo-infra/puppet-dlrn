@@ -4,3 +4,9 @@ baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-newton/
 enabled=1
 gpgcheck=0
 priority=2
+
+[rdo-qemu-ev]
+name=RDO CentOS-$releasever - QEMU EV
+baseurl=http://mirror.centos.org/centos/$releasever/virt/$basearch/kvm-common/
+gpgcheck=0
+enabled=1
