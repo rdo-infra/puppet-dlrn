@@ -1,5 +1,4 @@
 #!/bin/bash -xe
-
 # Ensure we don't allow any special characters into the script
 for ARG in $@ ; do
     if [[ ! $ARG =~ ^[a-zA-Z0-9_-]+$ ]] ; then
@@ -8,26 +7,29 @@ for ARG in $@ ; do
     fi
 done
 
-if [ -z "$1" ]; then
+hash="${1}"
+if [ -z "${hash}" ]; then
     echo "Please give me a hash to point at!"
     exit 1
 fi
 
-if [ -z "$2" ]; then
+instance="${2}"
+if [ -z "${instance}" ]; then
     echo "Please specify the DLRN instance to use!"
     exit 1
 fi
 
-LINKNAME=${3:-current-passed-ci}
+linkname="${3:-current-passed-ci}"
 
-cd /home/${2}/data/repos
+cd /home/${instance}/data/repos
 
-# verify uniqueness
-a="$(find . -maxdepth 3 -mindepth 3 -type d -name \*${1}\* | wc -l)"
-if [ "$a" != "1" ]; then
+# Verify uniqueness
+count="$(find . -maxdepth 3 -mindepth 3 -type d -name \*${hash}\* | wc -l)"
+if [ "${count}" != "1" ]; then
     echo "Uniqueness must be enforced!"
     exit 1
 fi
 
-ln -nsvf */*/*${1}* $LINKNAME
-echo "$1" >> promote-${LINKNAME}.log
+# Promote symlink locally
+ln -nsvf */*/*${hash}* ${linkname}
+echo "${hash}" >> promote-${linkname}.log
