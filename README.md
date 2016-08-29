@@ -270,6 +270,12 @@ If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be s
 ####`gitrepo_skip`
 If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be specified, and it is a list of directories inside gitrepo_dir to be skipped by the gitrepo driver, when finding packages to be built. Defaults to `['openstack-macros']`
 
+####`lsyncd_backup_server`
+If set, enable lsyncd daemon and use this host as the target for synchronization. Defaults to `undef`
+
+####`lsyncd_sshd_port`
+If `lsyncd_backup_server` is set, use this port for the ssh connection in lsyncd.
+
 ## Limitations
 
 The module has been tested on Fedora and CentOS.

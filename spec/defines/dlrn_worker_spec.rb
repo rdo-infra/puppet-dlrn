@@ -7,6 +7,7 @@ describe 'dlrn::worker' do
       :operatingsystemrelease => '24',
       :concat_basedir         => '/tmp',
       :puppetversion          => '3.7.0',
+      :selinux                => true,
       :sudoversion            => '1.8.15',
       :processorcount         => 2 }
   end
