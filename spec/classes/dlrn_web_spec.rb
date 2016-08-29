@@ -3,12 +3,15 @@ require 'hiera'
 
 describe 'dlrn::web' do
   let :facts do
-  {   :osfamily                  => 'RedHat',
+  {   :kernel                    => 'Linux',
+      :osfamily                  => 'RedHat',
       :operatingsystem           => 'Fedora',
       :operatingsystemrelease    => '24',
       :operatingsystemmajrelease => '24',
       :concat_basedir            => '/tmp',
+      :path                      => '/bin:/usr/bin:/usr/sbin',
       :puppetversion             => '3.7.0',
+      :selinux_current_mode      => 'enforcing',
       :sudoversion               => '1.8.15',
       :processorcount            => 2 }
   end
