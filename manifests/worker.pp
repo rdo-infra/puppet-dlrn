@@ -110,6 +110,15 @@
 #   be built
 #   Defaults to ['openstack-macros']
 #
+# [*lsyncd_backup_server*]
+#   (optional) If set, enable lsyncd daemon and use this host as the target
+#   for synchronization
+#   Defaults to undef
+#
+# [*lsyncd_sshd_port*]
+#   (optional) Port to use for ssh in the lsyncd configuration
+#   Defaults to 3300
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
@@ -146,6 +155,8 @@ define dlrn::worker (
   $gitrepo_repo     = 'http://github.com/openstack/rpm-packaging',
   $gitrepo_dir      = '/openstack',
   $gitrepo_skip     = ['openstack-macros'],
+  $lsyncd_backup_server = undef,
+  $lsyncd_sshd_port     = 3300,
 ) {
   user { $name:
     comment    => $name,
@@ -288,11 +299,11 @@ python setup.py develop",
   }
 
   # Set up synchronization
-  if $::dlrn::backup_server  {
+  if $lsyncd_backup_server {
     dlrn::lsyncdconfig { "lsync-${name}":
       path         => "/home/${name}",
-      sshd_port    => $::dlrn::sshd_port,
-      remoteserver => $::dlrn::backup_server,
+      sshd_port    => $lsyncd_sshd_port,
+      remoteserver => $lsyncd_backup_server,
     }
   }
 
