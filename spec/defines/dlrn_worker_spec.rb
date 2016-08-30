@@ -458,7 +458,7 @@ describe 'dlrn::worker' do
 
       it 'creates .httaccess file' do
         is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
-        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-mitaka-tested\/\$2"/)
+        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci\(\/\|\$\)\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-mitaka-tested\/\$3"/)
       end
 
       it { is_expected.not_to contain_cron("#{title}") }
@@ -506,12 +506,12 @@ describe 'dlrn::worker' do
 
       it 'creates .httaccess file' do
         is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
-        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-master-tested\/\$2"/)
+        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci\(\/\|\$\)\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-master-tested\/\$3"/)
       end
 
       it 'creates .httaccess file' do
         is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
-        .with_content(/RedirectMatch "\^\/\(.*\)\/current-tripleo\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-master-tripleo\/\$2"/)
+        .with_content(/RedirectMatch "\^\/\(.*\)\/current-tripleo\(\/\|\$\)\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-master-tripleo\/\$3"/)
       end
 
       it { is_expected.not_to contain_cron("#{title}") }
