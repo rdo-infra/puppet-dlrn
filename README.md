@@ -285,6 +285,10 @@ If set, enable lsyncd daemon and use this host as the target for synchronization
 ####`lsyncd_sshd_port`
 If `lsyncd_backup_server` is set, use this port for the ssh connection in lsyncd.
 
+####`gitrepo_use_version_from_spec`
+If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option specifies whether the gitrepo driver will parse the spec file and use the version from it as source-branch or not. Defaults to `true`.
+
+
 ## Limitations
 
 The module has been tested on Fedora and CentOS.
