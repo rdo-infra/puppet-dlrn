@@ -110,6 +110,12 @@
 #   be built
 #   Defaults to ['openstack-macros']
 #
+# [*gitrepo_use_version_from_spec*]
+#   (optional) If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this
+#   option specifies whether the gitrepo driver will parse the spec file and
+#   use the version from it as source-branch or not.
+#   Defaults to true
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
@@ -126,26 +132,27 @@
 define dlrn::worker (
   $distro,
   $target,
-  $distgit_branch   = 'rpm-master',
-  $distro_branch    = 'master',
-  $uid              = undef,
-  $disable_email    = true,
-  $enable_cron      = false,
-  $cron_env         = '',
-  $cron_hour        = '*',
-  $cron_minute      = '*/5',
-  $symlinks         = undef,
-  $release          = 'newton',
-  $gerrit_user      = undef,
-  $gerrit_email     = undef,
-  $rsyncdest        = undef,
-  $rsyncport        = 22 ,
-  $server_type      = $dlrn::server_type,
-  $worker_processes = 1,
-  $pkginfo_driver   = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
-  $gitrepo_repo     = 'http://github.com/openstack/rpm-packaging',
-  $gitrepo_dir      = '/openstack',
-  $gitrepo_skip     = ['openstack-macros'],
+  $distgit_branch                = 'rpm-master',
+  $distro_branch                 = 'master',
+  $uid                           = undef,
+  $disable_email                 = true,
+  $enable_cron                   = false,
+  $cron_env                      = '',
+  $cron_hour                     = '*',
+  $cron_minute                   = '*/5',
+  $symlinks                      = undef,
+  $release                       = 'newton',
+  $gerrit_user                   = undef,
+  $gerrit_email                  = undef,
+  $rsyncdest                     = undef,
+  $rsyncport                     = 22 ,
+  $server_type                   = $dlrn::server_type,
+  $worker_processes              = 1,
+  $pkginfo_driver                = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
+  $gitrepo_repo                  = 'http://github.com/openstack/rpm-packaging',
+  $gitrepo_dir                   = '/openstack',
+  $gitrepo_skip                  = ['openstack-macros'],
+  $gitrepo_use_version_from_spec = true,
 ) {
   user { $name:
     comment    => $name,
