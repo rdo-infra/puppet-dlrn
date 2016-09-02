@@ -23,5 +23,10 @@ pkginfo_driver=<%= @pkginfo_driver %>
 repo=<%= @gitrepo_repo %>
 directory=<%= @gitrepo_dir %>
 skip=<%= @gitrepo_skip.join(",") %>
+<% if @gitrepo_use_version_from_spec == true %>
+use_version_from_spec=1
+<% else %>
+use_version_from_spec=0
+<% end %>
 <% end %>
 
