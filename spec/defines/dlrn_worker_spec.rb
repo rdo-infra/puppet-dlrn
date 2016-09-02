@@ -326,6 +326,11 @@ describe 'dlrn::worker' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/skip=pkg1,pkg2$/)
         end
+
+        it 'sets use_version_from_spec to 1 in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/use_version_from_spec=1$/) 
+        end
       end
 
       context 'when setting a gerrit user but not an email' do
