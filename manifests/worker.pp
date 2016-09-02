@@ -75,6 +75,10 @@
 #   Example: '22'
 #   Defaults to '22'
 #
+# [*worker_processes*]
+#   (optional) Number of worker processes to use during build.
+#   Defaults to 1
+#
 # [*server_type*]
 #   (optional) server_type can be set to primary or passive. Primary server
 #   check periodically for changes in repos and synchronize every build to a
@@ -122,25 +126,26 @@
 define dlrn::worker (
   $distro,
   $target,
-  $distgit_branch = 'rpm-master',
-  $distro_branch  = 'master',
-  $uid            = undef,
-  $disable_email  = true,
-  $enable_cron    = false,
-  $cron_env       = '',
-  $cron_hour      = '*',
-  $cron_minute    = '*/5',
-  $symlinks       = undef,
-  $release        = 'newton',
-  $gerrit_user    = undef,
-  $gerrit_email   = undef,
-  $rsyncdest      = undef,
-  $rsyncport      = 22 ,
-  $server_type    = $dlrn::server_type,
-  $pkginfo_driver = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
-  $gitrepo_repo   = 'http://github.com/openstack/rpm-packaging',
-  $gitrepo_dir    = '/openstack',
-  $gitrepo_skip   = ['openstack-macros'],
+  $distgit_branch   = 'rpm-master',
+  $distro_branch    = 'master',
+  $uid              = undef,
+  $disable_email    = true,
+  $enable_cron      = false,
+  $cron_env         = '',
+  $cron_hour        = '*',
+  $cron_minute      = '*/5',
+  $symlinks         = undef,
+  $release          = 'newton',
+  $gerrit_user      = undef,
+  $gerrit_email     = undef,
+  $rsyncdest        = undef,
+  $rsyncport        = 22 ,
+  $server_type      = $dlrn::server_type,
+  $worker_processes = 1,
+  $pkginfo_driver   = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
+  $gitrepo_repo     = 'http://github.com/openstack/rpm-packaging',
+  $gitrepo_dir      = '/openstack',
+  $gitrepo_skip     = ['openstack-macros'],
 ) {
   user { $name:
     comment    => $name,

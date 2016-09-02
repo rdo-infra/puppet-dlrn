@@ -137,10 +137,30 @@ describe 'dlrn::worker' do
             .with_content(/pkginfo_driver=dlrn.drivers.rdoinfo.RdoInfoDriver$/) 
         end
 
+        it 'configures 1 worker in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/workers=1$/)
+        end
+
         it 'does not create .htaccess file' do
             is_expected.not_to contain_file("/home/#{user}/data/repos/.htaccess")
         end
 
+      end
+
+      context 'with a specific number of workers' do
+        before :each do
+          params.merge!(:worker_processes => '4')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'configures 4 workers in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/workers=4$/)
+        end
       end
 
       context 'with specific uid' do

@@ -8,6 +8,7 @@ source=<%= @distro_branch %>
 target=<%= @target %>
 reponame=delorean
 tags=<%= @release %>
+workers=<%= @worker_processes %>
 <% if @server_type == 'primary' %>
 smtpserver=<%= @dlrn_mailserver %>
 <% if @rsyncdest %>rsyncdest=<%= @rsyncdest %><% end %>

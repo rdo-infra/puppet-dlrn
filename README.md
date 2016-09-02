@@ -258,6 +258,9 @@ This is the port number for ssh in server where builtdir and reports are replica
 ####`server_type`
 This defines if the server where the worker is being configured is primary or passive (see explanation in Class: dlrn section). Defaults to the value defined
 
+####`worker_processes`
+This parameter defines the number of worker processes to use during build. Defaults to `1`.
+
 ####`pkginfo_driver`
 This is the DLRN driver used to manage the distgit repositories. The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver' and 'dlrn.drivers.gitrepo.GitRepoDriver'. Defaults to `'dlrn.drivers.rdoinfo.RdoInfoDriver'`
 
