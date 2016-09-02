@@ -273,6 +273,9 @@ If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be s
 ####`gitrepo_skip`
 If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be specified, and it is a list of directories inside gitrepo_dir to be skipped by the gitrepo driver, when finding packages to be built. Defaults to `['openstack-macros']`
 
+####`gitrepo_use_version_from_spec`
+If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option specifies whether the gitrepo driver will parse the spec file and use the version from it as source-branch or not. Defaults to `true`.
+
 ## Limitations
 
 The module has been tested on Fedora and CentOS.
