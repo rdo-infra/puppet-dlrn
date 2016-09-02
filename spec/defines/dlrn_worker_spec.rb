@@ -135,7 +135,7 @@ describe 'dlrn::worker' do
 
         it 'sets the rdoinfo driver in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
-            .with_content(/pkginfo_driver=dlrn.drivers.rdoinfo.RdoInfoDriver$/) 
+            .with_content(/pkginfo_driver=dlrn.drivers.rdoinfo.RdoInfoDriver$/)
         end
 
         it 'configures 1 worker in projects.ini' do
@@ -347,6 +347,11 @@ describe 'dlrn::worker' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/skip=pkg1,pkg2$/)
         end
+
+        it 'sets use_version_from_spec to true in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/use_version_from_spec=true$/)
+        end
       end
 
       context 'when setting a gerrit user but not an email' do
@@ -448,7 +453,7 @@ describe 'dlrn::worker' do
     before :each do
       params.merge!(:server_type    => 'passive')
     end
- 
+
     context 'with centos-mitaka name' do
       before :each do
         params.merge!(:distro_branch   => 'stable/mitaka')
