@@ -1,5 +1,5 @@
-# UUID          Group Name
-False 	Non-Interactive Users
-9f7075a36f3d785e046a3fa007f902e787709ed7       	rdo-infra/puppet-dlrn-core
-31dc609c0e41c8c3cd383922d24f8658432df5b7        	rdo-infra/puppet-dlrn-ptl
-global:Registered-Users		Registered Users
+# UUID                                  	Group Name
+#
+31dc609c0e41c8c3cd383922d24f8658432df5b7	rdo-infra/puppet-dlrn-ptl
+9f7075a36f3d785e046a3fa007f902e787709ed7	rdo-infra/puppet-dlrn-core
+global:Registered-Users                 	Registered Users
