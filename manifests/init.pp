@@ -8,11 +8,6 @@
 #   (optional) Additional port where sshd should listen
 #   Defaults to 3300
 #
-# [*backup_server*]
-#   (optional) If set, enable lsyncd daemon and use this host as the target
-#     for synchronization
-#   Defaults to undef
-#
 # [*mock_tmpfs_enable*]
 #   (optional) Enable the mock tmpfs plugin. Note this requires a lot of RAM
 #   Defaults to false
@@ -40,7 +35,6 @@
 
 class dlrn (
   $sshd_port         = 3300,
-  $backup_server     = undef,
   $mock_tmpfs_enable = false,
   $server_type       = 'primary',
   $enable_https      = false
@@ -59,23 +53,6 @@ class dlrn (
   }
   class { '::dlrn::web':
     enable_https => $enable_https
-  }
-
-  if $backup_server {
-    concat { 'lsyncd.conf':
-      path  => '/etc/lsyncd.conf',
-      owner => root,
-      group => root,
-      mode  => '0644',
-    }
-
-    service { 'lsyncd':
-      ensure => 'running',
-      enable => true,
-    }
-
-    Dlrn::Worker<||>       -> Service <| title == 'lsyncd' |>
-    Dlrn::Lsyncdconfig<||> -> Service <| title == 'lsyncd' |>
   }
 
   $workers = hiera_hash('dlrn::workers')

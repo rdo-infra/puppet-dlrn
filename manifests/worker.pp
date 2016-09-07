@@ -121,15 +121,6 @@
 #   be built
 #   Defaults to ['openstack-macros']
 #
-# [*lsyncd_backup_server*]
-#   (optional) If set, enable lsyncd daemon and use this host as the target
-#   for synchronization
-#   Defaults to undef
-#
-# [*lsyncd_sshd_port*]
-#   (optional) Port to use for ssh in the lsyncd configuration
-#   Defaults to 3300
-#
 # [*gitrepo_use_version_from_spec*]
 #   (optional) If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this
 #   option specifies whether the gitrepo driver will parse the spec file and
@@ -174,8 +165,6 @@ define dlrn::worker (
   $gitrepo_repo                  = 'http://github.com/openstack/rpm-packaging',
   $gitrepo_dir                   = '/openstack',
   $gitrepo_skip                  = ['openstack-macros'],
-  $lsyncd_backup_server          = undef,
-  $lsyncd_sshd_port              = 3300,
   $gitrepo_use_version_from_spec = true,
 ) {
   user { $name:
@@ -307,15 +296,6 @@ python setup.py develop",
       ensure  => link,
       target  => "/home/${name}/data/repos",
       require => Package['httpd'],
-    }
-  }
-
-  # Set up synchronization
-  if $lsyncd_backup_server {
-    dlrn::lsyncdconfig { "lsync-${name}":
-      path         => "/home/${name}",
-      sshd_port    => $lsyncd_sshd_port,
-      remoteserver => $lsyncd_backup_server,
     }
   }
 
