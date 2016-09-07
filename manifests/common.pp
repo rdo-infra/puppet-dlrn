@@ -47,7 +47,7 @@ class dlrn::common (
                       'mock', 'rpm-build', 'git', 'python-pip',
                       'python-virtualenv', 'gcc', 'createrepo',
                       'screen', 'python-tox', 'git-review', 'python-sh',
-                      'postfix', 'lsyncd', 'firewalld', 'openssl-devel',
+                      'postfix', 'firewalld', 'openssl-devel',
                       'libffi-devel' ]
   package { $required_packages: ensure => 'installed' }
 
@@ -147,13 +147,6 @@ class dlrn::common (
   file { '/etc/sysctl.d/00-disable-ipv6.conf':
     ensure => present,
     source => 'puppet:///modules/dlrn/00-disable-ipv6.conf',
-    mode   => '0644',
-    notify => Exec['sysctl-p'],
-  }
-
-  file { '/etc/sysctl.d/01-lsyncd-inotify.conf':
-    ensure => present,
-    source => 'puppet:///modules/dlrn/01-lsyncd-inotify.conf',
     mode   => '0644',
     notify => Exec['sysctl-p'],
   }
