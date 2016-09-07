@@ -26,11 +26,6 @@ describe 'dlrn' do
     hiera = Hiera.new(:config => 'spec/fixtures/hiera.yaml')
 
     context 'with default parameters' do
-      it 'does not configure lsyncd' do
-        is_expected.not_to contain_concat('lsyncd.conf')
-        is_expected.not_to contain_service('lsyncd')
-      end
-
       it 'creates dlrn workers based on Hiera template' do
         is_expected.to contain_dlrn__worker('centos-master').with(
           :name           => 'centos-master',
@@ -63,7 +58,6 @@ describe 'dlrn' do
     context 'with specific parameters' do
       let :params do { 
         :sshd_port     => 1234,
-        :backup_server => 'foo.example.com',
         :mock_tmpfs_enable => true}
       end
 
@@ -71,14 +65,6 @@ describe 'dlrn' do
         is_expected.to contain_class('dlrn::common').with(
           :sshd_port         => 1234,
           :mock_tmpfs_enable => :true,
-        )
-      end
-
-      it 'configures lsyncd' do
-        is_expected.to contain_concat('lsyncd.conf')
-        is_expected.to contain_service('lsyncd').with(
-          :ensure => 'running',
-          :enable => 'true',
         )
       end
     end 

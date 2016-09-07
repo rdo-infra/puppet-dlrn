@@ -48,7 +48,6 @@ class { 'dlrn': }
 
 This is a simplistic manifest, that sets everything based on default values. Specifically, the following parts will be disabled:
 
-- The lsyncd configuration.
 - E-mail notifications when package builds fail.
 - The cron jobs used to trigger periodic DLRN runs.
 
@@ -59,7 +58,6 @@ Once you have been able to check that everything is configured as expected, you 
 
 ```puppet
 class { 'dlrn':
-  backup_server          => 'testbackup.example.com',
   sshd_port              => 3300,
 }
 ```
@@ -73,7 +71,6 @@ This is the higher level class, that will configure a DLRN instance.
 ```puppet
 class { 'dlrn':
   sshd_port         => 1234,
-  backup_server     => undef,
   mock_tmpfs_enable => false,
   server_type       => 'primary',
   enable_https      => false
@@ -82,9 +79,6 @@ class { 'dlrn':
 
 ####`sshd_port`
 Specifies the alternate port sshd will use to listen to. This is useful when you need to access your DLRN instance over the Internet, to reduce the amount of automated attacks against sshd.
-
-####`backup_server`
-The DLRN instance architecture includes a secondary server, where all repos are synchronized using lsyncd. If this variable is set, the required lsyncd configuration will be created to enable this synchronization. Be aware that you will need to configure passwordless SSH access to root@backup_server for this to work.
 
 ####`mock_tmpfs_enable`
 Enables the Mock TMPfs plugin. Note this will enable creation of a file system in RAM using up to 6 GB per worker, so be sure you have enough RAM and swap for all workers.
@@ -167,27 +161,6 @@ Enable ssl in apache configuration. Certificates are managed using Let's Encrypt
 ####`cert_mail`
 The email address to use to register with Let's Encrypt. Required if enable_https is set to true.
 
-
-### Define dlrn::lsyncdconfig
-
-This defined resource type is used to create the configuration fragments for file /etc/lsyncd.conf.
-
-```puppet
-dlrn::lsyncdconfig { 'lsync-user':
-  path         => '/home/user',
-  sshd_port    => 1234,
-  remoteserver => 'backupserver.example.com',
-}
-```
-
-####`path`
-Specifies the path to synchronize. The target path will be the same as the source path.
-
-####`sshd_port`
-Specifies the alternate port sshd is listening to.
-
-####`remoteserver`
-Specifies the backup server.  Be aware that you will need to configure passwordless SSH access to root@backup_server for this to work.
 
 ### Define dlrn:worker
 
@@ -278,12 +251,6 @@ If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be s
 
 ####`gitrepo_skip`
 If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be specified, and it is a list of directories inside gitrepo_dir to be skipped by the gitrepo driver, when finding packages to be built. Defaults to `['openstack-macros']`
-
-####`lsyncd_backup_server`
-If set, enable lsyncd daemon and use this host as the target for synchronization. Defaults to `undef`
-
-####`lsyncd_sshd_port`
-If `lsyncd_backup_server` is set, use this port for the ssh connection in lsyncd.
 
 ####`gitrepo_use_version_from_spec`
 If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option specifies whether the gitrepo driver will parse the spec file and use the version from it as source-branch or not. Defaults to `true`.
