@@ -4,4 +4,4 @@
 #baseurl=https://copr-be.cloud.fedoraproject.org/results/apevec/RDO-Liberty/fedora-rawhide-$basearch/
 #enabled=1
 #gpgcheck=0
-#priority=2
+
