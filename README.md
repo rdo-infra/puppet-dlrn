@@ -249,6 +249,9 @@ This is a user to run Gerrit reviews for packages after build failures. If set t
 ####`gerrit_email` 
 This is the email for the user to run Gerrit reviews for packages after build failures. It is required when `gerrit_user` is set, and ignored otherwise.
 
+####`gerrit_topic`
+This is the Gerrit topic to use when opening a review for packages after build failures. It is ignored if `gerrit_user` is not set.
+
 ####`rsyncdest`
 This is the destination where builtdir and reports are replicated when build is ok in scp-like format. Defaults to `undef`, which means that replication is disabled.
 
