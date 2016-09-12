@@ -13,7 +13,8 @@ workers=<%= @worker_processes %>
 smtpserver=<%= @dlrn_mailserver %>
 <% if @rsyncdest %>rsyncdest=<%= @rsyncdest %><% end %>
 <% if @rsyncport %>rsyncport=<%= @rsyncport %><% end %>
-<% if @gerrit_user %>gerrit=yes<% end %>
+<% if @gerrit_user %>gerrit=yes
+gerrit_topic=<%= @gerrit_topic %><% end %>
 <% elsif @server_type == 'passive' %>
 smtpserver=
 <% end %>

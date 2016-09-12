@@ -68,6 +68,12 @@
 #   Example: 'rdo-trunk@rdoproject.org'
 #   Defaults to undef
 #
+# [*gerrit_topic*]
+#   (optional) Gerrit topic to use when opening a review. Only used it gerrit_user
+#   is set
+#   Example: 'rdo-FTBFS-mitaka'
+#   Defaults to 'rdo-FTBFS'
+#
 # [*rsyncdest*]
 #   (optional) destination where builtdir and reports are replicated when build is ok.
 #     format: <user>@<ip or hostname>:<destdir>
@@ -153,6 +159,7 @@ define dlrn::worker (
   $baseurl          = 'http://localhost',
   $gerrit_user      = undef,
   $gerrit_email     = undef,
+  $gerrit_topic     = 'rdo-FTBFS',
   $rsyncdest        = undef,
   $rsyncport        = 22 ,
   $server_type      = $dlrn::server_type,

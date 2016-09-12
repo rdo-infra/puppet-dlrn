@@ -320,11 +320,33 @@ describe 'dlrn::worker' do
           )
         end
 
+        it 'sets the default Gerrit topic' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/gerrit_topic=rdo-FTBFS$/)
+        end
+
         it 'sets up the required SSH keys' do
           is_expected.to contain_sshkey('review.rdoproject.org').with(
             :ensure => 'present',
             :name   => 'review.rdoproject.org',
           )
+        end
+      end
+
+      context 'when setting a specific gerrit topic' do
+        before :each do
+          params.merge!(:gerrit_user => 'foo')
+          params.merge!(:gerrit_email => 'foo@rdoproject.org')
+          params.merge!(:gerrit_topic => 'rdo-FTBFS-anotherbranch')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'sets the right Gerrit topic' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/gerrit_topic=rdo-FTBFS-anotherbranch$/)
         end
       end
 

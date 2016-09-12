@@ -16,7 +16,7 @@ scratch.
 
 ## Module Description
 
-[DLRN](https://github.com/openstack-packages/DLRN) builds and maintains yum repositories following OpenStack uptream commit streams. 
+[DLRN](https://github.com/openstack-packages/DLRN) builds and maintains yum repositories following OpenStack uptream commit streams.
 
 The DLRN infrastructure on an instance contains the following components:
 
@@ -246,11 +246,14 @@ This is the release name this worker will be targetting, in lower case. For exam
 ####`baseurl`
 This is the base URL for the exported repositories. It will be used as part of the generated .repo file. For example, 'https://trunk.rdoproject.org/centos7-mitaka'
 
-####`gerrit_user` 
+####`gerrit_user`
 This is a user to run Gerrit reviews for packages after build failures. If set to undef (default), Gerrit reviews are disabled for this worker.
 
-####`gerrit_email` 
+####`gerrit_email`
 This is the email for the user to run Gerrit reviews for packages after build failures. It is required when `gerrit_user` is set, and ignored otherwise.
+
+####`gerrit_topic`
+This is the Gerrit topic to use when opening a review for packages after build failures. It is ignored if `gerrit_user` is not set.
 
 ####`rsyncdest`
 This is the destination where builtdir and reports are replicated when build is ok in scp-like format. Defaults to `undef`, which means that replication is disabled.
