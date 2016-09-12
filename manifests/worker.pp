@@ -25,7 +25,7 @@
 # [*disable_email*]
 #   (optional) Disable e-mail notifications
 #   Defaults to true
-# 
+#
 # [*enable_cron*]
 #   (optional) Enable cron jobs to run DLRN on the worker every 5 minutes
 #   Defaults to false
@@ -62,9 +62,15 @@
 #   (optional) E-mail for gerrit_user.
 #   Example: 'rdo-trunk@rdoproject.org'
 #   Defaults to undef
-# 
+#
+# [*gerrit_topic*]
+#   (optional) Gerrit topic to use when opening a review. Only used it gerrit_user
+#   is set
+#   Example: 'rdo-FTBFS-mitaka'
+#   Defaults to 'rdo-FTBFS'
+#
 # [*rsyncdest*]
-#   (optional) destination where builtdir and reports are replicated when build is ok. 
+#   (optional) destination where builtdir and reports are replicated when build is ok.
 #     format: <user>@<ip or hostname>:<destdir>
 #   Example: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   Defaults to undef
@@ -147,6 +153,7 @@ define dlrn::worker (
   $release          = 'newton',
   $gerrit_user      = undef,
   $gerrit_email     = undef,
+  $gerrit_topic     = 'rdo-FTBFS',
   $rsyncdest        = undef,
   $rsyncport        = 22 ,
   $server_type      = $dlrn::server_type,
