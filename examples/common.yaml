@@ -16,14 +16,29 @@ dlrn::workers:
     enable_cron: *enable_cron
     cron_env: '--head-only'
     symlinks: ['/var/www/html/centos7-master-head']
-    release: 'newton'
+    release: 'ocata'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
-#   gerrit_topic: 'rdo-FTBFS'
+#   gerrit_topic: 'rdo-FTBFS-master-head'
 #   rsyncdest: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   rsyncport: '3000'
+  centos-ocata:
+    name: 'centos-ocata'
+    distro: 'centos7'
+    target: 'centos-ocata'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-ocata']
+    release: 'ocata-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos7'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+#   gerrit_user: 'rdo-trunk'
+#   gerrit_email: 'rdo-trunk@rdoproject.org'
+#   gerrit_topic: 'rdo-FTBFS'
   centos-newton:
     name: 'centos-newton'
     distro: 'centos7'
@@ -32,9 +47,9 @@ dlrn::workers:
     distro_branch: 'stable/newton'
     disable_email: *disable_email
     enable_cron: *enable_cron
-    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-newton']
-    release: 'newton-uc'
-    baseurl: 'https://trunk.rdoproject.org/centos7'
+    symlinks: ['/var/www/html/centos7-newton', '/var/www/html/newton/centos7']
+    release: 'newton'
+    baseurl: 'https://trunk.rdoproject.org/centos7-newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   centos-mitaka:
     name: 'centos-mitaka'
