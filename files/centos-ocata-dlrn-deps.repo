@@ -1,6 +1,6 @@
 [delorean-ocata-testing]
 name=dlrn-ocata-testing
-baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-ocata/
+baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-newton/
 enabled=1
 gpgcheck=0
 priority=2
