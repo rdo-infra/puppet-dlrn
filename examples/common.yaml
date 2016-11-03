@@ -24,10 +24,10 @@ dlrn::workers:
 #   gerrit_topic: 'rdo-FTBFS-master-head'
 #   rsyncdest: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   rsyncport: '3000'
-  centos-ocata:
-    name: 'centos-ocata'
+  centos-master-uc:
+    name: 'centos-master-uc'
     distro: 'centos7'
-    target: 'centos-ocata'
+    target: 'centos-master-uc'
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
     disable_email: *disable_email
