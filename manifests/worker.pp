@@ -310,8 +310,19 @@ python setup.py develop",
     }
   }
 
-  # Special case for *-mitaka and *-liberty
-  if $name =~ /^(centos|fedora)\-(liberty|mitaka|newton|ocata)/ {
+  # Special case for centos-master-uc
+  if $name == 'centos-master-uc' {
+    $worker_os      = 'centos'
+    $worker_version = 'master-uc'
+    file { "/home/${name}/dlrn/scripts/${worker_os}-${worker_version}.cfg":
+      ensure  => present,
+      content => template("dlrn/${worker_os}.cfg.erb"),
+      require => Vcsrepo["/home/${name}/dlrn"],
+    }
+  }
+
+  # Special case for *-newton, *-mitaka and *-liberty
+  if $name =~ /^(centos|fedora)\-(liberty|mitaka|newton)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
