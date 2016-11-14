@@ -10,7 +10,7 @@ dlrn::workers:
     name: 'centos-master'
     distro: 'centos7'
     target: 'centos'
-    distgit_branch: 'rpm-master'
+    distgit_branch: 'rpm-master-head'
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
