@@ -25,7 +25,7 @@ describe 'dlrn::worker' do
 
 
   context 'with default parameters' do
-    ['fedora-master', 'centos-master', 'centos-liberty'].each do |user|
+    ['fedora-master', 'centos-master', 'centos-newton'].each do |user|
       describe "when user is #{user}" do
         let :title do
           user
@@ -275,7 +275,7 @@ describe 'dlrn::worker' do
 
       context 'when specifying release' do
         before :each do
-          params.merge!(:release => 'liberty')
+          params.merge!(:release => 'newton')
         end
 
         let :title do
@@ -284,7 +284,7 @@ describe 'dlrn::worker' do
 
         it 'sets tags in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
-            .with_content(/tags=liberty$/)
+            .with_content(/tags=newton$/)
         end
       end
 
@@ -418,34 +418,34 @@ describe 'dlrn::worker' do
     end
   end
 
-  context 'with special case for centos-liberty' do
+  context 'with special case for centos-newton' do
     before :each do
-      params.merge!(:release       => 'liberty')
-      params.merge!(:target        => 'centos-liberty')
-      params.merge!(:distro_branch => 'stable/liberty')
+      params.merge!(:release       => 'newton')
+      params.merge!(:target        => 'centos-newton')
+      params.merge!(:distro_branch => 'stable/newton')
       params.merge!(:baseurl       => 'https://trunk.rdoproject.org/centos7-foo')
     end
 
     let :title do
-      'centos-liberty'
+      'centos-newton'
     end
 
-    it 'creates specific mock config file for centos-liberty' do
-      is_expected.to contain_file('/home/centos-liberty/dlrn/scripts/centos-liberty.cfg')
-      .with_content(/config_opts\[\'root\'\] = \'dlrn-centos-liberty-x86_64\'/)
+    it 'creates specific mock config file for centos-newton' do
+      is_expected.to contain_file('/home/centos-newton/dlrn/scripts/centos-newton.cfg')
+      .with_content(/config_opts\[\'root\'\] = \'dlrn-centos-newton-x86_64\'/)
     end
 
     it 'creates directory under /var/www/html' do
-      is_expected.to contain_file('/var/www/html/centos-liberty').with(
+      is_expected.to contain_file('/var/www/html/centos-newton').with(
         :ensure  => 'directory',
         :mode    => '0755',
-        :path    => '/var/www/html/liberty',
+        :path    => '/var/www/html/newton',
         :require => 'Package[httpd]',
       )
     end
 
     it 'sets a custom baseurl in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/dlrn/centos-liberty/projects.ini")
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-newton/projects.ini")
         .with_content(/baseurl=https:\/\/trunk.rdoproject.org\/centos7-foo$/)
     end
   end

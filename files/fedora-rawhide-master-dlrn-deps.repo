@@ -1,6 +1,0 @@
-# No Copr for now
-#[delorean-liberty-testing]
-#name=dlrn-liberty-testing
-#baseurl=https://copr-be.cloud.fedoraproject.org/results/apevec/RDO-Liberty/fedora-rawhide-$basearch/
-#enabled=1
-#gpgcheck=0
