@@ -8,7 +8,7 @@
 #   (required) Distro for worker (f24, centos7...)
 #
 # [*target*]
-#   (required) Mock target (fedora, centos, fedora-rawhide, centos-liberty...)
+#   (required) Mock target (fedora, centos, fedora-rawhide, centos-newton...)
 #
 # [*distgit_branch*]
 #   (optional) Branch for dist-git
@@ -321,8 +321,8 @@ python setup.py develop",
     }
   }
 
-  # Special case for *-newton, *-mitaka and *-liberty
-  if $name =~ /^(centos|fedora)\-(liberty|mitaka|newton)/ {
+  # Special case for *-newton and *-mitaka
+  if $name =~ /^(centos|fedora)\-(mitaka|newton)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
