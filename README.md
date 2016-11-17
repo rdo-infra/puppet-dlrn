@@ -184,13 +184,13 @@ dlrn::worker { 'fedora-master':
 The distribution used to create DLRN packages. Currently used values are `centos7`, `f24` and `f25`
 
 ####`target`
-Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-liberty`, 'centos-mitaka' and `fedora-master-rawhide`.
+Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-newton`, 'centos-mitaka' and `fedora-master-rawhide`.
 
 ####`distgit_branch`
-Specifies the branch for the dist-git: `rpm-master` for trunk packages, `rpm-liberty` for stable/liberty, `rpm-mitaka` for stable/mitaka.
+Specifies the branch for the dist-git: `rpm-master` for trunk packages, `newton-rdo` for stable/newton, `rpm-mitaka` for stable/mitaka.
 
 ####`distro_branch`
-Specifies the branch for upstream git: `master`, `stable/liberty`, etc.
+Specifies the branch for upstream git: `master`, `stable/newton`, etc.
 
 ####`uid`
 Specifies the UID to use for the worker user. Defaults ti `undef`, which means "let the operating system choose automatically".
@@ -214,7 +214,7 @@ If enable_cron is true, set the minute for the cron job
 This is a list that specifies a set of symbolic links that will be created, pointing to `/home/$user/data/repos`.
 
 ####`release`
-This is the release name this worker will be targetting, in lower case. For example, 'mitaka' or 'liberty'.
+This is the release name this worker will be targetting, in lower case. For example, 'mitaka' or 'newton'.
 
 ####`baseurl`
 This is the base URL for the exported repositories. It will be used as part of the generated .repo file. For example, 'https://trunk.rdoproject.org/centos7-mitaka'
