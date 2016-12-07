@@ -2,14 +2,15 @@ require 'spec_helper'
 
 describe 'dlrn::worker' do
   let :facts do
-  {   :osfamily               => 'RedHat',
-      :operatingsystem        => 'Fedora',
-      :operatingsystemrelease => '24',
-      :concat_basedir         => '/tmp',
-      :puppetversion          => '3.7.0',
-      :selinux                => true,
-      :sudoversion            => '1.8.15',
-      :processorcount         => 2 }
+  {   :osfamily                  => 'RedHat',
+      :operatingsystem           => 'Fedora',
+      :operatingsystemrelease    => '24',
+      :operatingsystemmajrelease => '24',
+      :concat_basedir            => '/tmp',
+      :puppetversion             => '3.7.0',
+      :selinux                   => true,
+      :sudoversion               => '1.8.15',
+      :processorcount            => 2 }
   end
 
   let :params do {
