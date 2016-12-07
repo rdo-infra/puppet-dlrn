@@ -168,6 +168,12 @@ class dlrn::common (
     mode   => '0755',
   }
 
+  file { '/usr/local/bin/run-purge.sh':
+    ensure => present,
+    source => 'puppet:///modules/dlrn/run-purge.sh',
+    mode   => '0755',
+  }
+
   file { '/root/fix-fails.sql':
     ensure => present,
     source => 'puppet:///modules/dlrn/fix-fails.sql',
