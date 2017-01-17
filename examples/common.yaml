@@ -46,6 +46,27 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
+  centos-ocata:
+    name: 'centos-ocata'
+    distro: 'centos7'
+    target: 'centos-ocata'
+    distgit_branch: 'ocata-rdo'
+    distro_branch: 'stable/ocata'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+#   TODO(jpena): Re-enable once the bootstrap phase is done
+    enable_purge: false
+    purge_hour: '2'
+    purge_minute: '37'
+#   TODO(jpena): Update symlinks once the bootstrap phase is done
+    symlinks: ['/var/www/html/centos7-ocata-bootstrap']
+    release: 'ocata-uc'
+#   TODO(jpena): Update URL once the bootstrap phase is done
+    baseurl: 'https://trunk.rdoproject.org/centos7-ocata-bootstrap'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+#   gerrit_user: 'rdo-trunk'
+#   gerrit_email: 'rdo-trunk@rdoproject.org'
+#   gerrit_topic: 'rdo-FTBFS-ocata'
   centos-newton:
     name: 'centos-newton'
     distro: 'centos7'
