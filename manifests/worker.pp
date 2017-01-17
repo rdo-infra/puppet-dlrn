@@ -321,8 +321,8 @@ python setup.py develop",
     }
   }
 
-  # Special case for *-newton and *-mitaka
-  if $name =~ /^(centos|fedora)\-(mitaka|newton)/ {
+  # Special case for *-ocata, *-newton and *-mitaka
+  if $name =~ /^(centos|fedora)\-(mitaka|newton|ocata)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
