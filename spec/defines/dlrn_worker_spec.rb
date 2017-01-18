@@ -241,6 +241,47 @@ describe 'dlrn::worker' do
         end
       end
 
+      context 'with enabled purge job and default params' do
+        before :each do
+          params.merge!(:enable_purge => true)
+        end
+
+        let :title do
+          user
+        end
+
+        it 'creates cron job' do
+          is_expected.to contain_cron("#{user}-purge").with(
+            :command => '/usr/local/bin/run-purge.sh',
+            :user    => "#{user}",
+            :hour    => '1',
+            :minute  => '7',
+          )
+        end
+      end
+
+      context 'with enabled purge job and a specific schedule' do
+        before :each do
+          params.merge!(:enable_purge => true)
+          params.merge!(:purge_hour => '5')
+          params.merge!(:purge_minute => '35')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'creates cron job' do
+          is_expected.to contain_cron("#{user}-purge").with(
+            :command => '/usr/local/bin/run-purge.sh',
+            :user    => "#{user}",
+            :hour    => '5',
+            :minute  => '35',
+          )
+        end
+      end
+
+
       context 'with enabled emails' do
         before :each do
           params.merge!(:disable_email => false)
