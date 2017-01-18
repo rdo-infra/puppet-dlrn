@@ -1,5 +1,6 @@
 ---
 enable_worker_cronjobs: &enable_cron false
+enable_purge_cronjobs: &enable_purge false
 disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
@@ -15,6 +16,9 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     cron_env: '--head-only'
+    enable_purge: *enable_purge
+    purge_hour: '1'
+    purge_minute: '7'
     symlinks: ['/var/www/html/centos7-master-head']
     release: 'ocata'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
@@ -32,6 +36,9 @@ dlrn::workers:
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '2'
+    purge_minute: '7'
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-ocata']
     release: 'ocata-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
@@ -47,6 +54,9 @@ dlrn::workers:
     distro_branch: 'stable/newton'
     disable_email: *disable_email
     enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '3'
+    purge_minute: '7'
     symlinks: ['/var/www/html/centos7-newton', '/var/www/html/newton/centos7']
     release: 'newton'
     baseurl: 'https://trunk.rdoproject.org/centos7-newton'
@@ -59,6 +69,9 @@ dlrn::workers:
     distro_branch: 'stable/mitaka'
     disable_email: *disable_email
     enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '4'
+    purge_minute: '7'
     symlinks: ['/var/www/html/centos7-mitaka', '/var/www/html/mitaka/centos7']
     release: 'mitaka'
     baseurl: 'https://trunk.rdoproject.org/centos7-mitaka'
@@ -72,6 +85,9 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     cron_env: '--head-only'
+    enable_purge: *enable_purge
+    purge_hour: '5'
+    purge_minute: '7'
     symlinks: ['/var/www/html/f24', '/var/www/html/fedora24' ]
     release: 'newton'
     baseurl: 'https://trunk.rdoproject.org/f24'
@@ -85,6 +101,9 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     cron_env: '--head-only'
+    enable_purge: *enable_purge
+    purge_hour: '6'
+    purge_minute: '7'
     symlinks: ['/var/www/html/f25', '/var/www/html/fedora25']
     release: 'newton'
     baseurl: 'https://trunk.rdoproject.org/f25'

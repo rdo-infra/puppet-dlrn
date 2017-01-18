@@ -42,6 +42,19 @@
 #   (optional) If enable_cron=true, set the minute for the cron job
 #   Defaults to '*/5' (every 5 minutes)
 #
+# [*enable_purge*]
+#   (optional) Enable a cron job to periodically purge old commits from the
+#   DLRN db and file system, reducing space requirements.
+#   Defaults to false
+#
+# [*purge_hour*]
+#   (optional) If enable_purge=true, set the hour for the cron job
+#   Defaults to '1'
+#
+# [*purge_minute*]
+#   (optional) If enable_purge=true, set the minute for the cron job
+#   Defaults to '7'
+#
 # [*symlinks*]
 #   (optional) List of directories to be symlinked under to the repo directory
 #   Example: ['/var/www/html/f24','/var/www/html/fedora24']
@@ -151,6 +164,9 @@ define dlrn::worker (
   $cron_env                      = '',
   $cron_hour                     = '*',
   $cron_minute                   = '*/5',
+  $enable_purge                  = false,
+  $purge_hour                    = '1',
+  $purge_minute                  = '7',
   $symlinks                      = undef,
   $release                       = 'newton',
   $baseurl                       = 'http://localhost',
@@ -287,6 +303,15 @@ python setup.py develop",
       user    => $name,
       hour    => $cron_hour,
       minute  => $cron_minute,
+    }
+  }
+
+  if $enable_purge and $server_type == 'primary' {
+    cron { "${name}-purge":
+      command => "/usr/local/bin/run-purge.sh",
+      user    => $name,
+      hour    => $purge_hour,
+      minute  => $purge_minute,
     }
   }
 

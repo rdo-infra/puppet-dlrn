@@ -210,6 +210,15 @@ If enable_cron is true, set the hour for the cron job
 ####`cron_minute`
 If enable_cron is true, set the minute for the cron job
 
+####`enable_purge`
+Enable a cron job to periodically purge old commits from the DLRN db and file system, reducing space requirements. Defaults to false.
+
+####`purge_hour`
+If enable_purge is true, set the hour for the cron job. Defaults to '1'.
+
+####`purge_minute`
+If enable_purge=true, set the minute for the cron job. Defaults to '7'.
+
 ####`symlinks`
 This is a list that specifies a set of symbolic links that will be created, pointing to `/home/$user/data/repos`.
 
