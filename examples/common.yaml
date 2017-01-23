@@ -39,7 +39,7 @@ dlrn::workers:
     enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '7'
-    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-ocata']
+    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
     release: 'ocata-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -54,15 +54,12 @@ dlrn::workers:
     distro_branch: 'stable/ocata'
     disable_email: *disable_email
     enable_cron: *enable_cron
-#   TODO(jpena): Re-enable once the bootstrap phase is done
-    enable_purge: false
+    enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '37'
-#   TODO(jpena): Update symlinks once the bootstrap phase is done
-    symlinks: ['/var/www/html/centos7-ocata-bootstrap']
+    symlinks: ['/var/www/html/centos7-ocata', '/var/www/html/ocata/centos7']
     release: 'ocata-uc'
-#   TODO(jpena): Update URL once the bootstrap phase is done
-    baseurl: 'https://trunk.rdoproject.org/centos7-ocata-bootstrap'
+    baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
