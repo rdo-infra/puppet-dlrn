@@ -33,7 +33,9 @@ describe 'dlrn::web' do
     end
 
     it 'enables http port' do
-      is_expected.to contain_apache__vhost('dummy.example.com').with(:port => 80)
+      is_expected.to contain_apache__vhost('dummy.example.com').with(
+        :port            => 80,
+        :redirect_status => nil)
     end
 
     it 'creates /var/www/html/images' do
@@ -108,6 +110,13 @@ describe 'dlrn::web' do
         :ssl_protocol         => 'ALL -SSLv2 -SSLv3',
         :ssl_honorcipherorder => 'on'
       )
+    end
+
+    it 'creates redirection from http to https' do
+      is_expected.to contain_apache__vhost('dummy.example.com').with(
+        :port            => 80,
+        :redirect_status => 'permanent',
+        :redirect_dest   => 'https://dummy.example.com')
     end
 
     it 'does create ssl certificates' do

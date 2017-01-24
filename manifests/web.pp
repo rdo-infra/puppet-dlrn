@@ -28,19 +28,6 @@ class dlrn::web(
     default_vhost => false,
   }
 
-  apache::vhost { $web_domain:
-    port          => 80,
-    default_vhost => true,
-    override      => 'FileInfo',
-    docroot       => '/var/www/html',
-    servername    => 'default'
-  } ->
-  wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
-    destination => '/var/www/html/index.html',
-    cache_dir   => '/var/cache/wget',
-    require     => Package['httpd'],
-  }
-
   file { '/var/www/html/images':
     ensure  => directory,
     mode    => '0755',
@@ -90,7 +77,27 @@ class dlrn::web(
       ssl_protocol         => 'ALL -SSLv2 -SSLv3',
       ssl_honorcipherorder => 'on',
     }
+    $redirect_status = 'permanent'
+    $redirect_dest   = "https://${web_domain}"
+  }  else {
+    $redirect_status = undef
+    $redirect_dest   = undef
   }
 
+
+  apache::vhost { $web_domain:
+    port            => 80,
+    default_vhost   => true,
+    override        => 'FileInfo',
+    docroot         => '/var/www/html',
+    servername      => 'default',
+    redirect_status => $redirect_status,
+    redirect_dest   => $redirect_dest,
+  } ->
+  wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
+    destination => '/var/www/html/index.html',
+    cache_dir   => '/var/cache/wget',
+    require     => Package['httpd'],
+  }
 }
 
