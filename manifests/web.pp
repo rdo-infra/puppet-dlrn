@@ -40,34 +40,6 @@ class dlrn::web(
     default_vhost => false,
   }
 
-
-  if $enable_api {
-    include ::apache::mod::wsgi
-    apache::listen { '80': }
-
-    apache::vhost::custom { $web_domain:
-      content => template('dlrn/custom_vhost_80.erb'),
-    } ->
-    wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
-      destination => '/var/www/html/index.html',
-      cache_dir   => '/var/cache/wget',
-      require     => Package['httpd'],
-    }
-  } else {
-      apache::vhost { $web_domain:
-        port          => 80,
-        default_vhost => true,
-        override      => 'FileInfo',
-        docroot       => '/var/www/html',
-        servername    => 'default'
-      } ->
-      wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
-        destination => '/var/www/html/index.html',
-        cache_dir   => '/var/cache/wget',
-        require     => Package['httpd'],
-      }
-  }
-
   file { '/var/www/html/images':
     ensure  => directory,
     mode    => '0755',
@@ -128,6 +100,40 @@ class dlrn::web(
         require              => Letsencrypt::Certonly[$web_domain],
       }
     }
+    $redirect_status = 'permanent'
+    $redirect_dest   = "https://${web_domain}"
+  }  else {
+    $redirect_status = undef
+    $redirect_dest   = undef
+  }
+
+  if $enable_api {
+    include ::apache::mod::wsgi
+    apache::listen { '80': }
+
+    apache::vhost::custom { $web_domain:
+      content => template('dlrn/custom_vhost_80.erb'),
+    } ->
+    wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
+      destination => '/var/www/html/index.html',
+      cache_dir   => '/var/cache/wget',
+      require     => Package['httpd'],
+    }
+  } else {
+      apache::vhost { $web_domain:
+        port            => 80,
+        default_vhost   => true,
+        override        => 'FileInfo',
+        docroot         => '/var/www/html',
+        servername      => 'default',
+        redirect_status => $redirect_status,
+        redirect_dest   => $redirect_dest,
+      } ->
+      wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
+        destination => '/var/www/html/index.html',
+        cache_dir   => '/var/cache/wget',
+        require     => Package['httpd'],
+      }
   }
 }
 
