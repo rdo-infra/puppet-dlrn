@@ -21,5 +21,9 @@
   ServerSignature Off
   CustomLog "/var/log/httpd/<%= @web_domain %>_access.log" combined
 
+<% if @redirect_status %>
+  ## Redirect rules
+  Redirect <%= @redirect_status %>  / <%= @redirect_dest %>
+<% end%>
 </VirtualHost>
 
