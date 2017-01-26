@@ -16,6 +16,8 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     cron_env: '--head-only'
+    cron_hour: '*/4'
+    cron_minute: '5'
     enable_purge: *enable_purge
     purge_hour: '1'
     purge_minute: '7'
@@ -91,6 +93,8 @@ dlrn::workers:
     distro_branch: 'stable/mitaka'
     disable_email: *disable_email
     enable_cron: *enable_cron
+    cron_hour: '*/12'
+    cron_minute: '30'
     enable_purge: *enable_purge
     purge_hour: '4'
     purge_minute: '7'
@@ -107,6 +111,8 @@ dlrn::workers:
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
+    cron_hour: '*/12'
+    cron_minute: '15'
     cron_env: '--head-only'
     enable_purge: *enable_purge
     purge_hour: '5'
@@ -125,6 +131,8 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     cron_env: '--head-only'
+    cron_hour: '*/12'
+    cron_minute: '45'
     enable_purge: *enable_purge
     purge_hour: '6'
     purge_minute: '7'
