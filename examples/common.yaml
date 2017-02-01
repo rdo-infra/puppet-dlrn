@@ -4,6 +4,8 @@ enable_purge_cronjobs: &enable_purge false
 disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
+dlrn::web::enable_api: true
+dlrn::web::api_workers: ['centos-master-uc', 'centos-ocata', 'centos-newton', 'centos-mitaka']
 dlrn::web::cert_mail: undef
 
 dlrn::workers:
