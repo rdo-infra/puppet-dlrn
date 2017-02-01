@@ -42,6 +42,8 @@ dlrn::workers:
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
     release: 'ocata-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
+    enable_api: true
+    api_port: 8080
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
@@ -60,6 +62,8 @@ dlrn::workers:
     symlinks: ['/var/www/html/centos7-ocata', '/var/www/html/ocata/centos7']
     release: 'ocata-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
+    enable_api: true
+    api_port: 8081
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
@@ -78,6 +82,8 @@ dlrn::workers:
     symlinks: ['/var/www/html/centos7-newton', '/var/www/html/newton/centos7']
     release: 'newton'
     baseurl: 'https://trunk.rdoproject.org/centos7-newton'
+    enable_api: true
+    api_port: 8082
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   centos-mitaka:
     name: 'centos-mitaka'
@@ -93,6 +99,8 @@ dlrn::workers:
     symlinks: ['/var/www/html/centos7-mitaka', '/var/www/html/mitaka/centos7']
     release: 'mitaka'
     baseurl: 'https://trunk.rdoproject.org/centos7-mitaka'
+    enable_api: true
+    api_port: 8083
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   fedora-master:
     name: 'fedora-master'
