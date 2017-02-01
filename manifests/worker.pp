@@ -110,6 +110,14 @@
 #   primary and redirects current-passed-ci and current-tripleo to buildlogs.
 #   Defaults to parameter dlrn::server_type
 #
+# [*enable_api*]
+#   (optional) Enable DLRN API for this worker
+#   Defaults to false
+#
+# [*api_port*]
+#   (optional) If enable_api is True, set the api_port for this worker
+#   Defaults to 80
+#
 # [*pkginfo_driver*]
 #   (optional) DLRN driver to use to manage the distgit repositories.
 #   The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -174,9 +182,11 @@ define dlrn::worker (
   $gerrit_email                  = undef,
   $gerrit_topic                  = 'rdo-FTBFS',
   $rsyncdest                     = undef,
-  $rsyncport                     = 22 ,
+  $rsyncport                     = 22,
   $server_type                   = $dlrn::server_type,
   $worker_processes              = 1,
+  $enable_api                    = false,
+  $api_port                      = 80,
   $pkginfo_driver                = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
   $gitrepo_repo                  = 'http://github.com/openstack/rpm-packaging',
   $gitrepo_dir                   = '/openstack',
@@ -257,7 +267,7 @@ define dlrn::worker (
 pip install --upgrade pip
 pip install -r requirements.txt
 pip install -r test-requirements.txt
-python setup.py develop",
+python setup.py install",
   }
 
   if $disable_email {
@@ -419,5 +429,61 @@ python setup.py develop",
       type    => 'rsa',
       key     => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCcv42F0KURajhaHpXECtonyhyxyyIexl0eJvKCTnc6hCE2bf8Iymw/xQIxmIwoibFunSC74tZe2t7Zy+yf3nLeNgE3T8+79yNxA2N4cJuY1T51haE5T1LKTMEkPkA4ucS8Lvd7KiXeTWRqOUQtLDWiZSZxPILzlb13AQ1M2s4U3X0M7SBt4V27ezDe34OQbBHMAGVQOKZhQkNVp3e5gmMfPlE3FifjQ07RI2fyG8v/r4A8on9n/g8Ge0vbDyGR0Ejt314MJ9JpzQTSPzw05UkjJYE7Knw3sHyBU9qIFHEm1Gw4z0PukiuINUmnBDVkf9ep6IsIw4JSvzNQbaLO9t99',
     })
+  }
+
+  # Set up DLRN API, if needed
+  if $enable_api {
+    if !defined(File['/var/www/dlrn']) {
+      file { '/var/www/dlrn':
+        ensure  => directory,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        require => Package['httpd'],
+      }
+    }
+
+    if !defined(File['/etc/dlrn']) {
+      file { '/etc/dlrn':
+        ensure  => directory,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+      }
+    }
+
+    file { "/var/www/dlrn/dlrn-api-${name}.wsgi":
+      ensure  => present,
+      content => template("dlrn/dlrn-api.wsgi.erb"),
+      require => File['/var/www/dlrn'],
+    }
+
+    apache::vhost { "wsgi-${name}":
+      port                        => $api_port,
+      docroot                     => '/var/www/dlrn',
+      wsgi_application_group      => '%{GLOBAL}',
+      wsgi_daemon_process         => "dlrn-${name}",
+      wsgi_daemon_process_options => {
+        user      => "${name}",
+        group     => "${name}",
+        processes => '2',
+        threads   => '5',
+      },
+      wsgi_process_group          => "dlrn-${name}",
+      wsgi_script_aliases         => { "/" => "/var/www/dlrn/dlrn-api-${name}.wsgi" },
+      setenv                      => "CONFIG_FILE /etc/dlrn/dlrn-api-${name}.cfg",
+    }
+
+#    file { "/etc/httpd/conf.d/dlrn-wsgi-${name}.conf":
+#      ensure  => present,
+#      content => template("dlrn/dlrn-wsgi.conf.erb"),
+#      require => Package['httpd'],
+#    }
+
+    file { "/etc/dlrn/dlrn-api-${name}.cfg":
+      ensure  => present,
+      content => template("dlrn/dlrn-api.cfg.erb"),
+      require => File['/etc/dlrn'],
+    }
   }
 }

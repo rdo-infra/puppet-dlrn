@@ -1,0 +1,14 @@
+<VirtualHost *>
+    WSGIDaemonProcess dlrn  user=<%= @name %> group=<%= @name %> threads=5
+    WSGIScriptAlias /<%= @name %> /var/www/dlrn/dlrn-api-<%= @name %>.wsgi
+    SetEnv CONFIG_FILE /etc/dlrn/dlrn-api-<%= @name %>.cfg
+
+    <Directory /var/www/dlrn>
+        WSGIProcessGroup dlrn
+        WSGIApplicationGroup %{GLOBAL}
+        WSGIScriptReloading On
+        Order deny,allow
+        Allow from all
+    </Directory>
+</VirtualHost>
+
