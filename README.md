@@ -161,6 +161,11 @@ Enable ssl in apache configuration. Certificates are managed using Let's Encrypt
 ####`cert_mail`
 The email address to use to register with Let's Encrypt. Required if enable_https is set to true.
 
+####`enable_api`
+Enable the DLRN API. This is done by creating a WSGI process under apache, and each enabled worker will get its own URL. Defaults to false.
+
+####`api_workers`
+If `enable_api` is true, this array will define which workers will be added to the vhost configuration as WSGI. Each worker will have a url of /api-${worker} associated to its WSGI script.
 
 ### Define dlrn:worker
 

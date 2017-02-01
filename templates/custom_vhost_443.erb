@@ -1,0 +1,42 @@
+<VirtualHost *:443>
+  ServerName default
+
+  ## Vhost docroot
+  DocumentRoot "/var/www/html"
+
+  ## Directories, there should at least be a declaration for /var/www/html
+
+  <Directory "/var/www/html">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride FileInfo
+    Require all granted
+  </Directory>
+
+<% if @api_workers %> <% @api_workers.each do |worker| -%>
+  # WSGI configuration for worker <%= worker %>
+  WSGIDaemonProcess ssl-dlrn-<%= worker -%> group=<%= worker -%> processes=5 threads=1 user=<%= worker %>
+  WSGIScriptAlias /api-<%= worker -%> "/home/<%= worker -%>/api/dlrn-api-<%= worker -%>.wsgi"
+
+  <Location "/api-<%= worker -%>">
+    Require all granted
+    SetEnv CONFIG_FILE /home/<%= worker -%>/api/dlrn-api-<%= worker -%>.cfg
+    WSGIProcessGroup ssl-dlrn-<%= worker %>
+  </Location>
+
+<% end -%> <% end %>
+
+  ## Logging
+  ErrorLog "/var/log/httpd/ssl-<%= @web_domain %>_error_ssl.log"
+  ServerSignature Off
+  CustomLog "/var/log/httpd/ssl-<%= @web_domain %>_access_ssl.log" combined
+
+  ## SSL directives
+  SSLEngine on
+  SSLCertificateFile      "/etc/letsencrypt/live/<%= @web_domain %>/cert.pem"
+  SSLCertificateKeyFile   "/etc/letsencrypt/live/<%= @web_domain %>/privkey.pem"
+  SSLCertificateChainFile "/etc/letsencrypt/live/<%= @web_domain %>/fullchain.pem"
+  SSLCACertificatePath    "/etc/pki/tls/certs"
+  SSLProtocol             ALL -SSLv2 -SSLv3
+  SSLHonorCipherOrder     on
+</VirtualHost>
+

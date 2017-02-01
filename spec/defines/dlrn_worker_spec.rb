@@ -152,6 +152,27 @@ describe 'dlrn::worker' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/database_connection=sqlite:\/\/\/commits.sqlite$/)
         end
+
+        it 'creates the API directory' do
+            is_expected.to contain_file("/home/#{title}/api").with(
+              :ensure  => 'directory',
+              :mode    => '0755',
+              :owner   => "root",
+              :group   => "root",
+              :require => "File[/home/#{title}]",
+            )
+        end
+
+        it 'creates the wsgi file' do
+          is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.wsgi")
+            .with_content(/sys.path.append\(\'\/home\/#{title}\/.venv\/lib\/python2.7\/site-packages\/\'\)
+$/)
+        end
+
+        it 'creates the WSGI config file' do
+          is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.cfg")
+            .with_content(/DB_PATH = \'sqlite:\/\/\/\/home\/#{title}\/dlrn\/commits.sqlite\'$/)
+        end
       end
 
       context 'with a custom db connection string' do
@@ -166,6 +187,11 @@ describe 'dlrn::worker' do
         it 'configures the custom db connection string' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/database_connection=mysql\+pymysql:\/\/user:password@serverIP\/dlrn$/)
+        end
+
+        it 'creates the WSGI config file' do
+          is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.cfg")
+          .with_content(/DB_PATH = \'mysql\+pymysql:\/\/user:password@serverIP\/dlrn\'$/)
         end
       end
 
@@ -453,7 +479,6 @@ describe 'dlrn::worker' do
     end
   end
 
-
   context 'with special case for fedora-rawhide-master ' do
     let :title do
       'fedora-rawhide-master'
@@ -620,7 +645,6 @@ describe 'dlrn::worker' do
         is_expected.not_to contain_file("/usr/local/share/dlrn/#{title}/projects.ini")
         .with_content(/rsyncport=/)
       end
-
     end
   end
 end
