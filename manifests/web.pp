@@ -17,28 +17,55 @@
 #   The email address to use to register with Let's Encrypt. Required if
 #   enable_https is set to true.
 #
+# [*enable_api*]
+#   (optional) Enable the DLRN API.
+#   Defaults to false
+# 
+# [*api_workers*]
+#   (optional) If enable_api is true, this array will define which workers
+#   will be added to the vhost configuration as WSGI. Each worker will have
+#   a url of /api-${worker} associated to its WSGI script.
+#   Example: ['centos-master-uc', 'centos-ocata']
+#   Defaults to []
 
 class dlrn::web(
   $web_domain,
   $enable_https = false,
-  $cert_mail = undef,
+  $cert_mail    = undef,
+  $enable_api   = false,
+  $api_workers  = [],
 ){
 
   class { 'apache':
     default_vhost => false,
   }
 
-  apache::vhost { $web_domain:
-    port          => 80,
-    default_vhost => true,
-    override      => 'FileInfo',
-    docroot       => '/var/www/html',
-    servername    => 'default'
-  } ->
-  wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
-    destination => '/var/www/html/index.html',
-    cache_dir   => '/var/cache/wget',
-    require     => Package['httpd'],
+
+  if $enable_api {
+    include ::apache::mod::wsgi
+    apache::listen { '80': }
+
+    apache::vhost::custom { $web_domain:
+      content => template('dlrn/custom_vhost_80.erb'),
+    } ->
+    wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
+      destination => '/var/www/html/index.html',
+      cache_dir   => '/var/cache/wget',
+      require     => Package['httpd'],
+    }
+  } else {
+      apache::vhost { $web_domain:
+        port          => 80,
+        default_vhost => true,
+        override      => 'FileInfo',
+        docroot       => '/var/www/html',
+        servername    => 'default'
+      } ->
+      wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
+        destination => '/var/www/html/index.html',
+        cache_dir   => '/var/cache/wget',
+        require     => Package['httpd'],
+      }
   }
 
   file { '/var/www/html/images':
@@ -76,21 +103,31 @@ class dlrn::web(
       domains              => [ $web_domain ],
       manage_cron          => true,
       cron_success_command => '/bin/systemctl reload httpd',
-    }->
-    apache::vhost { "ssl-${web_domain}":
-      port                 => 443,
-      default_vhost        => true,
-      override             => 'FileInfo',
-      docroot              => '/var/www/html',
-      servername           => 'default',
-      ssl                  => true,
-      ssl_cert             => "/etc/letsencrypt/live/${web_domain}/cert.pem",
-      ssl_key              => "/etc/letsencrypt/live/${web_domain}/privkey.pem",
-      ssl_chain            => "/etc/letsencrypt/live/${web_domain}/fullchain.pem",
-      ssl_protocol         => 'ALL -SSLv2 -SSLv3',
-      ssl_honorcipherorder => 'on',
+    }
+    if $enable_api {
+      include ::apache::mod::ssl
+      apache::listen { '443': }
+
+      apache::vhost::custom { "ssl-${web_domain}":
+        content => template('dlrn/custom_vhost_443.erb'),
+        require => Letsencrypt::Certonly[$web_domain],
+      }
+    } else {
+      apache::vhost { "ssl-${web_domain}":
+        port                 => 443,
+        default_vhost        => true,
+        override             => 'FileInfo',
+        docroot              => '/var/www/html',
+        servername           => 'default',
+        ssl                  => true,
+        ssl_cert             => "/etc/letsencrypt/live/${web_domain}/cert.pem",
+        ssl_key              => "/etc/letsencrypt/live/${web_domain}/privkey.pem",
+        ssl_chain            => "/etc/letsencrypt/live/${web_domain}/fullchain.pem",
+        ssl_protocol         => 'ALL -SSLv2 -SSLv3',
+        ssl_honorcipherorder => 'on',
+        require              => Letsencrypt::Certonly[$web_domain],
+      }
     }
   }
-
 }
 

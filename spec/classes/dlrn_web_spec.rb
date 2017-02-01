@@ -84,6 +84,26 @@ describe 'dlrn::web' do
     end
   end
 
+  context 'with api enabled' do
+    let :params do { 
+      :enable_api  => true,
+      :api_workers => ['centos-ocata', 'centos-newton'],
+    }
+    end
+
+    it 'does not create the default vhost' do
+      is_expected.not_to contain_apache__vhost('dummy.example.com')
+    end
+
+    it 'listens on port 80' do
+      is_expected.to contain_apache__listen('80')
+    end
+
+    it 'uses the custom vhost template' do
+      is_expected.to contain_apache__vhost__custom('dummy.example.com')
+    end
+  end
+
   context 'with enable_https enabled' do
     let :params do { 
       :enable_https => true
@@ -126,4 +146,24 @@ describe 'dlrn::web' do
     end
   end
 
+  context 'with enable_https and enable_api' do
+    let :params do { 
+      :enable_https => true,
+      :enable_api  => true,
+      :api_workers => ['centos-ocata', 'centos-newton'],
+    }
+    end
+
+    it 'does not create the ssl vhost' do
+      is_expected.not_to contain_apache__vhost('ssl-dummy.example.com')
+    end
+
+    it 'listens on port 443' do
+      is_expected.to contain_apache__listen('443')
+    end
+
+    it 'uses the custom vhost template' do
+      is_expected.to contain_apache__vhost__custom('ssl-dummy.example.com')
+    end
+  end
 end

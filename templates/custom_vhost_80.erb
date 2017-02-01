@@ -1,0 +1,24 @@
+<VirtualHost *:80>
+  ServerName default
+
+  ## Vhost docroot
+  DocumentRoot "/var/www/html"
+
+<% if @api_workers %> <% @api_workers.each do |worker| -%>
+  # WSGI configuration for worker <%= worker -%> 
+  WSGIDaemonProcess dlrn-<%= worker -%> group=<%= worker -%> processes=5 threads=1 user=<%= worker -%> 
+  WSGIScriptAlias /api-<%= worker -%> "/home/<%= worker -%>/api/dlrn-api-<%= worker -%>.wsgi"
+
+  <Location "/api-<%= worker -%>">
+    Require all granted
+    SetEnv CONFIG_FILE /home/<%= worker -%>/api/dlrn-api-<%= worker -%>.cfg
+    WSGIProcessGroup dlrn-<%= worker -%> 
+  </Location>
+
+<% end -%> <% end %>
+  ## Logging
+  ErrorLog "/var/log/httpd/<%= @web_domain %>_error.log"
+  ServerSignature Off
+  CustomLog "/var/log/httpd/<%= @web_domain %>_access.log" combined 
+</VirtualHost>
+

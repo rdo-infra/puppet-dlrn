@@ -179,7 +179,7 @@ define dlrn::worker (
   $gerrit_email                  = undef,
   $gerrit_topic                  = 'rdo-FTBFS',
   $rsyncdest                     = undef,
-  $rsyncport                     = 22 ,
+  $rsyncport                     = 22,
   $server_type                   = $dlrn::server_type,
   $db_connection                 = 'sqlite:///commits.sqlite',
   $worker_processes              = 1,
@@ -263,7 +263,7 @@ define dlrn::worker (
 pip install --upgrade pip
 pip install -r requirements.txt
 pip install -r test-requirements.txt
-python setup.py develop",
+python setup.py install",
   }
 
   if $disable_email {
@@ -425,5 +425,22 @@ python setup.py develop",
       type    => 'rsa',
       key     => 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCcv42F0KURajhaHpXECtonyhyxyyIexl0eJvKCTnc6hCE2bf8Iymw/xQIxmIwoibFunSC74tZe2t7Zy+yf3nLeNgE3T8+79yNxA2N4cJuY1T51haE5T1LKTMEkPkA4ucS8Lvd7KiXeTWRqOUQtLDWiZSZxPILzlb13AQ1M2s4U3X0M7SBt4V27ezDe34OQbBHMAGVQOKZhQkNVp3e5gmMfPlE3FifjQ07RI2fyG8v/r4A8on9n/g8Ge0vbDyGR0Ejt314MJ9JpzQTSPzw05UkjJYE7Knw3sHyBU9qIFHEm1Gw4z0PukiuINUmnBDVkf9ep6IsIw4JSvzNQbaLO9t99',
     })
+  }
+
+  # Prepare API stuff, it may be needed
+  file { "/home/${name}/api":
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    require => File["/home/${name}"],
+  } ->
+  file { "/home/${name}/api/dlrn-api-${name}.wsgi":
+    ensure  => present,
+    content => template('dlrn/dlrn-api.wsgi.erb'),
+  } ->
+  file { "/home/${name}/api/dlrn-api-${name}.cfg":
+    ensure  => present,
+    content => template('dlrn/dlrn-api.cfg.erb'),
   }
 }
