@@ -246,6 +246,12 @@ This is the port number for ssh in server where builtdir and reports are replica
 ####`server_type`
 This defines if the server where the worker is being configured is primary or passive (see explanation in Class: dlrn section). Defaults to the value defined
 
+####`enable_api`
+Enable the DLRN API. This is done by creating a WSGI process under apache, and each worker will use one port for API communication. Defaults to false.
+
+####`api_port`
+If `enable_api` is set to true, use this port in Apache for the DLRN API communications to this worker.
+
 ####`worker_processes`
 This parameter defines the number of worker processes to use during build. Defaults to `1`.
 
