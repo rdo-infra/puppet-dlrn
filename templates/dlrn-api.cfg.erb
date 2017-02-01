@@ -1,0 +1,6 @@
+<% if @db_connection == 'sqlite:///commits.sqlite' %>
+DB_PATH = 'sqlite:////home/<%= @name %>/dlrn/commits.sqlite'
+<% else %>
+DB_PATH = '<%= @db_connection %>'
+<% end %>
+REPO_PATH = '/home/<%= @name %>/data/repos'
