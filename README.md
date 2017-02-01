@@ -249,6 +249,12 @@ This defines if the server where the worker is being configured is primary or pa
 ####`db_connection`
 This parameter defines a database connection string to be used by DLRN, in the SQLAlchemy syntax. Defaults to 'sqlite://commits.sqlite', which is a local SQLite3 database.
 
+####`enable_api`
+Enable the DLRN API. This is done by creating a WSGI process under apache, and each worker will use one port for API communication. Defaults to false.
+
+####`api_port`
+If `enable_api` is set to true, use this port in Apache for the DLRN API communications to this worker.
+
 ####`worker_processes`
 This parameter defines the number of worker processes to use during build. Defaults to `1`.
 
