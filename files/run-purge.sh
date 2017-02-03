@@ -38,11 +38,14 @@ echo `date` "DLRN-purge run complete." >> $LOGFILE
 
 # If the purge operation was successful, synchronize to the backup node
 if [ ${RET} -eq 0 ]; then
-    echo `date` "Starting synchronization to backup server." >> $LOGFILE
-    if [ -n "${RSYNC_DEST}" ]; then
-        rsync -avz --delete-after --exclude="*.htaccess" -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" /home/${USER}/data/repos/ ${RSYNC_DEST} 2>> $LOGFILE
+    # The sync process can be slow, let's do it only once a week, on Sunday
+    if [ "$(date +%u)" = "7" ]; then
+        echo `date` "Starting synchronization to backup server." >> $LOGFILE
+        if [ -n "${RSYNC_DEST}" ]; then
+            rsync -avz --delete-after --exclude="*.htaccess" -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" /home/${USER}/data/repos/ ${RSYNC_DEST} 2>> $LOGFILE
+        fi
+        echo `date` "Synchronization to backup server completed." >> $LOGFILE
     fi
-    echo `date` "Synchronization to backup server completed." >> $LOGFILE
 fi
 
 if [ -n "$ARG" ]; then
