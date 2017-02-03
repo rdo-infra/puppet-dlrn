@@ -8,7 +8,6 @@ dlrn::web::cert_mail: undef
 
 dlrn::workers:
   centos-master:
-    name: 'centos-master'
     distro: 'centos7'
     target: 'centos'
     distgit_branch: 'rpm-master-head'
@@ -29,7 +28,6 @@ dlrn::workers:
 #   rsyncdest: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   rsyncport: '3000'
   centos-master-uc:
-    name: 'centos-master-uc'
     distro: 'centos7'
     target: 'centos-master-uc'
     distgit_branch: 'rpm-master'
@@ -47,7 +45,6 @@ dlrn::workers:
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
   centos-ocata:
-    name: 'centos-ocata'
     distro: 'centos7'
     target: 'centos-ocata'
     distgit_branch: 'ocata-rdo'
@@ -65,7 +62,6 @@ dlrn::workers:
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
   centos-newton:
-    name: 'centos-newton'
     distro: 'centos7'
     target: 'centos-newton'
     distgit_branch: 'newton-rdo'
@@ -80,7 +76,6 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos7-newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   centos-mitaka:
-    name: 'centos-mitaka'
     distro: 'centos7'
     target: 'centos-mitaka'
     distgit_branch: 'rpm-mitaka'
@@ -95,7 +90,6 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos7-mitaka'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   fedora-master:
-    name: 'fedora-master'
     distro: 'f24'
     target: 'fedora'
     distgit_branch: 'rpm-master'
@@ -111,7 +105,6 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/f24'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
   fedora-rawhide-master:
-    name: 'fedora-rawhide-master'
     distro: 'f25'
     target: 'fedora-rawhide'
     distgit_branch: 'rpm-master'

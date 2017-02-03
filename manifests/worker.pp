@@ -184,7 +184,7 @@ define dlrn::worker (
   $gitrepo_use_version_from_spec = true,
 ) {
   user { $name:
-    comment    => $name,
+    comment    => "User for ${name} worker",
     groups     => ['users', 'mock'],
     home       => "/home/${name}",
     managehome => true,
