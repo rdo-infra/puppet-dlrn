@@ -20,7 +20,7 @@ dlrn::workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-master-head']
-    release: 'ocata'
+    release: 'pike'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #   gerrit_user: 'rdo-trunk'
@@ -40,7 +40,7 @@ dlrn::workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
-    release: 'ocata-uc'
+    release: 'pike-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #   gerrit_user: 'rdo-trunk'
@@ -58,7 +58,7 @@ dlrn::workers:
     purge_hour: '2'
     purge_minute: '37'
     symlinks: ['/var/www/html/centos7-ocata', '/var/www/html/ocata/centos7']
-    release: 'ocata-uc'
+    release: 'ocata'
     baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #   gerrit_user: 'rdo-trunk'
