@@ -148,6 +148,25 @@ describe 'dlrn::worker' do
             is_expected.not_to contain_file("/home/#{user}/data/repos/.htaccess")
         end
 
+        it 'configures the default db connection string' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/database_connection=sqlite:\/\/\/commits.sqlite$/)
+        end
+      end
+
+      context 'with a custom db connection string' do
+        before :each do
+          params.merge!(:db_connection => 'mysql+pymysql://user:password@serverIP/dlrn')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'configures the custom db connection string' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/database_connection=mysql\+pymysql:\/\/user:password@serverIP\/dlrn$/)
+        end
       end
 
       context 'with a specific number of workers' do

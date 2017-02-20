@@ -110,6 +110,11 @@
 #   primary and redirects current-passed-ci and current-tripleo to buildlogs.
 #   Defaults to parameter dlrn::server_type
 #
+# [*db_connection*]
+#   (optional) Specify a database connection string, using the SQLAlchemy
+#   syntax
+#   Defaults to 'sqlite:///commits.sqlite'
+#
 # [*pkginfo_driver*]
 #   (optional) DLRN driver to use to manage the distgit repositories.
 #   The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -176,6 +181,7 @@ define dlrn::worker (
   $rsyncdest                     = undef,
   $rsyncport                     = 22 ,
   $server_type                   = $dlrn::server_type,
+  $db_connection                 = 'sqlite:///commits.sqlite',
   $worker_processes              = 1,
   $pkginfo_driver                = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
   $gitrepo_repo                  = 'http://github.com/openstack/rpm-packaging',

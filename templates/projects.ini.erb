@@ -19,6 +19,7 @@ gerrit_topic=<%= @gerrit_topic %><% end %>
 smtpserver=
 <% end %>
 pkginfo_driver=<%= @pkginfo_driver %>
+database_connection=<%= @db_connection %>
 <% if @pkginfo_driver == 'dlrn.drivers.gitrepo.GitRepoDriver' %>
 [gitrepo_driver]
 repo=<%= @gitrepo_repo %>

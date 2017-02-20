@@ -23,6 +23,7 @@ dlrn::workers:
     release: 'pike'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-master-head'
@@ -43,6 +44,7 @@ dlrn::workers:
     release: 'pike-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
@@ -61,6 +63,7 @@ dlrn::workers:
     release: 'ocata'
     baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
@@ -79,6 +82,7 @@ dlrn::workers:
     release: 'newton'
     baseurl: 'https://trunk.rdoproject.org/centos7-newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
   centos-mitaka:
     name: 'centos-mitaka'
     distro: 'centos7'
@@ -94,6 +98,7 @@ dlrn::workers:
     release: 'mitaka'
     baseurl: 'https://trunk.rdoproject.org/centos7-mitaka'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
   fedora-master:
     name: 'fedora-master'
     distro: 'f24'
@@ -110,6 +115,7 @@ dlrn::workers:
     release: 'newton'
     baseurl: 'https://trunk.rdoproject.org/f24'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
   fedora-rawhide-master:
     name: 'fedora-rawhide-master'
     distro: 'f25'
@@ -126,3 +132,4 @@ dlrn::workers:
     release: 'newton'
     baseurl: 'https://trunk.rdoproject.org/f25'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
