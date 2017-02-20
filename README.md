@@ -246,6 +246,9 @@ This is the port number for ssh in server where builtdir and reports are replica
 ####`server_type`
 This defines if the server where the worker is being configured is primary or passive (see explanation in Class: dlrn section). Defaults to the value defined
 
+####`db_connection`
+This parameter defines a database connection string to be used by DLRN, in the SQLAlchemy syntax. Defaults to 'sqlite://commits.sqlite', which is a local SQLite3 database.
+
 ####`worker_processes`
 This parameter defines the number of worker processes to use during build. Defaults to `1`.
 
