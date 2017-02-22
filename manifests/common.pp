@@ -48,7 +48,7 @@ class dlrn::common (
                       'python-virtualenv', 'gcc', 'createrepo',
                       'screen', 'python-tox', 'git-review', 'python-sh',
                       'postfix', 'firewalld', 'openssl-devel',
-                      'libffi-devel' ]
+                      'libffi-devel', 'yum-plugin-priorities' ]
   package { $required_packages: ensure => 'installed' }
 
   service { 'postfix':
