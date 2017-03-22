@@ -1,12 +1,12 @@
 [delorean-newton-testing]
 name=dlrn-newton-testing
-baseurl=https://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-newton/
+baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-newton/
 enabled=1
 gpgcheck=0
 
 [delorean-newton-pending]
 name=dlrn-newton-pending
-baseurl=https://cbs.centos.org/repos/cloud7-openstack-common-pending/$basearch/os/
+baseurl=http://cbs.centos.org/repos/cloud7-openstack-common-pending/$basearch/os/
 gpgcheck=0
 enabled=0
 
