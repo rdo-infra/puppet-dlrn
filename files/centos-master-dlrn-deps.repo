@@ -1,12 +1,12 @@
 [delorean-pike-testing]
 name=dlrn-pike-testing
-baseurl=http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-pike/
+baseurl=https://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-pike/
 enabled=1
 gpgcheck=0
 
 [delorean-pike-pending]
 name=dlrn-pike-pending
-baseurl=http://cbs.centos.org/repos/cloud7-openstack-common-pending/$basearch/os/
+baseurl=https://cbs.centos.org/repos/cloud7-openstack-common-pending/$basearch/os/
 gpgcheck=0
 enabled=0
 
