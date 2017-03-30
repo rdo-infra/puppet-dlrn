@@ -201,34 +201,33 @@ define dlrn::worker (
     ensure => directory,
     owner  => $name,
     mode   => '0755',
-  } ->
-  exec { "ensure home contents belong to ${name}":
+  }
+  -> exec { "ensure home contents belong to ${name}":
     command => "chown -R ${name}:${name} /home/${name}",
     path    => '/usr/bin',
     unless  => "stat -c %U:%G /home/${name} | grep -w ${name}:${name} > /dev/null",
     timeout => 900,
-  } ->
-  file { "/home/${name}/data":
+  }
+  -> file { "/home/${name}/data":
     ensure => directory,
     mode   => '0755',
     owner  => $name,
     group  => $name,
-  } ->
-  file { "/home/${name}/data/repos":
+  }
+  -> file { "/home/${name}/data/repos":
     ensure => directory,
     mode   => '0755',
     owner  => $name,
     group  => $name,
-  } ->
-  file { "/home/${name}/data/repos/dlrn-deps.repo":
+  }
+  -> file { "/home/${name}/data/repos/dlrn-deps.repo":
     ensure => present,
     source => "puppet:///modules/dlrn/${name}-dlrn-deps.repo",
     mode   => '0644',
     owner  => $name,
     group  => $name,
-  } ->
-  # Compat symlink
-  file {"/home/${name}/data/repos/delorean-deps.repo":
+  }
+  -> file {"/home/${name}/data/repos/delorean-deps.repo":    # Compat symlink
     ensure => link,
     target => "/home/${name}/data/repos/dlrn-deps.repo",
   }
@@ -284,8 +283,8 @@ python setup.py install",
   file { "/usr/local/share/dlrn/${name}":
     ensure => directory,
     mode   => '0755',
-  } ->
-  file { "/usr/local/share/dlrn/${name}/projects.ini":
+  }
+  -> file { "/usr/local/share/dlrn/${name}/projects.ini":
     ensure  => present,
     content => template('dlrn/projects.ini.erb'),
   }
@@ -434,12 +433,12 @@ python setup.py install",
     group   => 'root',
     mode    => '0755',
     require => File["/home/${name}"],
-  } ->
-  file { "/home/${name}/api/dlrn-api-${name}.wsgi":
+  }
+  -> file { "/home/${name}/api/dlrn-api-${name}.wsgi":
     ensure  => present,
     content => template('dlrn/dlrn-api.wsgi.erb'),
-  } ->
-  file { "/home/${name}/api/dlrn-api-${name}.cfg":
+  }
+  -> file { "/home/${name}/api/dlrn-api-${name}.cfg":
     ensure  => present,
     content => template('dlrn/dlrn-api.cfg.erb'),
   }

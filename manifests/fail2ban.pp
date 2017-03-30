@@ -21,8 +21,8 @@ class dlrn::fail2ban(
 enabled = true
 port = ${sshd_port}",
     require => Package['fail2ban'],
-  } ->
-  service { 'fail2ban':
+  }
+  -> service { 'fail2ban':
     ensure  => 'running',
     enable  => true,
     require => Service['firewalld']

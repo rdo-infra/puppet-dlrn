@@ -11,18 +11,18 @@ class dlrn::rdoinfo (
     groups     => ['users', 'mock'],
     home       => '/home/rdoinfo',
     managehome => true,
-  } ->
-  file { '/home/rdoinfo':
+  }
+  -> file { '/home/rdoinfo':
     ensure => directory,
     mode   => '0755',
     owner  => 'rdoinfo',
-  } ->
-  exec { 'ensure home contents belong to rdoinfo':
+  }
+  -> exec { 'ensure home contents belong to rdoinfo':
     command => 'chown -R rdoinfo:rdoinfo /home/rdoinfo',
     path    => '/usr/bin',
     timeout => 100,
-  } ->
-  vcsrepo { '/home/rdoinfo/rdoinfo':
+  }
+  -> vcsrepo { '/home/rdoinfo/rdoinfo':
     ensure   => present,
     provider => git,
     source   => 'https://github.com/redhat-openstack/rdoinfo',

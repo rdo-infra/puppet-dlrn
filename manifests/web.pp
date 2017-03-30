@@ -47,8 +47,8 @@ class dlrn::web(
 
     apache::vhost::custom { $web_domain:
       content => template('dlrn/custom_vhost_80.erb'),
-    } ->
-    wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
+    }
+    -> wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
       destination => '/var/www/html/index.html',
       cache_dir   => '/var/cache/wget',
       require     => Package['httpd'],
@@ -60,8 +60,8 @@ class dlrn::web(
         override      => 'FileInfo',
         docroot       => '/var/www/html',
         servername    => 'default'
-      } ->
-      wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
+      }
+      -> wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
         destination => '/var/www/html/index.html',
         cache_dir   => '/var/cache/wget',
         require     => Package['httpd'],
@@ -72,8 +72,8 @@ class dlrn::web(
     ensure  => directory,
     mode    => '0755',
     require => Package['httpd'],
-  } ->
-  wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/images/rdo-logo-white.png':
+  }
+  -> wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/images/rdo-logo-white.png':
     destination => '/var/www/html/images/rdo-logo-white.png',
     cache_dir   => '/var/cache/wget',
     require     => Package['httpd'],
@@ -83,8 +83,8 @@ class dlrn::web(
     ensure => present,
     mode   => '0755',
     source => 'puppet:///modules/dlrn/update-web-index.sh',
-  } ->
-  cron { 'update-web-index':
+  }
+  -> cron { 'update-web-index':
     command => '/usr/local/bin/update-web-index.sh > /dev/null',
     user    => 'root',
     hour    => '3',

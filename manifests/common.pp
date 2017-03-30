@@ -35,8 +35,8 @@ class dlrn::common (
 
   selinux_port { "tcp/${::dlrn::common::sshd_port}":
     seltype => 'ssh_port_t',
-  } ->
-  class { 'ssh':
+  }
+  -> class { 'ssh':
     server_options     => {
       'Port' => [22, $::dlrn::common::sshd_port],
     },
@@ -77,18 +77,18 @@ class dlrn::common (
     ensure  => 'running',
     enable  => true,
     require => Package['firewalld'],
-  } ->
-  firewalld_service { 'Allow SSH':
+  }
+  -> firewalld_service { 'Allow SSH':
     ensure  => 'present',
     service => 'ssh',
     zone    => 'public',
-  } ->
-  firewalld_service { 'Allow HTTP':
+  }
+  -> firewalld_service { 'Allow HTTP':
     ensure  => 'present',
     service => 'http',
     zone    => 'public',
-  } ->
-  firewalld_port { 'Allow custom SSH port':
+  }
+  -> firewalld_port { 'Allow custom SSH port':
     ensure   => present,
     zone     => 'public',
     port     => $sshd_port,
@@ -116,25 +116,25 @@ class dlrn::common (
     physical_volume { '/dev/vdb':
       ensure  => present,
       require => Package['lvm2'],
-    } ->
-    volume_group { 'vgdelorean':
+    }
+    -> volume_group { 'vgdelorean':
       ensure           => present,
       physical_volumes => '/dev/vdb',
-    } ->
-    exec { 'activate vgdelorean':
+    }
+    -> exec { 'activate vgdelorean':
       command => 'vgchange -a y vgdelorean',
       path    => '/usr/sbin',
       creates => '/dev/vgdelorean',
-    } ->
-    logical_volume { 'lvol1':
+    }
+    -> logical_volume { 'lvol1':
       ensure       => present,
       volume_group => 'vgdelorean',
-    } ->
-    filesystem { '/dev/vgdelorean/lvol1':
+    }
+    -> filesystem { '/dev/vgdelorean/lvol1':
       ensure  => present,
       fs_type => 'ext4',
-    } ->
-    mount { '/home':
+    }
+    -> mount { '/home':
       ensure  => mounted,
       device  => '/dev/vgdelorean/lvol1',
       fstype  => 'ext4',

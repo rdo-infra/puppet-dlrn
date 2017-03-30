@@ -11,20 +11,20 @@ class dlrn::promoter (
     groups     => ['users'],
     home       => '/home/promoter',
     managehome => true,
-  } ->
-  file { '/home/promoter':
+  }
+  -> file { '/home/promoter':
     ensure  => directory,
     owner   => 'promoter',
     group   => 'promoter',
     recurse => true,
-  } ->
-  file { '/home/promoter/.ssh':
+  }
+  -> file { '/home/promoter/.ssh':
     ensure => directory,
     mode   => '0700',
     owner  => 'promoter',
     group  => 'promoter',
-  } ->
-  file { '/home/promoter/.ssh/authorized_keys':
+  }
+  -> file { '/home/promoter/.ssh/authorized_keys':
     ensure  => present,
     mode    => '0600',
     owner   => 'promoter',
