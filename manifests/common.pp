@@ -99,6 +99,11 @@ class dlrn::common (
     port     => $sshd_port,
     protocol => 'tcp',
   }
+  -> firewalld_service { 'Allow rsyncd':
+    ensure  => 'present',
+    service => 'rsyncd',
+    zone    => 'public',
+  }
 
   if $enable_https {
     firewalld_service { 'Allow HTTPS':
@@ -192,5 +197,9 @@ class dlrn::common (
   class { 'sudo':
     purge               => false,
     config_file_replace => false,
+  }
+
+  class { 'rsync::server':
+    use_xinetd => false,
   }
 }

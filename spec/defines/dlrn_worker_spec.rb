@@ -517,10 +517,11 @@ $/)
 
   context 'with special case for centos-newton' do
     before :each do
-      params.merge!(:release       => 'newton')
-      params.merge!(:target        => 'centos-newton')
-      params.merge!(:distro_branch => 'stable/newton')
-      params.merge!(:baseurl       => 'https://trunk.rdoproject.org/centos7-foo')
+      params.merge!(:release             => 'newton')
+      params.merge!(:target              => 'centos-newton')
+      params.merge!(:distro_branch       => 'stable/newton')
+      params.merge!(:baseurl             => 'https://trunk.rdoproject.org/centos7-foo')
+      params.merge!(:enable_public_rsync => true)
     end
 
     let :title do
@@ -544,6 +545,35 @@ $/)
     it 'sets a custom baseurl in projects.ini' do
         is_expected.to contain_file("/usr/local/share/dlrn/centos-newton/projects.ini")
         .with_content(/baseurl=https:\/\/trunk.rdoproject.org\/centos7-foo$/)
+    end
+
+    it 'configures rsync module' do
+        is_expected.to contain_rsync__server__module('centos7-newton').with(
+            :path        => '/home/centos-newton/data/repos',
+            :hosts_allow => nil,
+        )
+    end
+  end
+
+  context 'when enabling public rsync for centos-master-uc, and setting specific allowed hosts' do
+    before :each do
+      params.merge!(:release                  => 'pike-uc')
+      params.merge!(:target                   => 'centos-master-uc')
+      params.merge!(:distro_branch            => 'master')
+      params.merge!(:baseurl                  => 'https://trunk.rdoproject.org/centos7')
+      params.merge!(:enable_public_rsync      => true)
+      params.merge!(:public_rsync_hosts_allow => ['foo.example.com'])
+    end
+    
+    let :title do
+      'centos-master-uc'
+    end
+
+    it 'configures rsync module with the proper name and allowed hosts' do
+        is_expected.to contain_rsync__server__module('centos7').with(
+            :path        => '/home/centos-master-uc/data/repos',
+            :hosts_allow => ['foo.example.com'],
+        )
     end
   end
 
