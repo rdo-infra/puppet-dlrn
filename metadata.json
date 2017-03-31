@@ -21,7 +21,8 @@
     {"name":"puppetlabs-apache","version_requirement":">= 1.10.0"},
     {"name":"puppetlabs-concat","version_requirement":">= 2.1.0"},
     {"name":"puppetlabs-inifile","version_requirement":">= 1.5.0"},
-    {"name":"danzilio-letsencrypt","version_requirement":">= 1.0.0"}
+    {"name":"danzilio-letsencrypt","version_requirement":">= 1.0.0"},
+    {"name":"puppetlabs-rsync","version_requirement":">= 0.4.0"}
   ]
 }
 

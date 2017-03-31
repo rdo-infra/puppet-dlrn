@@ -38,6 +38,11 @@ class dlrn::common (
     value      => on,
   }
 
+  selboolean { 'rsync_export_all_ro':
+    persistent => true,
+    value      => on,
+  }
+
   selinux_port { "tcp/${::dlrn::common::sshd_port}":
     seltype => 'ssh_port_t',
   }
@@ -98,6 +103,11 @@ class dlrn::common (
     zone     => 'public',
     port     => $sshd_port,
     protocol => 'tcp',
+  }
+  -> firewalld_service { 'Allow rsyncd':
+    ensure  => 'present',
+    service => 'rsyncd',
+    zone    => 'public',
   }
 
   if $enable_https {
@@ -186,5 +196,9 @@ class dlrn::common (
   class { 'sudo':
     purge               => false,
     config_file_replace => false,
+  }
+
+  class { 'rsync::server':
+    use_xinetd => false,
   }
 }

@@ -18,3 +18,5 @@ fixtures:
       repo: git://github.com/voxpupuli/puppet-letsencrypt.git
       ref: "af7a12862d0b77211ba91ea1b5455adc254fcd48"
     inifile: git://github.com/puppetlabs/puppetlabs-inifile.git
+    rsync: git://github.com/puppetlabs/puppetlabs-rsync.git
+    xinetd: git://github.com/puppetlabs/puppetlabs-xinetd.git
