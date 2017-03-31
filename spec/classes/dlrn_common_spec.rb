@@ -51,6 +51,10 @@ describe 'dlrn::common' do
          :service => 'http',
          :zone    => 'public',
        )
+       is_expected.to contain_firewalld_service('Allow rsyncd').with(
+         :service => 'rsyncd',
+         :zone    => 'public',
+       )
        is_expected.to contain_firewalld_port('Allow custom SSH port').with(
          :port     => 3300,
          :zone     => 'public',
@@ -63,6 +67,12 @@ describe 'dlrn::common' do
          :service => 'https',
          :zone    => 'public',
        )
+      end
+
+      it 'configures the rsync server' do
+        is_expected.to contain_class('rsync::server').with(
+          :use_xinetd => false,
+        )
       end
     end
 

@@ -99,6 +99,15 @@
 #   Example: '22'
 #   Defaults to '22'
 #
+# [*enable_public_rsync*]
+#   (optional) Enable a public rsyncd module for the worker repos.
+#   Defaults to false
+#
+# [*public_rsync_hosts_allow*]
+#   (optional) if enable_public_rsync is true, this variable defines a list of
+#   hosts/networks which will be allowed to sync from this module.
+#   Defaults to undef (meaning everyone can sync).
+#
 # [*worker_processes*]
 #   (optional) Number of worker processes to use during build.
 #   Defaults to 1
@@ -180,6 +189,8 @@ define dlrn::worker (
   $gerrit_topic                  = 'rdo-FTBFS',
   $rsyncdest                     = undef,
   $rsyncport                     = 22,
+  $enable_public_rsync           = false,
+  $public_rsync_hosts_allow      = undef,
   $server_type                   = $dlrn::server_type,
   $db_connection                 = 'sqlite:///commits.sqlite',
   $worker_processes              = 1,
@@ -441,5 +452,32 @@ python setup.py install",
   -> file { "/home/${name}/api/dlrn-api-${name}.cfg":
     ensure  => present,
     content => template('dlrn/dlrn-api.cfg.erb'),
+  }
+
+  # Enable public rsync module, if needed
+  if $enable_public_rsync {
+    include ::rsync::server
+
+    if $name == 'centos-master-uc' {
+      $rsync_module_name = $distro
+    } elsif $name =~ /^(centos)\-(mitaka|newton|ocata)/ {
+      $name_components     = split($name, '-')
+      $rsync_module_name = "${distro}-${name_components[1]}"
+    } else {
+      $name_components     = split($name, '-')
+      $rsync_module_name = "${name_components[0]}-${name_components[1]}"
+    }
+
+    rsync::server::module { $rsync_module_name:
+      path            => "/home/${name}/data/repos",
+      comment         => "$rsync_module_name repositories",
+      incoming_chmod  => false,
+      outgoing_chmod  => false,
+      uid             => 'nobody',
+      gid             => 'nobody',
+      max_connections => 4,
+      hosts_allow     => $public_rsync_hosts_allow,
+      require         => File["/home/${name}/data/repos"],
+    }
   }
 }
