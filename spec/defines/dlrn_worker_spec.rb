@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe 'dlrn::worker' do
   let :facts do
-  {   :osfamily                  => 'RedHat',
+  {   :os                        => { :family => 'RedHat' },
+      :osfamily                  => 'RedHat',
       :operatingsystem           => 'Fedora',
       :operatingsystemrelease    => '24',
       :operatingsystemmajrelease => '24',
@@ -136,7 +137,7 @@ describe 'dlrn::worker' do
 
         it 'sets the rdoinfo driver in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
-            .with_content(/pkginfo_driver=dlrn.drivers.rdoinfo.RdoInfoDriver$/) 
+            .with_content(/pkginfo_driver=dlrn.drivers.rdoinfo.RdoInfoDriver$/)
         end
 
         it 'sets the mock build driver in projects.ini' do
@@ -522,7 +523,7 @@ describe 'dlrn::worker' do
 
         it 'sets use_version_from_spec to true in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
-            .with_content(/use_version_from_spec=true$/) 
+            .with_content(/use_version_from_spec=true$/)
         end
       end
 
@@ -619,10 +620,11 @@ describe 'dlrn::worker' do
 
   context 'with special case for centos-pike' do
     before :each do
-      params.merge!(:release       => 'pike')
-      params.merge!(:target        => 'centos-pike')
-      params.merge!(:distro_branch => 'stable/pike')
-      params.merge!(:baseurl       => 'https://trunk.rdoproject.org/centos7-foo')
+      params.merge!(:release             => 'pike')
+      params.merge!(:target              => 'centos-pike')
+      params.merge!(:distro_branch       => 'stable/pike')
+      params.merge!(:baseurl             => 'https://trunk.rdoproject.org/centos7-foo')
+      params.merge!(:enable_public_rsync => true)
     end
 
     let :title do
@@ -646,6 +648,35 @@ describe 'dlrn::worker' do
     it 'sets a custom baseurl in projects.ini' do
         is_expected.to contain_file("/usr/local/share/dlrn/centos-pike/projects.ini")
         .with_content(/baseurl=https:\/\/trunk.rdoproject.org\/centos7-foo$/)
+    end
+
+    it 'configures rsync module' do
+        is_expected.to contain_rsync__server__module('centos-pike').with(
+            :path        => '/home/centos-pike/data/repos',
+            :hosts_allow => nil,
+        )
+    end
+  end
+
+  context 'when enabling public rsync for centos-master-uc, and setting specific allowed hosts' do
+    before :each do
+      params.merge!(:release                  => 'pike-uc')
+      params.merge!(:target                   => 'centos-master-uc')
+      params.merge!(:distro_branch            => 'master')
+      params.merge!(:baseurl                  => 'https://trunk.rdoproject.org/centos7')
+      params.merge!(:enable_public_rsync      => true)
+      params.merge!(:public_rsync_hosts_allow => ['foo.example.com'])
+    end
+
+    let :title do
+      'centos-master-uc'
+    end
+
+    it 'configures rsync module with the proper name and allowed hosts' do
+        is_expected.to contain_rsync__server__module('centos7').with(
+            :path        => '/home/centos-master-uc/data/repos',
+            :hosts_allow => ['foo.example.com'],
+        )
     end
   end
 
@@ -790,7 +821,7 @@ describe 'dlrn::worker' do
     before :each do
       params.merge!(:server_type    => 'passive')
     end
- 
+
     context 'with centos-ocata name' do
       before :each do
         params.merge!(:distro_branch   => 'stable/ocata')

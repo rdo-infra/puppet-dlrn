@@ -56,6 +56,11 @@ class dlrn::common (
     validate_sshd_file => true,
   }
 
+  selboolean { 'rsync_export_all_ro':
+    persistent => true,
+    value      => on,
+  }
+
   case $::osfamily {
     'RedHat': {
       case $::operatingsystem {
@@ -69,6 +74,7 @@ class dlrn::common (
                                   'postfix', 'firewalld', 'openssl-devel',
                                   'libffi-devel', 'dnf-plugins-core', 'rpmdevtools',
                                   'selinux-policy-devel']
+            $rsync_pkg = 'rsync-daemon'
           } else {
             $required_packages = ['lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
                                   'mock', 'rpm-build', 'git', 'python-pip',
@@ -77,6 +83,7 @@ class dlrn::common (
                                   'postfix', 'firewalld', 'openssl-devel',
                                   'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools',
                                   'selinux-policy-devel']
+            $rsync_pkg = 'rsync'
           }
         }
         default: {
@@ -88,6 +95,7 @@ class dlrn::common (
                                 'postfix', 'firewalld', 'openssl-devel',
                                 'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools',
                                 'selinux-policy-devel']
+          $rsync_pkg = 'rsync-daemon'
         }
       }
     }
@@ -143,6 +151,11 @@ class dlrn::common (
     zone     => 'public',
     port     => $sshd_port,
     protocol => 'tcp',
+  }
+  -> firewalld_service { 'Allow rsyncd':
+    ensure  => 'present',
+    service => 'rsyncd',
+    zone    => 'public',
   }
 
   if $enable_https {
@@ -237,5 +250,15 @@ class dlrn::common (
     ensure => present,
     source => 'puppet:///modules/dlrn/purge-deps.sh',
     mode   => '0755',
+  }
+
+  ensure_packages(['rsync_package'], {'ensure' => 'installed', 'name' => $rsync_pkg, 'allow_virtual' => true})
+
+  class { 'rsync':
+    manage_package => false,
+  }
+  -> class { 'rsync::server':
+    use_xinetd => false,
+    require    => Package['rsync_package']
   }
 }

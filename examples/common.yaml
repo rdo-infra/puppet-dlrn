@@ -38,6 +38,7 @@ dlrn::workers:
 #   gerrit_topic: 'rdo-FTBFS-master-head'
 #   rsyncdest: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   rsyncport: '3000'
+    enable_public_rsync: false
   centos-master-uc:
     distro: 'centos7'
     target: 'centos-master-uc'
@@ -62,6 +63,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-train:
     distro: 'centos7'
     target: 'centos-train'
@@ -84,6 +87,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-train'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-stein:
     distro: 'centos7'
     target: 'centos-stein'
@@ -109,6 +114,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-stein'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-rocky:
     distro: 'centos7'
     target: 'centos-rocky'
@@ -135,6 +142,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-rocky'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-queens:
     distro: 'centos7'
     target: 'centos-queens'
@@ -161,6 +170,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-queens'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-pike:
     distro: 'centos7'
     target: 'centos-pike'
@@ -187,6 +198,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-pike'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-ocata:
     distro: 'centos7'
     target: 'centos-ocata'
@@ -213,6 +226,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   rhel8-master:
     distro: 'rhel8'
     target: 'rhel8'
@@ -233,6 +248,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    enable_public_rsync: false
   rhel8-train:
     distro: 'rhel8'
     target: 'rhel8-train'
@@ -253,6 +269,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    enable_public_rsync: false
   centos8-master-uc:
     distro: 'centos8'
     target: 'centos8-master-uc'
@@ -274,6 +291,8 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos8-master:
     distro: 'centos8'
     target: 'centos8'
@@ -304,6 +323,7 @@ dlrn::workers:
 #   rsyncdest: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   rsyncport: '3000'
     use_components: true
+    enable_public_rsync: false
   centos8-ussuri:
     distro: 'centos8'
     target: 'centos8-ussuri'
@@ -332,6 +352,8 @@ dlrn::workers:
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ussuri'
     use_components: true
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos8-train:
     distro: 'centos8'
     target: 'centos8-train'
@@ -353,3 +375,5 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
