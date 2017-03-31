@@ -246,8 +246,14 @@ This is the destination where builtdir and reports are replicated when build is 
 ####`rsyncport`
 This is the port number for ssh in server where builtdir and reports are replicated. Defaults to `22`.
 
+####`enable_public_rsync`
+If set to true, enable a public rsyncd module for the worker repos. Defaults to `false`.
+
+####`public_rsync_hosts_allow`
+If `enable_public_rsync` is true, this variable defines a list of hosts/networks which will be allowed to sync from this module. Defaults to `undef`, which means everyone can sync.
+
 ####`server_type`
-This defines if the server where the worker is being configured is primary or passive (see explanation in Class: dlrn section). Defaults to the value defined
+This defines if the server where the worker is being configured is primary or passive (see explanation in Class: dlrn section). Defaults to the value defined in class dlrn.
 
 ####`db_connection`
 This parameter defines a database connection string to be used by DLRN, in the SQLAlchemy syntax. Defaults to 'sqlite://commits.sqlite', which is a local SQLite3 database.
@@ -358,6 +364,9 @@ When set to true a cron job is created to synchronize build dependencies from CB
 The module has been tested on Fedora and CentOS.
 
 **Important note about letsencrypt module:**This module requires puppet module letsencrypt > 1.0.0 (commit 3c5d17697f14a32f51b24d11f5c6a164d43c1a54 is required). At the time of writing this version of puppet-dlrn, latest version in puppetforge is 1.0.0 so until it's updated in puppetforge it must be cloned from  https://github.com/danzilio/puppet-letsencrypt.
+
+**Important note about the rsync module:**This module requires puppet module rsync > 0.4.0 (commit fc1b68b14fd88fa765121ade9e767359c5892cef at a minimum). Until a later version is published in puppetforge,
+you will need to install the module from the latest source available at https://github.com/puppetlabs/puppetlabs-rsync.
 
 ## Contributing
 

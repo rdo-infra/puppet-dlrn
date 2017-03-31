@@ -56,6 +56,11 @@ class dlrn::common (
     validate_sshd_file => true,
   }
 
+  selboolean { 'rsync_export_all_ro':
+    persistent => true,
+    value      => on,
+  }
+
   case $::osfamily {
     'RedHat': {
       case $::operatingsystem {
@@ -143,6 +148,11 @@ class dlrn::common (
     zone     => 'public',
     port     => $sshd_port,
     protocol => 'tcp',
+  }
+  -> firewalld_service { 'Allow rsyncd':
+    ensure  => 'present',
+    service => 'rsyncd',
+    zone    => 'public',
   }
 
   if $enable_https {
@@ -237,5 +247,9 @@ class dlrn::common (
     ensure => present,
     source => 'puppet:///modules/dlrn/purge-deps.sh',
     mode   => '0755',
+  }
+
+  class { 'rsync::server':
+    use_xinetd => false,
   }
 }
