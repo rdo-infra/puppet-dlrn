@@ -4,7 +4,8 @@ require 'hiera'
 describe 'dlrn' do
 
     let :facts do
-    {   :kernel                    => 'Linux',
+    {   :os                        => { :family => 'RedHat' },
+        :kernel                    => 'Linux',
         :osfamily                  => 'RedHat',
         :operatingsystem           => 'Fedora',
         :operatingsystemrelease    => '24',
