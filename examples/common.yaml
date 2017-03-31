@@ -32,6 +32,7 @@ dlrn::workers:
 #   gerrit_topic: 'rdo-FTBFS-master-head'
 #   rsyncdest: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   rsyncport: '3000'
+    enable_public_rsync: false
   centos-master-uc:
     distro: 'centos7'
     target: 'centos-master-uc'
@@ -50,6 +51,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['mirror-update.openstack.org']
   centos-ocata:
     distro: 'centos7'
     target: 'centos-ocata'
@@ -68,6 +71,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['mirror-update.openstack.org']
   centos-newton:
     distro: 'centos7'
     target: 'centos-newton'
@@ -83,6 +88,8 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos7-newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['mirror-update.openstack.org']
   centos-mitaka:
     distro: 'centos7'
     target: 'centos-mitaka'
@@ -100,6 +107,8 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos7-mitaka'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['mirror-update.openstack.org']
   fedora-master:
     distro: 'f24'
     target: 'fedora'
@@ -118,6 +127,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/f24'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    enable_public_rsync: false
   fedora-rawhide-master:
     distro: 'f25'
     target: 'fedora-rawhide'
@@ -136,3 +146,4 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/f25'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    enable_public_rsync: false
