@@ -36,6 +36,7 @@ dlrn::workers:
 #   gerrit_topic: 'rdo-FTBFS-master-head'
 #   rsyncdest: 'centos-master@backupserver.example.com:/home/centos-master/data/repos'
 #   rsyncport: '3000'
+    enable_public_rsync: false
   centos-master-uc:
     distro: 'centos7'
     target: 'centos-master-uc'
@@ -58,6 +59,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-queens:
     distro: 'centos7'
     target: 'centos-queens'
@@ -82,6 +85,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-pike'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-pike:
     distro: 'centos7'
     target: 'centos-pike'
@@ -104,6 +109,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-pike'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-ocata:
     distro: 'centos7'
     target: 'centos-ocata'
@@ -126,6 +133,8 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   centos-newton:
     distro: 'centos7'
     target: 'centos-newton'
@@ -147,6 +156,8 @@ dlrn::workers:
     fallback_to_master: false
     enable_deps_sync: false
     enable_brs_sync: false
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
   fedora-master:
     distro: 'f28'
     target: 'fedora'
@@ -166,3 +177,6 @@ dlrn::workers:
     fallback_to_master: true
     enable_deps_sync: false
     enable_brs_sync: false
+    enable_public_rsync: false
+    enable_public_rsync: true
+    public_rsync_hosts_allow: ['dummy.example.com']
