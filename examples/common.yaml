@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-master-uc', 'centos-ocata', 'centos-newton', 'centos-mitaka']
+dlrn::web::api_workers: ['centos-master-uc', 'centos-ocata', 'centos-newton']
 dlrn::web::cert_mail: undef
 
 dlrn::workers:
@@ -85,24 +85,6 @@ dlrn::workers:
     symlinks: ['/var/www/html/centos7-newton', '/var/www/html/newton/centos7']
     release: 'newton'
     baseurl: 'https://trunk.rdoproject.org/centos7-newton'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'sqlite:///commits.sqlite'
-  centos-mitaka:
-    name: 'centos-mitaka'
-    distro: 'centos7'
-    target: 'centos-mitaka'
-    distgit_branch: 'rpm-mitaka'
-    distro_branch: 'stable/mitaka'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    cron_hour: '*/12'
-    cron_minute: '30'
-    enable_purge: *enable_purge
-    purge_hour: '4'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/centos7-mitaka', '/var/www/html/mitaka/centos7']
-    release: 'mitaka'
-    baseurl: 'https://trunk.rdoproject.org/centos7-mitaka'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
   fedora-master:

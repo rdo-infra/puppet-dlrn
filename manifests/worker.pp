@@ -62,12 +62,12 @@
 #
 # [*release*]
 #   (optional) Release this worker will be using (all lowercase)
-#   Example: 'mitaka'
+#   Example: 'ocata'
 #   Defaults to 'newton'
 #
 # [*baseurl*]
 #   (optional) Base URL for the exported repositories
-#   Example: 'https://trunk.rdoproject.org/centos7-mitaka'
+#   Example: 'https://trunk.rdoproject.org/centos7-ocata'
 #   Defaults to 'http://localhost'
 #
 # [*gerrit_user*]
@@ -84,7 +84,7 @@
 # [*gerrit_topic*]
 #   (optional) Gerrit topic to use when opening a review. Only used it gerrit_user
 #   is set
-#   Example: 'rdo-FTBFS-mitaka'
+#   Example: 'rdo-FTBFS-ocata'
 #   Defaults to 'rdo-FTBFS'
 #
 # [*rsyncdest*]
@@ -155,7 +155,7 @@
 #    uid            => 1000,
 #    disable_email  => true,
 #    enable_cron    => false,
-#    release        => 'mitaka',
+#    release        => 'ocata',
 #  }
 
 define dlrn::worker (
@@ -351,8 +351,8 @@ python setup.py install",
     }
   }
 
-  # Special case for *-ocata, *-newton and *-mitaka
-  if $name =~ /^(centos|fedora)\-(mitaka|newton|ocata)/ {
+  # Special case for *-ocata and *-newton
+  if $name =~ /^(centos|fedora)\-(newton|ocata)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]

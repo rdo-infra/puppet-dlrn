@@ -189,10 +189,10 @@ dlrn::worker { 'fedora-master':
 The distribution used to create DLRN packages. Currently used values are `centos7`, `f24` and `f25`
 
 ####`target`
-Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-newton`, 'centos-mitaka' and `fedora-master-rawhide`.
+Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-newton`, 'centos-ocata' and `fedora-master-rawhide`.
 
 ####`distgit_branch`
-Specifies the branch for the dist-git: `rpm-master` for trunk packages, `newton-rdo` for stable/newton, `rpm-mitaka` for stable/mitaka.
+Specifies the branch for the dist-git: `rpm-master` for trunk packages, `ocata-rdo` for stable/ocata, `newton-rdo` for stable/newton.
 
 ####`distro_branch`
 Specifies the branch for upstream git: `master`, `stable/newton`, etc.
@@ -228,10 +228,10 @@ If enable_purge=true, set the minute for the cron job. Defaults to '7'.
 This is a list that specifies a set of symbolic links that will be created, pointing to `/home/$user/data/repos`.
 
 ####`release`
-This is the release name this worker will be targetting, in lower case. For example, 'mitaka' or 'newton'.
+This is the release name this worker will be targetting, in lower case. For example, 'ocata' or 'newton'.
 
 ####`baseurl`
-This is the base URL for the exported repositories. It will be used as part of the generated .repo file. For example, 'https://trunk.rdoproject.org/centos7-mitaka'
+This is the base URL for the exported repositories. It will be used as part of the generated .repo file. For example, 'https://trunk.rdoproject.org/centos7-ocata'
 
 ####`gerrit_user`
 This is a user to run Gerrit reviews for packages after build failures. If set to undef (default), Gerrit reviews are disabled for this worker.
