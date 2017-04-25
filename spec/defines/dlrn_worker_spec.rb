@@ -538,21 +538,21 @@ $/)
 
   context 'with rsyncdest parameter parameter' do
     before :each do
-      params.merge!(:rsyncdest       => 'centos-master@backupserver.example.com:/home/centos-master/data/repos')
+      params.merge!(:rsyncdest       => 'centos-ocata@backupserver.example.com:/home/centos-ocata/data/repos')
       params.merge!(:rsyncport       => 1022)
     end
 
     let :title do
-      'centos-mitaka'
+      'centos-ocata'
     end
 
     it 'sets rsyncdest in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/dlrn/centos-mitaka/projects.ini")
-        .with_content(/rsyncdest=centos-master@backupserver.example.com:\/home\/centos-master\/data\/repos$/)
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-ocata/projects.ini")
+        .with_content(/rsyncdest=centos-ocata@backupserver.example.com:\/home\/centos-ocata\/data\/repos$/)
     end
 
     it 'does set rsyncport to 1022 in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/dlrn/centos-mitaka/projects.ini")
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-ocata/projects.ini")
         .with_content(/rsyncport=1022$/)
     end
   end
@@ -562,10 +562,10 @@ $/)
       params.merge!(:server_type    => 'passive')
     end
  
-    context 'with centos-mitaka name' do
+    context 'with centos-ocata name' do
       before :each do
-        params.merge!(:distro_branch   => 'stable/mitaka')
-        params.merge!(:release         => 'mitaka')
+        params.merge!(:distro_branch   => 'stable/ocata')
+        params.merge!(:release         => 'ocata')
         params.merge!(:enable_cron     => true)
         params.merge!(:gerrit_user     => 'foo')
         params.merge!(:gerrit_email    => 'foo@rdoproject.org')
@@ -573,12 +573,12 @@ $/)
       end
 
       let :title do
-        'centos-mitaka'
+        'centos-ocata'
       end
 
       it 'creates .httaccess file' do
         is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
-        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci\(\/\|\$\)\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-mitaka-tested\/\$3"/)
+        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci\(\/\|\$\)\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-ocata-tested\/\$3"/)
       end
 
       it { is_expected.not_to contain_cron("#{title}") }
@@ -594,14 +594,14 @@ $/)
       end
     end
 
-    context 'with fedora-mitaka name' do
+    context 'with fedora-ocata name' do
       before :each do
-        params.merge!(:distro_branch   => 'stable/mitaka')
-        params.merge!(:release         => 'mitaka')
+        params.merge!(:distro_branch   => 'stable/ocata')
+        params.merge!(:release         => 'ocata')
       end
 
       let :title do
-        'fedora-mitaka'
+        'fedora-ocata'
       end
 
       it 'does not create .httaccess file' do
