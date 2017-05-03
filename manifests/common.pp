@@ -49,7 +49,7 @@ class dlrn::common (
                       'screen', 'python-tox', 'git-review', 'python-sh',
                       'postfix', 'firewalld', 'openssl-devel',
                       'libffi-devel', 'yum-plugin-priorities' ]
-  package { $required_packages: ensure => 'installed' }
+  package { $required_packages: ensure => 'installed', allow_virtual => true }
 
   service { 'postfix':
     ensure  => 'running',
