@@ -198,10 +198,13 @@ Specifies the branch for the dist-git: `rpm-master` for trunk packages, `ocata-r
 Specifies the branch for upstream git: `master`, `stable/newton`, etc.
 
 ####`uid`
-Specifies the UID to use for the worker user. Defaults ti `undef`, which means "let the operating system choose automatically".
+Specifies the UID to use for the worker user. Defaults to `undef`, which means "let the operating system choose automatically".
 
 ####`disable_email`
 Disable e-mails when a package build fails.
+
+####`mock_tmpfs_enable`
+Enable the mock tmpfs plugin. This can override the option set in class dlrn. Note this requires a lot of RAM. Defaults to `false`.
 
 ####`enable_cron`
 Enable the cron jobs for this DLRN worker.

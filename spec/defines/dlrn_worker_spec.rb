@@ -489,7 +489,7 @@ $/)
         :source => 'puppet:///modules/dlrn/fedora-rawhide.cfg',
         :mode   => '0644',
         :owner  => 'fedora-rawhide-master',
-      )
+      ).with_content(/config_opts\[\'plugin_conf\'\]\[\'tmpfs\_enable\'\] = False/)
     end
   end
 
@@ -501,6 +501,22 @@ $/)
     it 'sets default baseurl in projects.ini' do
         is_expected.to contain_file("/usr/local/share/dlrn/centos-master/projects.ini")
         .with_content(/baseurl=http:\/\/localhost$/)
+    end
+
+    it 'creates mock config file with disabled mock_tmpfs' do
+      is_expected.to contain_file("/home/centos-master/dlrn/scripts/centos.cfg")
+      .with_content(/config_opts\[\'plugin_conf\'\]\[\'tmpfs\_enable\'\] = False/)
+    end
+
+    context 'when enabling mock_tmpfs' do
+      before :each do
+        params.merge!(:mock_tmpfs_enable => true)
+      end
+
+      it 'creates mock config file with enabled mock_tmpfs' do
+        is_expected.to contain_file("/home/centos-master/dlrn/scripts/centos.cfg")
+        .with_content(/config_opts\[\'plugin_conf\'\]\[\'tmpfs\_enable\'\] = True/)
+      end
     end
   end
 

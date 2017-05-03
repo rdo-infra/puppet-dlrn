@@ -26,6 +26,11 @@
 #   (optional) Disable e-mail notifications
 #   Defaults to true
 #
+# [*mock_tmpfs_enable*]
+#   (optional) Enable the mock tmpfs plugin. This can override the option set
+#              in class dlrn. Note this requires a lot of RAM
+#   Defaults to false
+#
 # [*enable_cron*]
 #   (optional) Enable cron jobs to run DLRN on the worker every 5 minutes
 #   Defaults to false
@@ -165,6 +170,7 @@ define dlrn::worker (
   $distro_branch                 = 'master',
   $uid                           = undef,
   $disable_email                 = true,
+  $mock_tmpfs_enable             = false,
   $enable_cron                   = false,
   $cron_env                      = '',
   $cron_hour                     = '*',
@@ -331,11 +337,13 @@ python setup.py install",
 
   # Special case for fedora-rawhide-master
   if $name == 'fedora-rawhide-master' {
+    $worker_name = 'fedora-rawhide'
     file { "/home/${name}/dlrn/scripts/fedora-rawhide.cfg":
       ensure  => present,
       source  => 'puppet:///modules/dlrn/fedora-rawhide.cfg',
       mode    => '0644',
       owner   => $name,
+      content => template('dlrn/fedora-rawhide.cfg.erb'),
       require => Vcsrepo["/home/${name}/dlrn"],
     }
   }
@@ -344,6 +352,7 @@ python setup.py install",
   if $name == 'centos-master-uc' {
     $worker_os      = 'centos'
     $worker_version = 'master-uc'
+    $worker_name = 'centos-master-uc'
     file { "/home/${name}/dlrn/scripts/${worker_os}-${worker_version}.cfg":
       ensure  => present,
       content => template("dlrn/${worker_os}.cfg.erb"),
@@ -356,6 +365,7 @@ python setup.py install",
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
+    $worker_name    = "${worker_os}-${worker_version}"
 
     file { "/home/${name}/dlrn/scripts/${worker_os}-${worker_version}.cfg":
       ensure  => present,
@@ -368,6 +378,19 @@ python setup.py install",
       mode    => '0755',
       path    => "/var/www/html/${worker_version}",
       require => Package['httpd'],
+    }
+  }
+
+  # Special case for centos-master and fedora-master
+  if $name =~ /^(centos|fedora)\-master/ {
+    $components     = split($name, '-')
+    $worker_os      = $components[0]
+    $worker_name    = "${worker_os}-master"
+
+    file { "/home/${name}/dlrn/scripts/${worker_os}.cfg":
+      ensure  => present,
+      content => template("dlrn/${worker_os}.cfg.erb"),
+      require => Vcsrepo["/home/${name}/dlrn"],
     }
   }
 

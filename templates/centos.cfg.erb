@@ -1,10 +1,20 @@
-config_opts['root'] = 'dlrn-<%= @worker_os %>-<%= @worker_version %>-x86_64'
+config_opts['root'] = 'dlrn-<%= @worker_name %>-x86_64'
 config_opts['target_arch'] = 'x86_64'
 config_opts['legal_host_arches'] = ('x86_64',)
 config_opts['chroot_setup_cmd'] = 'install basesystem rpm-build python2-devel gcc make python-sqlalchemy python-webob ghostscript graphviz python-sphinx python-eventlet python-six python-pbr python3-pbr openstack-macros git yum-plugin-priorities'
 config_opts['dist'] = 'el7'  # only useful for --resultdir variable subst
 config_opts['releasever'] = '7'
 config_opts['plugin_conf']['ccache_enable'] = False
+<% if @mock_tmpfs_enable == true -%>
+config_opts['plugin_conf']['tmpfs_enable'] = True
+config_opts['plugin_conf']['tmpfs_opts'] = {}
+config_opts['plugin_conf']['tmpfs_opts']['required_ram_mb'] = 2048
+config_opts['plugin_conf']['tmpfs_opts']['max_fs_size'] = '4g'
+config_opts['plugin_conf']['tmpfs_opts']['mode'] = '0755'
+config_opts['plugin_conf']['tmpfs_opts']['keep_mounted'] = True
+<% else %>
+config_opts['plugin_conf']['tmpfs_enable'] = False
+<% end -%>
 config_opts['priorities.conf'] = """
 [main]
 enabled = 1
