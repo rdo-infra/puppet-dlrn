@@ -14,5 +14,7 @@ fixtures:
     wget: git://github.com/maestrodev/puppet-wget.git
     concat: git://github.com/puppetlabs/puppetlabs-concat.git
     apache: git://github.com/puppetlabs/puppetlabs-apache.git
-    letsencrypt: git://github.com/danzilio/puppet-letsencrypt.git
+    letsencrypt:
+      repo: git://github.com/voxpupuli/puppet-letsencrypt.git
+      ref: "af7a12862d0b77211ba91ea1b5455adc254fcd48"
     inifile: git://github.com/puppetlabs/puppetlabs-inifile.git
