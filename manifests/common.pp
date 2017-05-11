@@ -30,7 +30,12 @@ class dlrn::common (
   $enable_https      = false,
 ) {
   class { 'selinux':
-    mode => 'permissive'
+    mode => 'enforcing'
+  }
+
+  selboolean { 'httpd_read_user_content':
+    persistent => true,
+    value      => on,
   }
 
   selinux_port { "tcp/${::dlrn::common::sshd_port}":
