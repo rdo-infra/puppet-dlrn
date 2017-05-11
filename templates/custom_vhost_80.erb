@@ -4,6 +4,14 @@
   ## Vhost docroot
   DocumentRoot "/var/www/html"
 
+  ## Directories, there should at least be a declaration for /var/www/html
+
+  <Directory "/var/www/html">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride FileInfo
+    Require all granted
+  </Directory>
+
 <% if @api_workers %> <% @api_workers.each do |worker| -%>
   # WSGI configuration for worker <%= worker %>
   WSGIDaemonProcess dlrn-<%= worker -%> group=<%= worker -%> processes=5 threads=1 user=<%= worker %>
