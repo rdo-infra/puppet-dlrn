@@ -10,7 +10,7 @@ describe 'dlrn::common' do
         :concat_basedir            => '/tmp',
         :puppetversion             => '3.7.0',
         :selinux                   => true,
-        :selinux_current_mode      => 'enforcing',
+        :selinux_current_mode      => 'permissive',
         :sshed25519key             => '',
         :sshecdsakey               => '',
         :sshdsakey                 => '',
@@ -21,9 +21,21 @@ describe 'dlrn::common' do
     end
 
     context 'with default parameters' do
-      it 'sets SELinux to permissive' do
+      it 'sets SELinux to enforcing' do
         is_expected.to contain_class('selinux').with(
-          :mode => 'permissive'
+          :mode => 'enforcing'
+        )
+      end
+
+      it 'sets the required selinux booleans' do
+        is_expected.to contain_selboolean('httpd_read_user_content').with(
+          :persistent => 'true',
+          :value      => 'on',
+        )
+
+        is_expected.to contain_selboolean('httpd_enable_homedirs').with(
+          :persistent => 'true',
+          :value      => 'on',
         )
       end
 
