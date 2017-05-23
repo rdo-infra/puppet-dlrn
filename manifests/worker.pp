@@ -393,18 +393,6 @@ python setup.py install",
     }
   }
 
-  # Add compatibility redirects
-  if $name =~ /^(centos)\-(.*)/ and $server_type == 'passive'  {
-    file { "/home/${name}/data/repos/.htaccess":
-      ensure  => present,
-      content => template('dlrn/htaccess.erb'),
-      mode    => '0644',
-      owner   => $name,
-      group   => $name,
-      require => File["/home/${name}/data/repos"],
-    }
-  }
-
   # Set up gerrit, if configured
   if $gerrit_user and $server_type == 'primary' {
     if ! $gerrit_email {

@@ -144,10 +144,6 @@ describe 'dlrn::worker' do
             .with_content(/workers=1$/)
         end
 
-        it 'does not create .htaccess file' do
-            is_expected.not_to contain_file("/home/#{user}/data/repos/.htaccess")
-        end
-
         it 'configures the default db connection string' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/database_connection=sqlite:\/\/\/commits.sqlite$/)
@@ -591,11 +587,6 @@ $/)
         'centos-ocata'
       end
 
-      it 'creates .httaccess file' do
-        is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
-        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci\(\/\|\$\)\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-ocata-tested\/\$3"/)
-      end
-
       it { is_expected.not_to contain_cron("#{title}") }
 
       it 'does not set a gerrit user in projects.ini' do
@@ -619,10 +610,6 @@ $/)
         'fedora-ocata'
       end
 
-      it 'does not create .httaccess file' do
-        is_expected.not_to contain_file("/home/#{title}/data/repos/.htaccess")
-      end
-
       it { is_expected.not_to contain_cron("#{title}") }
     end
 
@@ -637,16 +624,6 @@ $/)
 
       let :title do
         'centos-master'
-      end
-
-      it 'creates .httaccess file' do
-        is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
-        .with_content(/RedirectMatch "\^\/\(.*\)\/current-passed-ci\(\/\|\$\)\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-master-tested\/\$3"/)
-      end
-
-      it 'creates .httaccess file' do
-        is_expected.to contain_file("/home/#{title}/data/repos/.htaccess")
-        .with_content(/RedirectMatch "\^\/\(.*\)\/current-tripleo\(\/\|\$\)\(.*\)" "http:\/\/buildlogs.centos.org\/centos\/7\/cloud\/x86_64\/rdo-trunk-master-tripleo\/\$3"/)
       end
 
       it { is_expected.not_to contain_cron("#{title}") }
