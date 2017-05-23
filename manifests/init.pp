@@ -8,10 +8,6 @@
 #   (optional) Additional port where sshd should listen
 #   Defaults to 3300
 #
-# [*mock_tmpfs_enable*]
-#   (optional) Enable the mock tmpfs plugin. Note this requires a lot of RAM
-#   Defaults to false
-#
 # [*server_type*]
 #   (optional) server_type can be set to primary or passive. Primary server
 #   check periodically for changes in repos and synchronize every build to a
@@ -34,16 +30,14 @@
 
 
 class dlrn (
-  $sshd_port         = 3300,
-  $mock_tmpfs_enable = false,
-  $server_type       = 'primary',
-  $enable_https      = false
+  $sshd_port    = 3300,
+  $server_type  = 'primary',
+  $enable_https = false
 ) {
 
   class { '::dlrn::common':
-    sshd_port         => $sshd_port,
-    mock_tmpfs_enable => $mock_tmpfs_enable,
-    enable_https      => $enable_https
+    sshd_port    => $sshd_port,
+    enable_https => $enable_https
   }
 
   class { '::dlrn::rdoinfo': }

@@ -27,6 +27,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-master-head'
@@ -47,6 +48,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
@@ -65,6 +67,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: false
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
@@ -83,6 +86,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/centos7-newton'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: false
   fedora-master:
     distro: 'f24'
     target: 'fedora'
@@ -101,6 +105,7 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/f24'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: false
   fedora-rawhide-master:
     distro: 'f25'
     target: 'fedora-rawhide'
@@ -119,3 +124,4 @@ dlrn::workers:
     baseurl: 'https://trunk.rdoproject.org/f25'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: false

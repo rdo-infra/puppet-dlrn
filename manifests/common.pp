@@ -8,10 +8,6 @@
 #   (optional) Additional port where sshd should listen
 #   Defaults to 3300
 #
-# [*mock_tmpfs_enable*]
-#   (optional) Enable the mock tmpfs plugin. Note this requires a lot of RAM
-#   Defaults to false
-#
 # [*enable_https*]
 #   (optional) Enable ssl in apache configuration.
 #   Defaults to false
@@ -26,7 +22,6 @@
 
 class dlrn::common (
   $sshd_port         = 3300,
-  $mock_tmpfs_enable = false,
   $enable_https      = false,
 ) {
   class { 'selinux':
@@ -187,17 +182,5 @@ class dlrn::common (
   class { 'sudo':
     purge               => false,
     config_file_replace => false,
-  }
-
-  if $mock_tmpfs_enable {
-    file { '/etc/mock/site-defaults.cfg':
-      ensure  => present,
-      backup  => true,
-      source  => 'puppet:///modules/dlrn/site-defaults.cfg',
-      mode    => '0644',
-      owner   => 'root',
-      group   => 'mock',
-      require => Package['mock'],
-    }
   }
 }

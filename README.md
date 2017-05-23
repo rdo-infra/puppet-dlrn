@@ -71,7 +71,6 @@ This is the higher level class, that will configure a DLRN instance.
 ```puppet
 class { 'dlrn':
   sshd_port         => 1234,
-  mock_tmpfs_enable => false,
   server_type       => 'primary',
   enable_https      => false
 }
@@ -79,9 +78,6 @@ class { 'dlrn':
 
 ####`sshd_port`
 Specifies the alternate port sshd will use to listen to. This is useful when you need to access your DLRN instance over the Internet, to reduce the amount of automated attacks against sshd.
-
-####`mock_tmpfs_enable`
-Enables the Mock TMPfs plugin. Note this will enable creation of a file system in RAM using up to 6 GB per worker, so be sure you have enough RAM and swap for all workers.
 
 ####`server_type`
 Defines the server_type. It can be set to primary (default) or passive. Even when enabled in workers hiera configuration, passive servers will not enable:
@@ -102,15 +98,11 @@ This class is used internally, to configure the common OS-specific aspects requi
 ```puppet
 class { 'dlrn::common':
   sshd_port         => 1234,
-  mock_tmpfs_enable => false,
 }
 ```
 
 ####`sshd_port`
 Specifies the alternate port sshd will use to listen to.
-
-####`mock_tmpfs_enable`
-Enables the Mock TMPfs plugin. Note this will enable creation of a file system in RAM using up to 6 GB per worker, so be sure you have enough RAM and swap for all workers.
 
 ####`enable_https`
 Enable ssl in apache configuration. Certificates are managed using Let's Encrypt service. Defaults to false.
@@ -198,10 +190,13 @@ Specifies the branch for the dist-git: `rpm-master` for trunk packages, `ocata-r
 Specifies the branch for upstream git: `master`, `stable/newton`, etc.
 
 ####`uid`
-Specifies the UID to use for the worker user. Defaults ti `undef`, which means "let the operating system choose automatically".
+Specifies the UID to use for the worker user. Defaults to `undef`, which means "let the operating system choose automatically".
 
 ####`disable_email`
 Disable e-mails when a package build fails.
+
+####`mock_tmpfs_enable`
+Enable the mock tmpfs plugin. Note this requires a lot of RAM (up to 4 GB per worker). Defaults to `false`.
 
 ####`enable_cron`
 Enable the cron jobs for this DLRN worker.
