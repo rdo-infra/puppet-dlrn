@@ -249,6 +249,10 @@ This defines if the server where the worker is being configured is primary or pa
 ####`db_connection`
 This parameter defines a database connection string to be used by DLRN, in the SQLAlchemy syntax. Defaults to 'sqlite://commits.sqlite', which is a local SQLite3 database.
 
+####`fallback_to_master`
+This parameter defines the fallback behavior when a selected branch is not available in the Git repo. If set to `true`, DLRN will fall back to the master branch
+for source repositories if the configured branch cannot be found, and rpm-master for distgit repositories. Defaults to `true`.
+
 ####`worker_processes`
 This parameter defines the number of worker processes to use during build. Defaults to `1`.
 
