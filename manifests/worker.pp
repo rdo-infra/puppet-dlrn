@@ -120,6 +120,13 @@
 #   syntax
 #   Defaults to 'sqlite:///commits.sqlite'
 #
+# [*fallback_to_master*]
+#   (optional) If set to true, DLRN will fall back to the master branch
+#   for source repositories if the configured branch cannot be found, and
+#   rpm-master for distgit repositories. If set to false, it will fail in
+#   case the configured branch cannot be found.
+#   Detaults to true
+#
 # [*pkginfo_driver*]
 #   (optional) DLRN driver to use to manage the distgit repositories.
 #   The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -188,6 +195,7 @@ define dlrn::worker (
   $rsyncport                     = 22,
   $server_type                   = $dlrn::server_type,
   $db_connection                 = 'sqlite:///commits.sqlite',
+  $fallback_to_master            = true,
   $worker_processes              = 1,
   $pkginfo_driver                = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
   $gitrepo_repo                  = 'http://github.com/openstack/rpm-packaging',

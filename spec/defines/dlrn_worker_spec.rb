@@ -149,6 +149,11 @@ describe 'dlrn::worker' do
             .with_content(/database_connection=sqlite:\/\/\/commits.sqlite$/)
         end
 
+        it 'sets fallback_to_master to true' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/fallback_to_master=true$/)
+        end
+
         it 'creates the API directory' do
             is_expected.to contain_file("/home/#{title}/api").with(
               :ensure  => 'directory',
@@ -203,6 +208,21 @@ $/)
         it 'configures 4 workers in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/workers=4$/)
+        end
+      end
+
+      context 'when not allowing fallback to master' do
+        before :each do
+          params.merge!(:fallback_to_master => 'false')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'configures fallback_to_master=false' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/fallback_to_master=false$/)
         end
       end
 
