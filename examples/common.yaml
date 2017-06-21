@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-master-uc', 'centos-ocata', 'centos-newton']
+dlrn::web::api_workers: ['centos-master-uc', 'centos-pike', 'centos-ocata', 'centos-newton']
 dlrn::web::cert_mail: undef
 
 dlrn::workers:
@@ -52,6 +52,28 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
+  centos-pike:
+    distro: 'centos7'
+    target: 'centos-pike'
+    distgit_branch: 'pike-rdo'
+    distro_branch: 'stable/pike'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+# TODO(jpena): set as *enable_purge after initial bootstrap
+    enable_purge: false
+    purge_hour: '0'
+    purge_minute: '7'
+# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
+    symlinks: ['/var/www/html/centos7-pike-bootstrap', '/var/www/html/pike/centos7-bootstrap']
+    release: 'pike-uc'
+# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
+    baseurl: 'https://trunk.rdoproject.org/centos7-pike-bootstrap'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+#   gerrit_user: 'rdo-trunk'
+#   gerrit_email: 'rdo-trunk@rdoproject.org'
+#   gerrit_topic: 'rdo-FTBFS-pike'
   centos-ocata:
     distro: 'centos7'
     target: 'centos-ocata'
