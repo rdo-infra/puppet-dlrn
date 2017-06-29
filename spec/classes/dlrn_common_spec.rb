@@ -21,9 +21,9 @@ describe 'dlrn::common' do
     end
 
     context 'with default parameters' do
-      it 'sets SELinux to enforcing' do
+      it 'sets SELinux to permissive' do
         is_expected.to contain_class('selinux').with(
-          :mode => 'enforcing'
+          :mode => 'permissive'
         )
       end
 
