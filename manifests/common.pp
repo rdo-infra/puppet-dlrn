@@ -25,7 +25,7 @@ class dlrn::common (
   $enable_https      = false,
 ) {
   class { 'selinux':
-    mode => 'enforcing'
+    mode => 'permissive'
   }
 
   selboolean { 'httpd_read_user_content':
