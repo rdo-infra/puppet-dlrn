@@ -38,6 +38,27 @@ class dlrn::common (
     value      => on,
   }
 
+  selboolean { 'httpd_can_network_connect':
+    persistent => true,
+    value      => on,
+  }
+
+  selboolean { 'daemons_use_tty':
+    persistent => true,
+    value      => on,
+  }
+
+  file {'/usr/share/selinux/targeted/dlrn.pp':
+    ensure => present,
+    source => 'puppet:///modules/dlrn/dlrn.pp_',
+    mode   => '0644',
+  }
+
+  selmodule {'dlrn_selinux':
+    ensure => present,
+    name   => 'dlrn',
+  }
+
   selinux_port { "tcp/${::dlrn::common::sshd_port}":
     seltype => 'ssh_port_t',
   }
