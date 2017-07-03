@@ -473,4 +473,11 @@ python setup.py install",
     ensure  => present,
     content => template('dlrn/dlrn-api.cfg.erb'),
   }
+
+  # We want to make the user's home directory accessible to httpd, so the API
+  # can handle stuff in there.
+  selinux::fcontext { "${name}-home-context":
+    seltype  => 'httpd_sys_rw_content_t',
+    pathspec => "/home/${name}/data(/.*)?",
+  }
 }
