@@ -3,8 +3,7 @@ fixtures:
     "dlrn": "#{source_dir}"
   repositories:
     stdlib: git://github.com/puppetlabs/puppetlabs-stdlib.git
-    selinux: git://github.com/spiette/puppet-selinux.git
-    selinux_types: git://github.com/jgoldschrafe/puppet-selinux_types.git
+    selinux: git://github.com/voxpupuli/puppet-selinux.git
     ssh:
       repo: git://github.com/saz/puppet-ssh.git
       ref: "v4.0.0"
