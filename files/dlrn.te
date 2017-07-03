@@ -1,0 +1,17 @@
+#
+# DLRN SELinux policy for CentOS 7
+#
+# Allow DLRN operations while in SELinux Enforcing mode
+#
+# Author: Javier Peña <jpena@redhat.com>
+
+policy_module(dlrn, 1.0)
+
+require {
+    type httpd_t;
+}
+
+#============= httpd_t ==============
+# This is required for remote import operations,
+# when doing rsync to an external server.
+term_use_ptmx(httpd_t)
