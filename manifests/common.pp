@@ -38,8 +38,37 @@ class dlrn::common (
     value      => on,
   }
 
-  selinux_port { "tcp/${::dlrn::common::sshd_port}":
-    seltype => 'ssh_port_t',
+  selboolean { 'httpd_can_network_connect':
+    persistent => true,
+    value      => on,
+  }
+
+  selboolean { 'daemons_use_tty':
+    persistent => true,
+    value      => on,
+  }
+
+  file {'/root/dlrn.te':
+    ensure => present,
+    source => 'puppet:///modules/dlrn/dlrn.te',
+    mode   => '0640',
+  }
+  -> exec {'compile SELinux policy':
+    command => 'make -f /usr/share/selinux/devel/Makefile dlrn.pp',
+    cwd     => '/root',
+    path    => '/usr/bin',
+    require => Package['selinux-policy-devel'],
+  }
+  -> selmodule {'dlrn':
+    ensure        => present,
+    selmodulepath => '/root/dlrn.pp',
+  }
+
+  selinux::port { 'allow-ssh-port':
+    ensure   => 'present',
+    seltype  => 'ssh_port_t',
+    protocol => 'tcp',
+    port     => $::dlrn::common::sshd_port,
   }
   -> class { 'ssh':
     server_options     => {
@@ -53,7 +82,8 @@ class dlrn::common (
                       'python-virtualenv', 'gcc', 'createrepo',
                       'screen', 'python-tox', 'git-review', 'python-sh',
                       'postfix', 'firewalld', 'openssl-devel',
-                      'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools']
+                      'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools',
+                      'selinux-policy-devel' ]
   package { $required_packages: ensure => 'installed', allow_virtual => true }
 
   service { 'postfix':
