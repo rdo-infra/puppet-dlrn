@@ -222,6 +222,12 @@ define dlrn::worker (
     unless  => "stat -c %U:%G /home/${name} | grep -w ${name}:${name} > /dev/null",
     timeout => 900,
   }
+  # We want to make the user's home directory accessible to httpd, so the API
+  # can handle stuff in there.
+  -> selinux::fcontext { "${name}-home-context":
+    seltype  => 'httpd_sys_rw_content_t',
+    pathspec => "/home/${name}/data(/.*)?",
+  }
   -> file { "/home/${name}/data":
     ensure => directory,
     mode   => '0755',

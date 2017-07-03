@@ -1,0 +1,15 @@
+#
+# DLRN SELinux policy for CentOS 7
+#
+# Allow DLRN operations while in SELinux Enforcing mode
+#
+# Author: Javier Peña <jpena@redhat.com>
+
+policy_module(dlrn, 1.0)
+
+require {
+    type httpd_t;
+}
+
+#============= httpd_t ==============
+term_use_ptmx(httpd_t)
