@@ -1,0 +1,19 @@
+
+policy_module(dlrn, 1.0)
+
+require {
+    type httpd_t;
+    type user_home_t;
+    type user_home_dir_t;
+    class lnk_file { create unlink };
+    class file { append create execute getattr link open read rename setattr unlink write };
+}
+
+#============= httpd_t ==============
+allow httpd_t user_home_dir_t:file { append create getattr link open read rename setattr unlink write };
+allow httpd_t user_home_dir_t:lnk_file { create unlink };
+allow httpd_t user_home_t:file { create execute rename setattr unlink write };
+term_use_ptmx(httpd_t)
+userdom_manage_user_home_content_dirs(httpd_t)
+userdom_manage_user_home_content_symlinks(httpd_t)
+userdom_manage_user_home_dirs(httpd_t)
