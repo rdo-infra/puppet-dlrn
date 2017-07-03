@@ -1,0 +1,16 @@
+
+module dlrn 1.0;
+
+require {
+	type httpd_t;
+	type user_home_t;
+	class lnk_file { create rename unlink };
+	class dir { add_name create remove_name rename write };
+	class file { create execute rename setattr unlink write };
+}
+
+#============= httpd_t ==============
+
+allow httpd_t user_home_t:dir { add_name create remove_name rename write};
+allow httpd_t user_home_t:file { create execute rename setattr unlink write };
+allow httpd_t user_home_t:lnk_file { create rename unlink };
