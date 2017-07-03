@@ -236,6 +236,12 @@ define dlrn::worker (
     unless  => "stat -c %U:%G /home/${name} | grep -w ${name}:${name} > /dev/null",
     timeout => 900,
   }
+  # We want to make the user's home directory accessible to httpd, so the API
+  # can handle stuff in there.
+  -> selinux::fcontext { "${name}-data-context":
+    seltype  => 'httpd_sys_rw_content_t',
+    pathspec => "/home/${name}/data(/.*)?",
+  }
   -> file { "/home/${name}/data":
     ensure => directory,
     mode   => '0755',
@@ -328,7 +334,11 @@ define dlrn::worker (
     user    => $name,
   }
 
-  exec { "venv-${name}":
+  selinux::fcontext { "${name}-venv-context":
+    seltype  => 'httpd_user_script_exec_t',
+    pathspec => "/home/${name}/.venv(/.*)?",
+  }
+  -> exec { "venv-${name}":
     command => "virtualenv --system-site-packages /home/${name}/.venv",
     path    => '/usr/bin',
     creates => "/home/${name}/.venv",
@@ -589,5 +599,18 @@ python setup.py install",
     owner   => $name,
     group   => $name,
     mode    => '0600',
+  }
+
+  # Restore the SELinux context for data and .venv
+  selinux::exec_restorecon { "/home/${name}/data":
+    require     => File["/home/${name}/data/repos/delorean-deps.repo"],
+    refreshonly => false,
+    unless      => '/usr/bin/ls -Zd /home/${name}/data | /usr/bin/grep -w httpd_sys_rw_content_t',
+  }
+
+  selinux::exec_restorecon { "/home/${name}/.venv":
+    require     => Exec["pip-install-${name}"],
+    refreshonly => false,
+    unless      => '/usr/bin/ls -Zd /home/${name}/.venv | /usr/bin/grep -w httpd_user_script_exec_t',
   }
 }
