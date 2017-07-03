@@ -38,6 +38,32 @@ class dlrn::common (
     value      => on,
   }
 
+  selboolean { 'httpd_can_network_connect':
+    persistent => true,
+    value      => on,
+  }
+
+  selboolean { 'daemons_use_tty':
+    persistent => true,
+    value      => on,
+  }
+
+  file {'/root/dlrn.te':
+    ensure  => present,
+    source  => 'puppet:///modules/dlrn/dlrn.te',
+    mode    => '0640',
+    require => Package['selinux-policy-devel'],
+  }
+  -> exec {'compile SELinux policy':
+    command => 'make -f /usr/share/selinux/devel/Makefile dlrn.pp',
+    cwd     => '/root',
+    path    => '/usr/bin',
+  }
+  -> selmodule {'dlrn':
+    ensure        => present,
+    selmodulepath => '/root/dlrn.pp',
+  }
+
   selinux_port { "tcp/${::dlrn::common::sshd_port}":
     seltype => 'ssh_port_t',
   }
