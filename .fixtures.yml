@@ -11,7 +11,6 @@ fixtures:
     lvm: git://github.com/puppetlabs/puppetlabs-lvm.git
     yum: git://github.com/CERIT-SC/puppet-yum.git
     firewalld: git://github.com/crayfishx/puppet-firewalld.git
-    wget: git://github.com/maestrodev/puppet-wget.git
     concat: git://github.com/puppetlabs/puppetlabs-concat.git
     apache: git://github.com/puppetlabs/puppetlabs-apache.git
     letsencrypt:

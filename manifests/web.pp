@@ -40,27 +40,10 @@ class dlrn::web(
     default_vhost => false,
   }
 
-  file { '/var/www/html/images':
-    ensure  => directory,
-    mode    => '0755',
-    require => Package['httpd'],
-  }
-  -> wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/images/rdo-logo-white.png':
-    destination => '/var/www/html/images/rdo-logo-white.png',
-    cache_dir   => '/var/cache/wget',
-    require     => Package['httpd'],
-  }
-
-  file { '/usr/local/bin/update-web-index.sh':
+  file { '/var/www/html/index.html':
     ensure => present,
-    mode   => '0755',
-    source => 'puppet:///modules/dlrn/update-web-index.sh',
-  }
-  -> cron { 'update-web-index':
-    command => '/usr/local/bin/update-web-index.sh > /dev/null',
-    user    => 'root',
-    hour    => '3',
-    minute  => '0',
+    mode   => '0644',
+    source => 'puppet:///modules/dlrn/homepage.html',
   }
 
   if $enable_https {
@@ -114,26 +97,15 @@ class dlrn::web(
     apache::vhost::custom { $web_domain:
       content => template('dlrn/custom_vhost_80.erb'),
     }
-    -> wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
-      destination => '/var/www/html/index.html',
-      cache_dir   => '/var/cache/wget',
-      require     => Package['httpd'],
-    }
   } else {
-      apache::vhost { $web_domain:
-        port            => 80,
-        default_vhost   => true,
-        override        => 'FileInfo',
-        docroot         => '/var/www/html',
-        servername      => 'default',
-        redirect_status => $redirect_status,
-        redirect_dest   => $redirect_dest,
-      }
-      -> wget::fetch { 'https://raw.githubusercontent.com/redhat-openstack/trunk.rdoproject.org/master/index.html':
-        destination => '/var/www/html/index.html',
-        cache_dir   => '/var/cache/wget',
-        require     => Package['httpd'],
-      }
+    apache::vhost { $web_domain:
+      port            => 80,
+      default_vhost   => true,
+      override        => 'FileInfo',
+      docroot         => '/var/www/html',
+      servername      => 'default',
+      redirect_status => $redirect_status,
+      redirect_dest   => $redirect_dest,
+    }
   }
 }
-
