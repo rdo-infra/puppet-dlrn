@@ -359,8 +359,8 @@ python setup.py install",
     }
   }
 
-  # Special case for *-ocata and *-newton
-  if $name =~ /^(centos|fedora)\-(newton|ocata)/ {
+  # Special case for *-pike, *-ocata and *-newton
+  if $name =~ /^(centos|fedora)\-(newton|ocata|pike)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
