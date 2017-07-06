@@ -169,6 +169,11 @@ $/)
           is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.cfg")
             .with_content(/DB_PATH = \'sqlite:\/\/\/\/home\/#{title}\/dlrn\/commits.sqlite\'$/)
         end
+
+        it 'sets a config file path in the WSGI config file' do
+          is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.cfg")
+            .with_content(/CONFIG_FILE = \'\/usr\/local\/share\/dlrn\/#{title}\/projects.ini'$/)
+        end
       end
 
       context 'with a custom db connection string' do
