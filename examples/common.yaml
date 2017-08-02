@@ -43,7 +43,7 @@ dlrn::workers:
     enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '7'
-    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-pike', '/var/www/html/pike/centos7']
+    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master' ]
     release: 'pike-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -59,15 +59,12 @@ dlrn::workers:
     distro_branch: 'stable/pike'
     disable_email: *disable_email
     enable_cron: *enable_cron
-# TODO(jpena): set as *enable_purge after initial bootstrap
-    enable_purge: false
+    enable_purge: *enable_purge
     purge_hour: '0'
     purge_minute: '7'
-# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
-    symlinks: ['/var/www/html/centos7-pike-bootstrap', '/var/www/html/pike/centos7-bootstrap']
+    symlinks: ['/var/www/html/centos7-pike', '/var/www/html/pike/centos7']
     release: 'pike-uc'
-# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
-    baseurl: 'https://trunk.rdoproject.org/centos7-pike-bootstrap'
+    baseurl: 'https://trunk.rdoproject.org/centos7-pike'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
