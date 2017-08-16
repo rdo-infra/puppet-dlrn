@@ -23,7 +23,7 @@ dlrn::workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-master-head']
-    release: 'pike'
+    release: 'queens'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -44,7 +44,7 @@ dlrn::workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master' ]
-    release: 'pike-uc'
+    release: 'queens-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -63,7 +63,7 @@ dlrn::workers:
     purge_hour: '0'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-pike', '/var/www/html/pike/centos7']
-    release: 'pike-uc'
+    release: 'pike'
     baseurl: 'https://trunk.rdoproject.org/centos7-pike'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
