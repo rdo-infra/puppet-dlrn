@@ -42,4 +42,9 @@ class dlrn::rdoinfo (
     minute  => '7'
   }
 
+  file { '/var/www/html/rdoinfo':
+    ensure  => link,
+    target  => '/home/rdoinfo/rdoinfo',
+    require => Package['httpd'],
+  }
 }
