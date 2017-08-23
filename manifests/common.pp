@@ -108,12 +108,6 @@ class dlrn::common (
     }
   }
 
-  augeas { 'ifcfg-eth0':
-    context => '/files/etc/sysconfig/network-scripts/ifcfg-eth0',
-    changes => 'set DNS1 8.8.8.8',
-    notify  => Service['network'],
-  }
-
   # Only create vgdelorean in vdb if it exists
   # Note we are keeping the VG name to avoid issues if applying to an already
   # existing environment
