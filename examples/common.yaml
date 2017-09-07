@@ -106,27 +106,8 @@ dlrn::workers:
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
-  fedora-master:
-    distro: 'f24'
-    target: 'fedora'
-    distgit_branch: 'rpm-master'
-    distro_branch: 'master'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    cron_hour: '*/12'
-    cron_minute: '15'
-    cron_env: '--head-only'
-    enable_purge: *enable_purge
-    purge_hour: '5'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/f24', '/var/www/html/fedora24' ]
-    release: 'newton'
-    baseurl: 'https://trunk.rdoproject.org/f24'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    db_connection: 'sqlite:///commits.sqlite'
-    mock_tmpfs_enable: false
   fedora-rawhide-master:
-    distro: 'f25'
+    distro: 'f27'
     target: 'fedora-rawhide'
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
@@ -138,9 +119,9 @@ dlrn::workers:
     enable_purge: *enable_purge
     purge_hour: '6'
     purge_minute: '7'
-    symlinks: ['/var/www/html/f25', '/var/www/html/fedora25']
-    release: 'newton'
-    baseurl: 'https://trunk.rdoproject.org/f25'
+    symlinks: ['/var/www/html/f27', '/var/www/html/fedora27', '/var/www/html/fedora-rawhide']
+    release: 'queens-uc'
+    baseurl: 'https://trunk.rdoproject.org/fedora-rawhide'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
