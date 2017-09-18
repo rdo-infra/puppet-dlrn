@@ -286,6 +286,13 @@ python setup.py install",
     user    => $name,
   }
 
+  augeas { "${name}-alembic.ini":
+    incl    => "/home/${name}/dlrn/alembic.ini",
+    lens    => 'Puppet.lns',
+    changes => "set alembic/sqlalchemy.url $db_connection",
+    require => Vcsrepo["/home/${name}/dlrn"],
+  }
+
   file { "/usr/local/share/dlrn/${name}":
     ensure => directory,
     mode   => '0755',
