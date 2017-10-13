@@ -22,12 +22,13 @@ LINKNAME=${3:-current-passed-ci}
 
 cd /home/${2}/data/repos
 
-# verify uniqueness
-a="$(find . -maxdepth 3 -mindepth 3 -type d -name \*${1}\* | wc -l)"
-if [ "$a" != "1" ]; then
-    echo "Uniqueness must be enforced!"
+# Create full path for repo directory
+repo="$(echo ${1}| cut -c 1-2)/$(echo ${1}| cut -c 3-4)/${1}"
+# Check that the repo directory actually exists
+if [ ! -d $repo ]; then
+    echo "Hash repo does not exist!"
     exit 1
 fi
 
-ln -nsvf */*/*${1}* $LINKNAME
+ln -nsvf $repo $LINKNAME
 echo "$1" >> promote-${LINKNAME}.log
