@@ -32,6 +32,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.1.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-master-head'
@@ -57,6 +58,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
+    release_numbering: '0.1.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
@@ -80,6 +82,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-stein'
@@ -103,6 +106,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-rocky'
@@ -126,6 +130,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-queens'
@@ -149,6 +154,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-pike'
@@ -172,6 +178,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
@@ -195,6 +202,7 @@ dlrn::workers:
     include_srpm_in_repo: false
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.1.date.hash'
   fedora-stein:
     distro: 'f28'
     target: 'fedora-stein'
@@ -215,3 +223,4 @@ dlrn::workers:
     include_srpm_in_repo: false
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
