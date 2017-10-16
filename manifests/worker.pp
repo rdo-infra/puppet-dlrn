@@ -133,6 +133,17 @@
 #   and 'dlrn.drivers.gitrepo.GitRepoDriver'
 #   Defaults to 'dlrn.drivers.rdoinfo.RdoInfoDriver'
 #
+# [*release_numbering*]
+#   (optional) Define which  defines the algorithm used by DLRN to assign release
+#   numbers to packages. The release number is created from the current date and
+#   the source repository git hash, and can use two algorithms:
+#
+#   * '0.date.hash' if the old method is used: 0.<date>.<hash>
+#   * '0.1.date.hash' if the new method is used: 0.1.<date>.<hash>. This new
+#    method provides better compatibility with the Fedora packaging guidelines.
+#
+#   Defaults to '0.date.hash'
+#
 # [*gitrepo_repo*]
 #   (optional) If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this
 #   option must be specified, and is the Git repo to use as a source.
@@ -198,6 +209,7 @@ define dlrn::worker (
   $fallback_to_master            = true,
   $worker_processes              = 1,
   $pkginfo_driver                = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
+  $release_numbering             = '0.date.hash',
   $gitrepo_repo                  = 'http://github.com/openstack/rpm-packaging',
   $gitrepo_dir                   = '/openstack',
   $gitrepo_skip                  = ['openstack-macros'],
@@ -459,5 +471,10 @@ python setup.py install",
   -> file { "/home/${name}/api/dlrn-api-${name}.cfg":
     ensure  => present,
     content => template('dlrn/dlrn-api.cfg.erb'),
+  }
+
+  # Ensure a valid release numbering scheme is used
+  if $release_numbering != '0.date.hash' and $release_numbering != '0.1.date.hash' {
+    fail('Invalid release numbering scheme specified')
   }
 }
