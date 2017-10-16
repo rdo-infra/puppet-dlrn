@@ -259,6 +259,9 @@ This parameter defines the number of worker processes to use during build. Defau
 ####`pkginfo_driver`
 This is the DLRN driver used to manage the distgit repositories. The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver' and 'dlrn.drivers.gitrepo.GitRepoDriver'. Defaults to `'dlrn.drivers.rdoinfo.RdoInfoDriver'`
 
+####`release_numbering`
+This parameter defines the release numbering algorithm to be used when building packages. The current available options are '0.date.hash' and '0.1.date.hash'. Defaults to '0.date.hash'.
+
 ####`gitrepo_repo`
 If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be specified, and it is the Git repo to use as a source. Defaults to `http://github.com/openstack/rpm-packaging`
 
