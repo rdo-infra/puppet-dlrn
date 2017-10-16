@@ -31,6 +31,7 @@ dlrn::workers:
     fallback_to_master: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.1.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-master-head'
@@ -55,6 +56,7 @@ dlrn::workers:
     fallback_to_master: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.1.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
@@ -79,6 +81,7 @@ dlrn::workers:
     fallback_to_master: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-pike'
@@ -101,6 +104,7 @@ dlrn::workers:
     fallback_to_master: false
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-pike'
@@ -123,6 +127,7 @@ dlrn::workers:
     fallback_to_master: false
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
@@ -147,6 +152,7 @@ dlrn::workers:
     fallback_to_master: false
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
   fedora-rawhide-master:
     distro: 'f27'
     target: 'fedora-rawhide'
@@ -169,3 +175,4 @@ dlrn::workers:
     fallback_to_master: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.1.date.hash'
