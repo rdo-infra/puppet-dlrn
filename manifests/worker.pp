@@ -171,6 +171,26 @@
 #   'dlrn.drivers.coprdriver.CoprBuildDriver'.
 #   Defaults to 'dlrn.drivers.mockdriver.MockBuildDriver'.
 #
+# [*release_numbering*]
+#   (optional) Define which  defines the algorithm used by DLRN to assign release
+#   numbers to packages. The release number is created from the current date and
+#   the source repository git hash, and can use two algorithms:
+#
+#   * '0.date.hash' if the old method is used: 0.<date>.<hash>
+#   * '0.1.date.hash' if the new method is used: 0.1.<date>.<hash>. This new
+#    method provides better compatibility with the Fedora packaging guidelines.
+#   * 'minor.date.hash' allows you to specify the minor version to be used, which
+#     can be different from 0. If this release numbering schema is used, the value
+#     of 'minor' will be determined by 'release_minor'.
+#
+#   Defaults to '0.date.hash'
+#
+# [*release_minor*]
+#   (optional) If 'release_numbering`is set to 'minor.date.hash', this parameter
+#   will specify the value of 'minor'.
+#
+#   Defaults to '0'.
+#
 # [*gitrepo_repo*]
 #   (optional) If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this
 #   option must be specified, and is the Git repo to use as a source.
@@ -407,6 +427,8 @@ define dlrn::worker (
   $use_components                = false,
   $pkginfo_driver                = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
   $build_driver                  = 'dlrn.drivers.mockdriver.MockBuildDriver',
+  $release_numbering             = '0.date.hash',
+  $release_minor                 = '0',
   $gitrepo_repo                  = 'http://github.com/openstack/rpm-packaging',
   $gitrepo_dir                   = '/openstack',
   $gitrepo_skip                  = ['openstack-macros'],
@@ -860,5 +882,10 @@ python setup.py install",
       hosts_allow     => $public_rsync_hosts_allow,
       require         => [File["/home/${name}/data/repos"], Package['rsync_package']]
     }
+  }
+
+  # Ensure a valid release numbering scheme is used
+  if $release_numbering != '0.date.hash' and $release_numbering != '0.1.date.hash' and $release_numbering != 'minor.date.hash' {
+    fail('Invalid release numbering scheme specified')
   }
 }

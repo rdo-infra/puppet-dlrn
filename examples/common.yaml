@@ -33,6 +33,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-master-head'
@@ -60,6 +61,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
@@ -84,6 +86,7 @@ dlrn::workers:
     fallback_to_master: true
     enable_deps_sync: true
     enable_brs_sync: true
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-train'
@@ -111,6 +114,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-stein'
@@ -139,6 +143,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-rocky'
@@ -167,6 +172,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-queens'
@@ -192,6 +198,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
     enable_public_rsync: false
   rhel8-train:
     distro: 'rhel8'
@@ -213,6 +220,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
     enable_public_rsync: false
   centos8-master-uc:
     distro: 'centos8'
@@ -235,6 +243,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
     enable_public_rsync: true
     public_rsync_hosts_allow: ['dummy.example.com']
   centos8-master:
@@ -261,6 +270,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-master-head'
@@ -289,6 +299,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ussuri'
@@ -316,6 +327,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+    release_numbering: '0.date.hash'
     enable_public_rsync: true
     public_rsync_hosts_allow: ['dummy.example.com']
   centos8-train:
@@ -339,6 +351,7 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
+    release_numbering: '0.date.hash'
 #    gerrit_user: 'rdo-trunk'
 #    gerrit_email: 'javier.pena@redhat.com'
 #    gerrit_topic: 'rdo-FTBFS-train'

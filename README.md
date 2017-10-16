@@ -311,6 +311,12 @@ This is the DLRN driver used to manage the distgit repositories. The current ava
 ####`build_driver`
 This is the DLRN driver used to build packages. The current available options are 'dlrn.drivers.mockdriver.MockBuildDriver', 'dlrn.drivers.kojidriver.KojiBuildDriver' and 'dlrn.drivers.coprdriver.CoprBuildDriver'. Defaults to `'dlrn.drivers.mockdriver.MockBuildDriver'`.
 
+####`release_numbering`
+This parameter defines the release numbering algorithm to be used when building packages. The current available options are '0.date.hash', '0.1.date.hash' and 'minor.date.hash'. Defaults to '0.date.hash'.
+
+####`release_minor`
+If release_numbering is set to 'minor.date.hash', this parameter specifies the value of 'minor' in the release number.
+
 ####`gitrepo_repo`
 If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be specified, and it is the Git repo to use as a source. Defaults to `http://github.com/openstack/rpm-packaging`
 

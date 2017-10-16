@@ -182,6 +182,11 @@ describe 'dlrn::worker' do
             .with_content(/include_srpm_in_repo=true$/)
         end
 
+        it 'configures the default release numbering scheme' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/release_numbering=0.date.hash$/)
+        end
+
         it 'creates the API directory' do
             is_expected.to contain_file("/home/#{title}/api").with(
               :ensure  => 'directory',
@@ -238,6 +243,56 @@ describe 'dlrn::worker' do
         it 'creates the WSGI config file' do
           is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.cfg")
           .with_content(/DB_PATH = \'mysql\+pymysql:\/\/user:password@serverIP\/dlrn\'$/)
+        end
+      end
+
+      context 'with the newer release numbering scheme' do
+        before :each do
+          params.merge!(:release_numbering => '0.1.date.hash')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'configures the custom release numbering scheme' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/release_numbering=0.1.date.hash$/)
+        end
+      end
+
+      context 'with the minor.date.hash release numbering scheme' do
+        before :each do
+          params.merge!(:release_numbering => 'minor.date.hash')
+          params.merge!(:release_minor => '1')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'configures the custom release numbering scheme' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/release_numbering=minor.date.hash$/)
+        end
+
+        it 'sets the right release_minor value' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/release_minor=1$/)
+        end
+      end
+
+      context 'with an invalid release numbering scheme' do
+        before :each do
+          params.merge!(:release_numbering => 'foo')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'will fail' do
+            is_expected.to raise_error(Puppet::Error, /Invalid release numbering scheme specified/)
         end
       end
 
