@@ -30,6 +30,7 @@ dlrn::workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     enable_deps_sync: false
+    release_numbering: '0.1.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-master-head'
@@ -53,6 +54,7 @@ dlrn::workers:
     mock_tmpfs_enable: true
     fallback_to_master: true
     enable_deps_sync: false
+    release_numbering: '0.1.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
@@ -97,6 +99,7 @@ dlrn::workers:
     mock_tmpfs_enable: true
     fallback_to_master: false
     enable_deps_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-pike'
@@ -118,6 +121,7 @@ dlrn::workers:
     mock_tmpfs_enable: false
     fallback_to_master: false
     enable_deps_sync: false
+    release_numbering: '0.date.hash'
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
@@ -141,6 +145,7 @@ dlrn::workers:
     mock_tmpfs_enable: false
     fallback_to_master: false
     enable_deps_sync: false
+    release_numbering: '0.date.hash'
   fedora-rawhide-master:
     distro: 'f27'
     target: 'fedora-rawhide'
@@ -162,3 +167,4 @@ dlrn::workers:
     mock_tmpfs_enable: false
     fallback_to_master: true
     enable_deps_sync: false
+    release_numbering: '0.1.date.hash'
