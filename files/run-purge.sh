@@ -1,6 +1,7 @@
 #!/bin/bash
 LOCK="/home/${USER}/dlrn.lock"
 RSYNC_DEST=$(grep rsyncdest /usr/local/share/dlrn/${USER}/projects.ini | awk -F= '{print $2}')
+RSYNC_SERVER=$(echo $RSYNC_DEST | awk -F: '{print $1}')
 RSYNC_PORT=$(grep rsyncport /usr/local/share/dlrn/${USER}/projects.ini | awk -F= '{print $2}')
 set -e
 
@@ -26,12 +27,17 @@ if [ -n "$ARG" ]; then
     ARGUMENTS=""
 else
     LOGFILE=/home/${USER}/dlrn-logs/dlrn-purge.$(date +%s).log
-    ARGUMENTS="--older-than 60 -y --exclude-dirs /home/${USER}/data/repos/current,/home/${USER}/data/repos/consistent,/home/${USER}/data/repos/current-passed-ci,/home/${USER}/data/repos/current-tripleo,/home/${USER}/data/repos/current-tripleo-rdo,/home/${USER}/data/repos/puppet-passed-ci"
+    ARGUMENTS="--older-than 60 -y --exclude-dirs /home/${USER}/data/repos/current,/home/${USER}/data/repos/consistent,/home/${USER}/data/repos/current-passed-ci,/home/${USER}/data/repos/current-tripleo,/home/${USER}/data/repos/current-tripleo-rdo,/home/${USER}/data/repos/puppet-passed-ci,/home/${USER}/data/repos/current-tripleo-rdo-internal"
 fi
 cd ~/dlrn
 
 set +e
 echo `date` "Starting DLRN-purge run." >> $LOGFILE
+# First, synchronize promotion-based symlinks from the primary server, which is where promotions run
+ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos -maxdepth 1 -type l | grep -v -e current$ -e consistent$ -e delorean-deps.repo$"| while read symlink; do
+  rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink /home/${USER}/data/repos/
+done
+# Now, purge as needed
 dlrn-purge --config-file /usr/local/share/dlrn/${USER}/projects.ini ${ARGUMENTS} "$@" 2>> $LOGFILE
 RET=$?
 echo `date` "DLRN-purge run complete." >> $LOGFILE
