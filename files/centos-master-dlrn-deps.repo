@@ -1,6 +1,6 @@
-[delorean-pike-testing]
-name=dlrn-pike-testing
-baseurl=https://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-pike/
+[delorean-queens-testing]
+name=dlrn-queens-testing
+baseurl=https://trunk.rdoproject.org/centos7-master/deps/el7/
 enabled=1
 gpgcheck=0
 
