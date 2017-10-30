@@ -38,7 +38,53 @@ class dlrn::web(
 
   class { 'apache':
     default_vhost => false,
+    default_mods => false,
   }
+
+  # In order to use ::apache::mod::expires" we need to disable
+  # default_mods and add modules manually
+  include ::apache::mod::actions
+  include ::apache::mod::authn_core
+  include ::apache::mod::cache
+  include ::apache::mod::ext_filter
+  include ::apache::mod::mime
+  include ::apache::mod::mime_magic
+  include ::apache::mod::rewrite
+  include ::apache::mod::speling
+  include ::apache::mod::suexec
+  include ::apache::mod::version
+  include ::apache::mod::vhost_alias
+  ::apache::mod { 'auth_digest': }
+  ::apache::mod { 'authn_anon': }
+  ::apache::mod { 'authn_dbm': }
+  ::apache::mod { 'authz_dbm': }
+  ::apache::mod { 'authz_owner': }
+  ::apache::mod { 'include': }
+  ::apache::mod { 'logio': }
+  ::apache::mod { 'substitute': }
+  ::apache::mod { 'usertrack': }
+  include ::apache::mod::alias
+  include ::apache::mod::authn_file
+  include ::apache::mod::autoindex
+  include ::apache::mod::dav
+  include ::apache::mod::dav_fs
+  include ::apache::mod::deflate
+  include ::apache::mod::dir
+  include ::apache::mod::mime
+  include ::apache::mod::negotiation
+  include ::apache::mod::setenvif
+  ::apache::mod { 'auth_basic': }
+  include ::apache::mod::authz_user
+  ::apache::mod { 'authz_groupfile': }
+  include ::apache::mod::env
+
+  # we don't want to get repomd.xml files cached
+  Class { 'apache::mod::expires':
+    expires_by_type => [
+      { 'text/xml' => 'access plus 0 seconds' },
+    ]
+  }
+
 
   file { '/var/www/html/images':
     ensure  => directory,
