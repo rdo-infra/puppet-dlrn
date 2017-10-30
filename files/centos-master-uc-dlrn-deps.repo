@@ -1,14 +1,8 @@
-[delorean-pike-testing]
-name=dlrn-pike-testing
-baseurl=https://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-pike/
+[delorean-queens-testing]
+name=dlrn-queens-testing
+baseurl=https://trunk.rdoproject.org/centos7-master/deps/el7/
 enabled=1
 gpgcheck=0
-
-[delorean-pike-pending]
-name=dlrn-pike-pending
-baseurl=https://cbs.centos.org/repos/cloud7-openstack-common-pending/$basearch/os/
-gpgcheck=0
-enabled=0
 
 [rdo-qemu-ev]
 name=RDO CentOS-$releasever - QEMU EV
