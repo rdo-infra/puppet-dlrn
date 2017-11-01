@@ -296,11 +296,16 @@ python setup.py install",
 
   file { "/usr/local/share/dlrn/${name}":
     ensure => directory,
-    mode   => '0755',
+    owner   => $name,
+    group   => $name,
+    mode   => '0700',
   }
   -> file { "/usr/local/share/dlrn/${name}/projects.ini":
     ensure  => present,
     content => template('dlrn/projects.ini.erb'),
+    owner   => $name,
+    group   => $name,
+    mode    => '0600'
   }
 
   sudo::conf { $name:
