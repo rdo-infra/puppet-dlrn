@@ -1,0 +1,13 @@
+[delorean-queens-testing]
+name=dlrn-queens-testing
+baseurl=https://trunk.rdoproject.org/centos7-master/deps/latest/
+enabled=1
+gpgcheck=0
+
+[rdo-qemu-ev]
+name=RDO CentOS-$releasever - QEMU EV
+baseurl=http://mirror.centos.org/centos/7/virt/$basearch/kvm-common/
+gpgcheck=0
+enabled=1
+skip_if_unavailable=1
+
