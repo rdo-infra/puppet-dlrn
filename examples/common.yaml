@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-master-uc', 'centos-pike', 'centos-ocata', 'centos-newton']
+dlrn::web::api_workers: ['centos-master-uc', 'centos-queens', 'centos-pike', 'centos-ocata', 'centos-newton']
 dlrn::web::cert_mail: undef
 
 dlrn::workers:
@@ -124,6 +124,8 @@ dlrn::workers:
     distro_branch: 'stable/newton'
     disable_email: *disable_email
     enable_cron: *enable_cron
+    cron_hour: '*/2'
+    cron_minute: '17'
     enable_purge: *enable_purge
     purge_hour: '3'
     purge_minute: '7'
