@@ -61,15 +61,13 @@ dlrn::workers:
     distro_branch: 'stable/queens'
     disable_email: *disable_email
     enable_cron: *enable_cron
-#TODO(jpena): set as *enable_purge after initial bootstrap
-    enable_purge: false
+    enable_purge: *enable_purge
     purge_hour: '1'
     purge_minute: '7'
-# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
-    symlinks: ['/var/www/html/centos7-queens-bootstrap', '/var/www/html/queens/centos7-bootstrap']
-    release: 'queens'
-# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
-    baseurl: 'https://trunk.rdoproject.org/centos7-queens-bootstrap'
+    symlinks: ['/var/www/html/centos7-queens', '/var/www/html/queens/centos7']
+# NOTE(jpena): this will change to queens once the rocky-uc and rocky tags are in rdoinfo
+    release: 'queens-uc'
+    baseurl: 'https://trunk.rdoproject.org/centos7-queens'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
