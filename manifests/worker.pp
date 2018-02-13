@@ -577,5 +577,8 @@ python setup.py install",
   -> file { "/home/${name}/api/dlrn-api-${name}.cfg":
     ensure  => present,
     content => template('dlrn/dlrn-api.cfg.erb'),
+    owner   => $name,
+    group   => $name,
+    mode    => '0600',
   }
 }
