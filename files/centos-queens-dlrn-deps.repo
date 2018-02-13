@@ -1,6 +1,6 @@
 [delorean-queens-testing]
 name=dlrn-queens-testing
-baseurl=https://trunk.rdoproject.org/centos7-master/deps/latest/
+baseurl=https://trunk.rdoproject.org/centos7-queens/deps/latest/
 enabled=1
 gpgcheck=0
 
