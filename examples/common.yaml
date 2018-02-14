@@ -23,7 +23,7 @@ dlrn::workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-master-head']
-    release: 'queens'
+    release: 'rocky'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -45,7 +45,7 @@ dlrn::workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master' ]
-    release: 'queens-uc'
+    release: 'rocky-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -65,8 +65,7 @@ dlrn::workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-queens', '/var/www/html/queens/centos7']
-# NOTE(jpena): this will change to queens once the rocky-uc and rocky tags are in rdoinfo
-    release: 'queens-uc'
+    release: 'queens'
     baseurl: 'https://trunk.rdoproject.org/centos7-queens'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
