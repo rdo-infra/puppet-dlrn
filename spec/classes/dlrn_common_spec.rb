@@ -76,6 +76,10 @@ describe 'dlrn::common' do
          :zone    => 'public',
        )
       end
+
+      it 'does create a /usr/local/bin/update-deps.sh file' do
+        is_expected.to contain_file('/usr/local/bin/update-deps.sh')
+      end
     end
 
     context 'with specific parameters' do

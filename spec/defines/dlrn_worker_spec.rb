@@ -14,13 +14,13 @@ describe 'dlrn::worker' do
   end
 
   let :params do {
-    :distro         => 'centos7',
-    :target         => 'centos',
-    :distgit_branch => 'rpm-master',
-    :distro_branch  => 'master',
-    :disable_email  => true,
-    :enable_cron    => false,
-    :server_type    => 'primary',
+    :distro           => 'centos7',
+    :target           => 'centos',
+    :distgit_branch   => 'rpm-master',
+    :distro_branch    => 'master',
+    :disable_email    => true,
+    :enable_cron      => false,
+    :server_type      => 'primary',
     }
   end
 
@@ -178,6 +178,15 @@ $/)
         it 'sets a config file path in the WSGI config file' do
           is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.cfg")
             .with_content(/CONFIG_FILE = \'\/usr\/local\/share\/dlrn\/#{title}\/projects.ini'$/)
+        end
+
+        it 'does not create a cronjob for deps sync' do
+          is_expected.not_to contain_cron("#{user}-deps").with(
+            :command => '/usr/local/bin/update-deps.sh',
+            :user    => "#{user}",
+            :hour    => '*',
+            :minute  => '10,40',
+          )
         end
       end
 
@@ -593,6 +602,52 @@ $/)
     end
   end
 
+  context 'with :enable_deps_sync parameter set to true' do
+    before :each do
+      params.merge!(:enable_deps_sync => true)
+    end
+
+    let :title do
+      'centos-queens'
+    end
+
+    it 'does create a cronjob for deps sync' do
+      is_expected.to contain_cron('centos-queens-deps').with(
+        :command => '/usr/local/bin/update-deps.sh',
+        :user    => 'centos-queens',
+        :hour    => '*',
+        :minute  => [10, 40],
+      )
+    end
+
+    it 'does creates a deps directory' do
+      is_expected.to contain_file("/home/#{title}/data/repos/deps").with(
+        :ensure  => 'directory',
+        :mode    => '0755',
+        :owner   => 'centos-queens',
+        :group   => 'centos-queens',
+      )
+    end
+
+    it 'does creates a deps/latest directory' do
+      is_expected.to contain_file("/home/#{title}/data/repos/deps/latest").with(
+        :ensure  => 'directory',
+        :mode    => '0755',
+        :owner   => 'centos-queens',
+        :group   => 'centos-queens',
+      )
+    end
+
+    it 'does creates a deps/latest/noarch directory' do
+      is_expected.to contain_file("/home/#{title}/data/repos/deps/latest/noarch").with(
+        :ensure  => 'directory',
+        :mode    => '0755',
+        :owner   => 'centos-queens',
+        :group   => 'centos-queens',
+      )
+    end
+  end
+
   context 'with parameter server_type = passive' do
     before :each do
       params.merge!(:server_type    => 'passive')
@@ -662,6 +717,26 @@ $/)
         is_expected.not_to contain_file("/usr/local/share/dlrn/#{title}/projects.ini")
         .with_content(/rsyncport=/)
       end
+    end
+
+    context 'with centos-queens name' do
+      before :each do
+        params.merge!(:enable_deps_sync => true)
+      end
+
+      let :title do
+        'centos-queens'
+      end
+
+      it 'does not create a cronjob for deps sync' do
+        is_expected.not_to contain_cron('centos-queens-deps').with(
+          :command => '/usr/local/bin/update-deps.sh',
+          :user    => 'centos-queens',
+          :hour    => '*',
+          :minute  => '10,40',
+        )
+      end
+
     end
   end
 end

@@ -157,17 +157,23 @@
 #   use the version from it as source-branch or not.
 #   Defaults to true
 #
+# [*enable_deps_sync*]
+#   (optional) Enable a cron job to periodically synchronize dependencies repo
+#   with cloud7-openstack-<release>-testing CBS tag.
+#   Defaults to false
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
-#    distro         => 'centos7',
-#    target         => 'centos',
-#    distgit_branch => 'rpm-master',
-#    distro_branch  => 'master',
-#    uid            => 1000,
-#    disable_email  => true,
-#    enable_cron    => false,
-#    release        => 'ocata',
+#    distro            => 'centos7',
+#    target            => 'centos',
+#    distgit_branch    => 'rpm-master',
+#    distro_branch     => 'master',
+#    uid               => 1000,
+#    disable_email     => true,
+#    enable_cron       => false,
+#    release           => 'ocata',
+#    enable_deps_sync  => false,
 #  }
 
 define dlrn::worker (
@@ -202,6 +208,7 @@ define dlrn::worker (
   $gitrepo_dir                   = '/openstack',
   $gitrepo_skip                  = ['openstack-macros'],
   $gitrepo_use_version_from_spec = true,
+  $enable_deps_sync              = false,
 ) {
   user { $name:
     comment    => "User for ${name} worker",
@@ -250,6 +257,27 @@ define dlrn::worker (
     file {"/home/${name}/data/repos/current-passed-ci":    # Use current-tripleo-rdo as source of truth
       ensure  => link,
       target  => "/home/${name}/data/repos/current-tripleo-rdo",
+      require => File["/home/${name}/data/repos"],
+    }
+  }
+
+  if $enable_deps_sync {
+
+    $deps_dirs = [
+      "/home/${name}/data/repos/deps",
+      "/home/${name}/data/repos/deps/latest",
+      "/home/${name}/data/repos/deps/latest/SRPMS",
+      "/home/${name}/data/repos/deps/latest/aarch64",
+      "/home/${name}/data/repos/deps/latest/noarch",
+      "/home/${name}/data/repos/deps/latest/ppc64le",
+      "/home/${name}/data/repos/deps/latest/x86_64",
+    ]
+
+    file { $deps_dirs:
+      ensure  => directory,
+      mode    => '0755',
+      owner   => $name,
+      group   => $name,
       require => File["/home/${name}/data/repos"],
     }
   }
@@ -351,6 +379,15 @@ python setup.py install",
       user    => $name,
       hour    => $purge_hour,
       minute  => $purge_minute,
+    }
+  }
+
+  if $enable_deps_sync and $server_type == 'primary' {
+    cron { "${name}-deps":
+      command => '/usr/local/bin/update-deps.sh',
+      user    => $name,
+      hour    => '*',
+      minute  => [10, 40],
     }
   }
 
