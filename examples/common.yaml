@@ -29,6 +29,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
+    enable_deps_sync: false
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-master-head'
@@ -51,6 +52,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
+    enable_deps_sync: false
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
@@ -73,6 +75,7 @@ dlrn::workers:
 # TODO(jpena): set to false once all queens-rdo branches have been created, then cleanup rdoinfo
 # to ensure all packages are built
     fallback_to_master: true
+    enable_deps_sync: false
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-pike'
@@ -93,6 +96,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: false
+    enable_deps_sync: false
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-pike'
@@ -113,6 +117,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
     fallback_to_master: false
+    enable_deps_sync: false
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-ocata'
@@ -135,6 +140,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
     fallback_to_master: false
+    enable_deps_sync: false
   fedora-rawhide-master:
     distro: 'f27'
     target: 'fedora-rawhide'
@@ -155,3 +161,4 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
     fallback_to_master: true
+    enable_deps_sync: false
