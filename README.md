@@ -271,6 +271,9 @@ If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option must be s
 ####`gitrepo_use_version_from_spec`
 If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option specifies whether the gitrepo driver will parse the spec file and use the version from it as source-branch or not. Defaults to `true`.
 
+####`enable_deps_sync`
+When set to true a cron job is created to synchronize dependencies from CBS into $HOME/data/repos/deps/latest in primary server.
+
 
 ## Limitations
 
