@@ -53,7 +53,8 @@ class dlrn::common (
                       'python-virtualenv', 'gcc', 'createrepo',
                       'screen', 'python-tox', 'git-review', 'python-sh',
                       'postfix', 'firewalld', 'openssl-devel',
-                      'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools' ]
+                      'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools',
+                      'centos-packager' ]
   package { $required_packages: ensure => 'installed', allow_virtual => true }
 
   service { 'postfix':
@@ -187,4 +188,11 @@ class dlrn::common (
     purge               => false,
     config_file_replace => false,
   }
+
+  file { '/usr/local/bin/update-deps.sh':
+    ensure => present,
+    source => 'puppet:///modules/dlrn/update-deps.sh',
+    mode   => '0755',
+  }
+
 }
