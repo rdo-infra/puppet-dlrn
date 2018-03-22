@@ -187,4 +187,11 @@ class dlrn::common (
     purge               => false,
     config_file_replace => false,
   }
+
+  file { '/usr/local/bin/update-deps.sh':
+    ensure => present,
+    source => 'puppet:///modules/dlrn/update-deps.sh',
+    mode   => '0755',
+  }
+
 }
