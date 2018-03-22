@@ -157,17 +157,23 @@
 #   use the version from it as source-branch or not.
 #   Defaults to true
 #
+# [*enable_deps_sync*]
+#   (optional) Enable a cron job to periodically purge old commits from the
+#   DLRN db and file system, reducing space requirements.
+#   Defaults to false
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
-#    distro         => 'centos7',
-#    target         => 'centos',
-#    distgit_branch => 'rpm-master',
-#    distro_branch  => 'master',
-#    uid            => 1000,
-#    disable_email  => true,
-#    enable_cron    => false,
-#    release        => 'ocata',
+#    distro            => 'centos7',
+#    target            => 'centos',
+#    distgit_branch    => 'rpm-master',
+#    distro_branch     => 'master',
+#    uid               => 1000,
+#    disable_email     => true,
+#    enable_cron       => false,
+#    release           => 'ocata',
+#    enable_deps_sync  => false,
 #  }
 
 define dlrn::worker (
@@ -202,6 +208,7 @@ define dlrn::worker (
   $gitrepo_dir                   = '/openstack',
   $gitrepo_skip                  = ['openstack-macros'],
   $gitrepo_use_version_from_spec = true,
+  $enable_deps_sync              = false,
 ) {
   user { $name:
     comment    => "User for ${name} worker",
@@ -351,6 +358,15 @@ python setup.py install",
       user    => $name,
       hour    => $purge_hour,
       minute  => $purge_minute,
+    }
+  }
+
+  if $enable_deps_sync and $server_type == 'primary' {
+    cron { "${name}-deps":
+      command => '/usr/local/bin/update-deps.sh',
+      user    => $name,
+      hour    => "*"
+      minute  => "10,40"
     }
   }
 
