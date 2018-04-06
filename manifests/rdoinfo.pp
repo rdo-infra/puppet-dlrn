@@ -39,7 +39,7 @@ class dlrn::rdoinfo (
     command => '/usr/local/bin/rdoinfo-update.sh > /dev/null',
     user    => 'rdoinfo',
     hour    => '*',
-    minute  => '7'
+    minute  => [3, 33],
   }
 
   file { '/var/www/html/rdoinfo':
