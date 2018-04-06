@@ -270,6 +270,7 @@ define dlrn::worker (
       "/home/${name}/data/repos/deps/latest/aarch64",
       "/home/${name}/data/repos/deps/latest/noarch",
       "/home/${name}/data/repos/deps/latest/ppc64le",
+      "/home/${name}/data/repos/deps/latest/ppc64",
       "/home/${name}/data/repos/deps/latest/x86_64",
     ]
 

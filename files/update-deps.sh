@@ -12,7 +12,7 @@ RDOINFO_LOCATION=${RDOINFO_LOCATION:-/home/rdoinfo/rdoinfo}
 DATE_VERSION=$(date +%Y%m%d%H%M)
 RSYNC_REMOTE=${RSYNC_REMOTE:-1}
 
-ARCHES="aarch64 noarch ppc64le x86_64"
+ARCHES="aarch64 noarch ppc64le ppc64 x86_64"
 
 # rdopkg is installed in the dlrn venv
 
