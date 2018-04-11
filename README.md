@@ -274,6 +274,10 @@ If pkginfo_driver is 'dlrn.drivers.gitrepo.GitRepoDriver', this option specifies
 ####`enable_deps_sync`
 When set to true a cron job is created to synchronize dependencies from CBS into $HOME/data/repos/deps/latest in primary server.
 
+####`enable_brs_sync`
+When set to true a cron job is created to synchronize build dependencies from CBS into $HOME/data/repos/build-deps/latest in primary server.
+
+
 
 ## Limitations
 
