@@ -188,6 +188,15 @@ $/)
             :minute  => '10,40',
           )
         end
+
+        it 'does not create a cronjob for build deps sync' do
+          is_expected.not_to contain_cron("#{user}-deps").with(
+            :command => 'TAG_PHASE="el7-build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-build-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
+            :user    => "#{user}",
+            :hour    => '*',
+            :minute  => '10,40',
+          )
+        end
       end
 
       context 'with a custom db connection string' do
@@ -640,6 +649,52 @@ $/)
 
     it 'does creates a deps/latest/noarch directory' do
       is_expected.to contain_file("/home/#{title}/data/repos/deps/latest/noarch").with(
+        :ensure  => 'directory',
+        :mode    => '0755',
+        :owner   => 'centos-queens',
+        :group   => 'centos-queens',
+      )
+    end
+  end
+
+  context 'with :enable_brs_sync parameter set to true' do
+    before :each do
+      params.merge!(:enable_brs_sync => true)
+    end
+
+    let :title do
+      'centos-queens'
+    end
+
+    it 'does create a cronjob for build deps sync' do
+      is_expected.to contain_cron('centos-queens-build-deps').with(
+        :command => 'TAG_PHASE="el7-build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
+        :user    => 'centos-queens',
+        :hour    => '*',
+        :minute  => [10, 40],
+      )
+    end
+
+    it 'does creates a build-deps directory' do
+      is_expected.to contain_file("/home/#{title}/data/repos/build-deps").with(
+        :ensure  => 'directory',
+        :mode    => '0755',
+        :owner   => 'centos-queens',
+        :group   => 'centos-queens',
+      )
+    end
+
+    it 'does creates a build-deps/latest directory' do
+      is_expected.to contain_file("/home/#{title}/data/repos/build-deps/latest").with(
+        :ensure  => 'directory',
+        :mode    => '0755',
+        :owner   => 'centos-queens',
+        :group   => 'centos-queens',
+      )
+    end
+
+    it 'does creates a build-deps/latest/noarch directory' do
+      is_expected.to contain_file("/home/#{title}/data/repos/build-deps/latest/noarch").with(
         :ensure  => 'directory',
         :mode    => '0755',
         :owner   => 'centos-queens',
