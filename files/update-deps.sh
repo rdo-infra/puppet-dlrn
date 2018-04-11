@@ -11,6 +11,7 @@ LATEST_DEPS_DIR=${DEPS_DIR}/latest/
 RDOINFO_LOCATION=${RDOINFO_LOCATION:-/home/rdoinfo/rdoinfo}
 DATE_VERSION=$(date +%Y%m%d%H%M)
 RSYNC_REMOTE=${RSYNC_REMOTE:-1}
+TAG_PHASE=${TAG_PHASE:-testing}
 
 ARCHES="aarch64 noarch ppc64le ppc64 x86_64"
 
@@ -37,9 +38,9 @@ fi
 
 echo "INFO: synchronizing dependencies revision $DATE_VERSION to $LATEST_DEPS_DIR"
 if [ $RELEASE = "master-uc" ]; then
-    CBS_TAG=${CBS_TAG:-"cloud7-openstack-${MASTER_TAG}-testing"}
+    CBS_TAG=${CBS_TAG:-"cloud7-openstack-${MASTER_TAG}-${TAG_PHASE}"}
 else
-    CBS_TAG=${CBS_TAG:-"cloud7-openstack-${RELEASE}-testing"}
+    CBS_TAG=${CBS_TAG:-"cloud7-openstack-${RELEASE}-${TAG_PHASE}"}
 fi
 
 TEMPDIR=$(mktemp -d)
