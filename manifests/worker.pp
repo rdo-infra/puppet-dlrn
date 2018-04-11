@@ -162,6 +162,11 @@
 #   with cloud7-openstack-<release>-testing CBS tag.
 #   Defaults to false
 #
+# [*enable_brs_sync*]
+#   (optional) Enable a cron job to periodically synchronize build requirements repo
+#   with cloud7-openstack-<release>-el7-build CBS tag.
+#   Defaults to false
+#
 # === Example
 #
 #  dlrn::worker {'centos-master':
@@ -174,6 +179,7 @@
 #    enable_cron       => false,
 #    release           => 'ocata',
 #    enable_deps_sync  => false,
+#    enable_brs_sync   => false,
 #  }
 
 define dlrn::worker (
@@ -209,6 +215,7 @@ define dlrn::worker (
   $gitrepo_skip                  = ['openstack-macros'],
   $gitrepo_use_version_from_spec = true,
   $enable_deps_sync              = false,
+  $enable_brs_sync               = false,
 ) {
   user { $name:
     comment    => "User for ${name} worker",
@@ -282,6 +289,29 @@ define dlrn::worker (
       require => File["/home/${name}/data/repos"],
     }
   }
+
+  if $enable_brs_sync {
+
+    $build_deps_dirs = [
+      "/home/${name}/data/repos/build-deps",
+      "/home/${name}/data/repos/build-deps/latest",
+      "/home/${name}/data/repos/build-deps/latest/SRPMS",
+      "/home/${name}/data/repos/build-deps/latest/aarch64",
+      "/home/${name}/data/repos/build-deps/latest/noarch",
+      "/home/${name}/data/repos/build-deps/latest/ppc64le",
+      "/home/${name}/data/repos/build-deps/latest/ppc64",
+      "/home/${name}/data/repos/build-deps/latest/x86_64",
+    ]
+
+    file { $build_deps_dirs:
+      ensure  => directory,
+      mode    => '0755',
+      owner   => $name,
+      group   => $name,
+      require => File["/home/${name}/data/repos"],
+    }
+  }
+
 
   exec { "${name}-sshkeygen":
     command => "ssh-keygen -t rsa -P \"\" -f /home/${name}/.ssh/id_rsa",
@@ -386,6 +416,15 @@ python setup.py install",
   if $enable_deps_sync and $server_type == 'primary' {
     cron { "${name}-deps":
       command => '/usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
+      user    => $name,
+      hour    => '*',
+      minute  => [10, 40],
+    }
+  }
+
+  if $enable_brs_sync and $server_type == 'primary' {
+    cron { "${name}-build-deps":
+      command => 'TAG_PHASE="el7-build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-build-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
       user    => $name,
       hour    => '*',
       minute  => [10, 40],
