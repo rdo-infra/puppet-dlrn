@@ -47,7 +47,7 @@ describe 'dlrn::rdoinfo' do
         :command => '/usr/local/bin/rdoinfo-update.sh > /dev/null',
         :user    => 'rdoinfo',
         :hour    => '*',
-        :minute  => '7',
+        :minute  => [3, 33],
       )
     end
 
