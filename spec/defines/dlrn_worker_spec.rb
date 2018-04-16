@@ -701,6 +701,15 @@ $/)
         :group   => 'centos-queens',
       )
     end
+
+    it 'creates the rdo-trunk-runtime-deps.repo file' do
+      is_expected.to contain_file("/home/centos-queens/data/repos/rdo-trunk-runtime-deps.repo").with(
+        :ensure => 'present',
+        :source => 'puppet:///modules/dlrn/centos-queens-rdo-trunk-runtime-deps.repo',
+        :mode   => '0644',
+        :owner  => 'centos-queens',
+        :group  => 'centos-queens',)
+    end
   end
 
   context 'with parameter server_type = passive' do

@@ -310,6 +310,14 @@ define dlrn::worker (
       group   => $name,
       require => File["/home/${name}/data/repos"],
     }
+
+    -> file { "/home/${name}/data/repos/rdo-trunk-runtime-deps.repo":
+         ensure => present,
+         source => "puppet:///modules/dlrn/${name}-rdo-trunk-runtime-deps.repo",
+         mode   => '0644',
+         owner  => $name,
+         group  => $name,
+       }
   }
 
 
