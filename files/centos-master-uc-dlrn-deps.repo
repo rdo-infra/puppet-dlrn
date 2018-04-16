@@ -1,6 +1,12 @@
-[delorean-queens-testing]
-name=dlrn-queens-testing
+[delorean-master-testing]
+name=dlrn-master-testing
 baseurl=https://trunk.rdoproject.org/centos7-master/deps/latest/
+enabled=1
+gpgcheck=0
+
+[delorean-master-build-deps]
+name=dlrn-master-build-deps
+baseurl=https://trunk.rdoproject.org/centos7-master/build-deps/latest/
 enabled=1
 gpgcheck=0
 
@@ -10,4 +16,3 @@ baseurl=http://mirror.centos.org/centos/7/virt/$basearch/kvm-common/
 gpgcheck=0
 enabled=1
 skip_if_unavailable=1
-
