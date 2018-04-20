@@ -4,7 +4,7 @@
 
 set -e
 
-MASTER_TAG=${MASTER_TAG:-queens}
+MASTER_TAG=${MASTER_TAG:-rocky}
 RELEASE=${RELEASE:-${USER#centos-}}
 DEPS_DIR=${DEPS_DIR:-${HOME}/data/repos/deps/}
 LATEST_DEPS_DIR=${DEPS_DIR}/latest/
