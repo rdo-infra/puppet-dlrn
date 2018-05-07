@@ -57,6 +57,16 @@ class dlrn::common (
                       'centos-packager' ]
   package { $required_packages: ensure => 'installed', allow_virtual => true }
 
+  if $::operatingsystem == 'Fedora' {
+    # We need to enable the Copr repo before anything else
+    exec { 'Enable Copr repo for centos-packager':
+      command => 'dnf copr enable bstinson/centos-packager -y',
+      path    => '/usr/bin',
+      unless  => 'grep enabled=1 /etc/yum.repos.d/_copr_bstinson-centos-packager.repo',
+    }
+    Exec['Enable Copr repo for centos-packager'] -> Package <||>
+  }
+
   service { 'postfix':
     ensure  => 'running',
     enable  => true,
