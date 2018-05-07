@@ -147,22 +147,19 @@ dlrn::workers:
     fallback_to_master: false
     enable_deps_sync: false
     enable_brs_sync: false
-  fedora-rawhide-master:
-    distro: 'f27'
-    target: 'fedora-rawhide'
+  fedora-master:
+    distro: 'f28'
+    target: 'fedora'
     distgit_branch: 'rpm-master'
     distro_branch: 'master'
     disable_email: *disable_email
     enable_cron: *enable_cron
-    cron_env: '--head-only'
-    cron_hour: '*/12'
-    cron_minute: '45'
     enable_purge: *enable_purge
     purge_hour: '6'
     purge_minute: '7'
-    symlinks: ['/var/www/html/f27', '/var/www/html/fedora27', '/var/www/html/fedora-rawhide']
-    release: 'queens-uc'
-    baseurl: 'https://trunk.rdoproject.org/fedora-rawhide'
+    symlinks: ['/var/www/html/f28', '/var/www/html/fedora28', '/var/www/html/fedora']
+    release: 'rocky-py3'
+    baseurl: 'https://trunk.rdoproject.org/fedora'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
