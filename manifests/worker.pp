@@ -439,6 +439,19 @@ python setup.py install",
     }
   }
 
+  if $enable_deps_sync or $enable_brs_sync {
+      if $::operatingsystem == 'Fedora' {
+        # We need to enable a Copr repo for centos-packager in Fedora
+        exec { 'Enable Copr repo for centos-packager':
+          command => 'dnf copr enable bstinson/centos-packager -y',
+          path    => '/usr/bin',
+          unless  => 'grep enabled=1 /etc/yum.repos.d/_copr_bstinson-centos-packager.repo',
+        }
+        Exec['Enable Copr repo for centos-packager'] -> Package['centos-packager']
+      }
+      ensure_packages(['centos-packager'], {'ensure' => 'present'})
+  }
+
   # Set up symlinks
   if $symlinks {
     file { $symlinks :

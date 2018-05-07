@@ -1,6 +1,6 @@
-[fedora-rawhide]
-name=fedora-rawhide
-baseurl=http://download.fedoraproject.org/pub/fedora/linux/development/rawhide/Everything/x86_64/os/
-enabled=1
+[fedora-stable]
+name=fedora
+baseurl=https://trunk.rdoproject.org/fedora/stable-base/latest
 gpgcheck=0
+enabled=1
 
