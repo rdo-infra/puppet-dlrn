@@ -12,7 +12,7 @@ enabled=0
 
 [rdo-qemu-ev]
 name=RDO CentOS-$releasever - QEMU EV
-baseurl=http://mirror.centos.org/centos/7/virt/$basearch/kvm-common/
+baseurl=http://mirror.centos.org/$contentdir/7/virt/$basearch/kvm-common/
 gpgcheck=0
 enabled=1
 skip_if_unavailable=1
