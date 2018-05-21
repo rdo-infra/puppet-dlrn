@@ -33,10 +33,12 @@ cd ~/dlrn
 
 set +e
 echo `date` "Starting DLRN-purge run." >> $LOGFILE
-# First, synchronize promotion-based symlinks from the primary server, which is where promotions run
-ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos -maxdepth 1 -type l | grep -v -e current$ -e consistent$ -e delorean-deps.repo$"| while read symlink; do
-  rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink /home/${USER}/data/repos/
-done
+    if [ -n "${RSYNC_DEST}" ]; then
+        # First, synchronize promotion-based symlinks from the primary server, which is where promotions run
+        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos -maxdepth 1 -type l | grep -v -e current$ -e consistent$ -e delorean-deps.repo$"| while read symlink; do
+          rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink /home/${USER}/data/repos/
+        done
+    fi
 # Now, purge as needed
 dlrn-purge --config-file /usr/local/share/dlrn/${USER}/projects.ini ${ARGUMENTS} "$@" 2>> $LOGFILE
 RET=$?
