@@ -46,7 +46,7 @@ dlrn::workers:
     enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '7'
-    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master' ]
+    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-rocky' ]
     release: 'rocky-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
