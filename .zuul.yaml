@@ -1,0 +1,12 @@
+- project:
+    name: rdo-infra/puppet-dlrn
+    check:
+      jobs:
+        - legacy-puppet-lint
+        - legacy-puppet-syntax
+        - legacy-puppet-spec
+    gate:
+      jobs:
+        - legacy-puppet-lint
+        - legacy-puppet-syntax
+        - legacy-puppet-spec
