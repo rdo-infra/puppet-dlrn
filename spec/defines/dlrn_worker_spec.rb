@@ -139,6 +139,11 @@ describe 'dlrn::worker' do
             .with_content(/pkginfo_driver=dlrn.drivers.rdoinfo.RdoInfoDriver$/) 
         end
 
+        it 'sets the mock build driver in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/build_driver=dlrn.drivers.mockdriver.MockBuildDriver$/)
+        end
+
         it 'configures 1 worker in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/workers=1$/)
@@ -499,6 +504,54 @@ $/)
         it 'sets use_version_from_spec to true in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/use_version_from_spec=true$/) 
+        end
+      end
+
+      context 'when setting the Koji build driver' do
+        before :each do
+          params.merge!(:build_driver           => 'dlrn.drivers.kojidriver.KojiBuildDriver')
+          params.merge!(:koji_exe               => 'brew')
+          params.merge!(:koji_krb_principal     => 'test@example.com')
+          params.merge!(:koji_krb_keytab        => '/home/test/test.keytab')
+          params.merge!(:koji_build_target      => 'testtarget')
+          params.merge!(:koji_arch              => 'aarch64')
+          params.merge!(:koji_fetch_mock_config => true)
+        end
+
+        let :title do
+          user
+        end
+
+        it 'sets the proper driver in projects.ini' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/build_driver=dlrn.drivers.kojidriver.KojiBuildDriver$/)
+        end
+
+        it 'sets the default value for scratch_builds and use_rhpkg' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/scratch_build=true$/)
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/use_rhpkg=false$/)
+        end
+
+        it 'sets the proper value for koji_exe' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/koji_exe=brew$/)
+        end
+
+        it 'sets the proper value for koji_arch' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/arch=aarch64$/)
+        end
+
+        it 'sets the proper value for koji_fetch_mock_config' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/fetch_mock_config=true$/)
+        end
+
+        it 'sets the default value for koji_krb_principal' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/krb_principal=test@example.com$/)
         end
       end
 
