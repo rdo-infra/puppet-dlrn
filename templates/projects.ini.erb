@@ -19,13 +19,36 @@ gerrit_topic=<%= @gerrit_topic %><% end %>
 smtpserver=
 <% end %>
 pkginfo_driver=<%= @pkginfo_driver %>
+build_driver=<%= @build_driver %>
 database_connection=<%= @db_connection %>
 fallback_to_master=<%= @fallback_to_master %>
+nonfallback_branches=<%= @nonfallback_branches %>
 <% if @pkginfo_driver == 'dlrn.drivers.gitrepo.GitRepoDriver' %>
 [gitrepo_driver]
 repo=<%= @gitrepo_repo %>
 directory=<%= @gitrepo_dir %>
 skip=<%= @gitrepo_skip.join(",") %>
 use_version_from_spec=<%= @gitrepo_use_version_from_spec %>
+<% elsif @pkginfo_driver == 'dlrn.drivers.downstream.DownstreamInfoDriver' %>
+[downstream_driver]
+repo=<%= @downstream_distroinfo_repo %>
+info_files=<%= @downstream_info_files %>
+versions_url=<%= @downstream_versions_url %>
+downstream_distro_branch=<%= @downstream_distro_branch %>
+downstream_tag=<%= @downstream_tag %>
+downstream_distgit_key=<%= @downstream_distgit_key %>
+use_upstream_spec=<%= @use_upstream_spec %>
+downstream_spec_replace_list=<%= @downstream_spec_replace_list %>
 <% end %>
-
+<% if @build_driver == 'dlrn.drivers.kojidriver.KojiBuildDriver' %>
+[kojibuild_driver]
+koji_exe=<%= @koji_exe %>
+krb_principal=<%= @koji_krb_principal %>
+krb_keytab=<%= @koji_krb_keytab %>
+scratch_build=<%= @koji_scratch_builds %>
+build_target=<%= @koji_build_target %>
+arch=<%= @koji_arch %>
+fetch_mock_config=<%= @koji_fetch_mock_config %>
+use_rhpkg=<%= @koji_use_rhpkg %>
+mock_base_packages=<%= @koji_mock_base_packages %>
+<% end %>
