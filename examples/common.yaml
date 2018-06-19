@@ -26,6 +26,7 @@ dlrn::workers:
     release: 'train'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
@@ -51,6 +52,7 @@ dlrn::workers:
     release: 'train-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
@@ -120,6 +122,7 @@ dlrn::workers:
     release: 'rocky'
     baseurl: 'https://trunk.rdoproject.org/centos7-rocky'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
@@ -145,6 +148,7 @@ dlrn::workers:
     release: 'queens'
     baseurl: 'https://trunk.rdoproject.org/centos7-queens'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: false
@@ -170,6 +174,7 @@ dlrn::workers:
     release: 'pike'
     baseurl: 'https://trunk.rdoproject.org/centos7-pike'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: false
@@ -195,6 +200,7 @@ dlrn::workers:
     release: 'ocata'
     baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
     fallback_to_master: false
@@ -218,6 +224,7 @@ dlrn::workers:
     release: 'train-uc'
     baseurl: 'https://trunk.rdoproject.org/fedora'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
     fallback_to_master: true
