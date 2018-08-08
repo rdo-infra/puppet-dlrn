@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-master-uc', 'centos-queens', 'centos-pike', 'centos-ocata', 'centos-newton']
+dlrn::web::api_workers: ['centos-master-uc', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'centos-newton']
 dlrn::web::cert_mail: undef
 
 dlrn::workers:
@@ -46,7 +46,7 @@ dlrn::workers:
     enable_purge: *enable_purge
     purge_hour: '2'
     purge_minute: '7'
-    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master', '/var/www/html/centos7-rocky' ]
+    symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master' ]
     release: 'rocky-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -65,13 +65,12 @@ dlrn::workers:
     distro_branch: 'stable/rocky'
     disable_email: *disable_email
     enable_cron: *enable_cron
-#TODO(jpena): set as *enable_purge after initial bootstrap
-    enable_purge: false
+    enable_purge: *enable_purge
     purge_hour: '4'
     purge_minute: '7'
-# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
-    symlinks: ['/var/www/html/centos7-rocky-bootstrap', '/var/www/html/rocky/centos7-bootstrap']
-    release: 'rocky'
+    symlinks: ['/var/www/html/centos7-rocky', '/var/www/html/rocky/centos7']
+# NOTE(jpena): this will change to rocky once the stein-uc and stein tags are in rdoinfo
+    release: 'rocky-uc'
 # TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
     baseurl: 'https://trunk.rdoproject.org/centos7-rocky-bootstrap'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -80,7 +79,7 @@ dlrn::workers:
 # TODO(jpena): set to false once all queens-rdo branches have been created, then cleanup rdoinfo
 # to ensure all packages are built
     fallback_to_master: true
-# TODO(jpena): should we enable this once master has switched to Stein?
+# TODO(jpena): we should enable this once master has switched to Stein
     enable_deps_sync: false
     enable_brs_sync: false
 #   gerrit_user: 'rdo-trunk'
