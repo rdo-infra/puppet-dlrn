@@ -23,7 +23,7 @@ dlrn::workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-master-head']
-    release: 'rocky'
+    release: 'stein'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -47,7 +47,7 @@ dlrn::workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master' ]
-    release: 'rocky-uc'
+    release: 'stein-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -70,7 +70,7 @@ dlrn::workers:
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-rocky', '/var/www/html/rocky/centos7']
 # NOTE(jpena): this will change to rocky once the stein-uc and stein tags are in rdoinfo
-    release: 'rocky-uc'
+    release: 'rocky'
 # TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
     baseurl: 'https://trunk.rdoproject.org/centos7-rocky-bootstrap'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -183,7 +183,7 @@ dlrn::workers:
     purge_hour: '6'
     purge_minute: '7'
     symlinks: ['/var/www/html/f28', '/var/www/html/fedora28', '/var/www/html/fedora']
-    release: 'rocky-py3-uc'
+    release: 'stein-py3-uc'
     baseurl: 'https://trunk.rdoproject.org/fedora'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
