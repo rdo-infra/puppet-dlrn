@@ -194,7 +194,7 @@ $/)
             :command => 'TAG_PHASE="el7-build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-build-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
             :user    => "#{user}",
             :hour    => '*',
-            :minute  => '10,40',
+            :minute  => '25,55',
           )
         end
       end
