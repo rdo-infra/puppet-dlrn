@@ -1,0 +1,9 @@
+Code-Review+2: Alfredo Moralejo <amoralej@redhat.com>
+Code-Review+2: hguemar <hguemar@fedoraproject.org>
+Workflow+1: Javier Peña <jpena@redhat.com>
+Verified+2: Zuul CI <zuul@review.rdoproject.org>
+Submitted-by: Zuul CI <zuul@review.rdoproject.org>
+Submitted-at: Tue, 18 Sep 2018 12:57:28 +0000
+Reviewed-on: https://review.rdoproject.org/r/16272
+Project: rdo-infra/puppet-dlrn
+Branch: refs/heads/master
