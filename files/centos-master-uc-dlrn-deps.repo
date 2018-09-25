@@ -16,3 +16,9 @@ baseurl=http://mirror.centos.org/$contentdir/7/virt/$basearch/kvm-common/
 gpgcheck=0
 enabled=1
 skip_if_unavailable=1
+
+[centos7-virt]
+name=centos7-virt
+baseurl=https://buildlogs.centos.org/centos/7/virt/x86_64/container/
+enabled=1
+gpgcheck=0
