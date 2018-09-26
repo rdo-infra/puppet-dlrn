@@ -16,3 +16,4 @@ name=centos7-virt-container
 baseurl=https://buildlogs.centos.org/centos/7/virt/$basearch/container/
 enabled=1
 gpgcheck=0
+skip_if_unavailable=1
