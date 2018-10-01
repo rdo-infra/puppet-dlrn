@@ -450,6 +450,16 @@ python setup.py install",
         Exec['Enable Copr repo for centos-packager'] -> Package['centos-packager']
       }
       ensure_packages(['centos-packager'], {'ensure' => 'present'})
+
+      # Enable deps purge cron job if $enable_purge is True
+      if $enable_purge {
+        cron { "${name}-deps-purge":
+          command => '/usr/local/bin/purge-deps.sh',
+          user    => $name,
+          hour    => '3',
+          minute  => '0',
+        }
+      }
   }
 
   # Set up symlinks

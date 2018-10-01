@@ -614,6 +614,7 @@ $/)
   context 'with :enable_deps_sync parameter set to true' do
     before :each do
       params.merge!(:enable_deps_sync => true)
+      params.merge!(:enable_purge => false)
     end
 
     let :title do
@@ -655,11 +656,16 @@ $/)
         :group   => 'centos-queens',
       )
     end
+
+    it 'does not create a cron job to purge dependencies' do
+        is_expected.not_to contain_cron("#{title}-deps-purge")
+    end
   end
 
   context 'with :enable_brs_sync parameter set to true' do
     before :each do
       params.merge!(:enable_brs_sync => true)
+      params.merge!(:enable_purge => true)
     end
 
     let :title do
@@ -709,6 +715,15 @@ $/)
         :mode   => '0644',
         :owner  => 'centos-queens',
         :group  => 'centos-queens',)
+    end
+
+    it 'does create a cronjob for deps purge' do
+      is_expected.to contain_cron('centos-queens-deps-purge').with(
+        :command => '/usr/local/bin/purge-deps.sh',
+        :user    => 'centos-queens',
+        :hour    => '3',
+        :minute  => '0',
+      )
     end
   end
 
