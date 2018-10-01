@@ -80,6 +80,10 @@ describe 'dlrn::common' do
       it 'does create a /usr/local/bin/update-deps.sh file' do
         is_expected.to contain_file('/usr/local/bin/update-deps.sh')
       end
+
+      it 'does create a /usr/local/bin/purge-deps.sh file' do
+        is_expected.to contain_file('/usr/local/bin/purge-deps.sh')
+      end
     end
 
     context 'with specific parameters' do

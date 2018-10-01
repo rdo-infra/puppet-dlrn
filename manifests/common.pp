@@ -194,4 +194,9 @@ class dlrn::common (
     mode   => '0755',
   }
 
+  file { '/usr/local/bin/purge-deps.sh':
+    ensure => present,
+    source => 'puppet:///modules/dlrn/purge-deps.sh',
+    mode   => '0755',
+  }
 }
