@@ -80,8 +80,8 @@ cd ..
 rmdir .pending
 # Repos has a date based revision
 if [ $UPDATED -ne 0 ];then
-    createrepo_c -q --retain-old-md 10 -v --revision $DATE_VERSION --update -x "SRPMS/*" .
-    createrepo_c -q --retain-old-md 10 -v --revision $DATE_VERSION --update SRPMS
+    createrepo --retain-old-md 10 -v --revision $DATE_VERSION --update -x "SRPMS/*" .
+    createrepo --retain-old-md 10 -v --revision $DATE_VERSION --update SRPMS
 # backup current repodata in a date based repo version
     echo "INFO: Saving current repo in version $DATE_VERSION"
     mkdir ../$DATE_VERSION
