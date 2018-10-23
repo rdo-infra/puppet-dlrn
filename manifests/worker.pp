@@ -8,7 +8,7 @@
 #   (required) Distro for worker (f24, centos7...)
 #
 # [*target*]
-#   (required) Mock target (fedora, centos, fedora-rawhide, centos-newton...)
+#   (required) Mock target (fedora, centos, fedora-rawhide, centos-rocky...)
 #
 # [*distgit_branch*]
 #   (optional) Branch for dist-git
@@ -68,7 +68,7 @@
 # [*release*]
 #   (optional) Release this worker will be using (all lowercase)
 #   Example: 'ocata'
-#   Defaults to 'newton'
+#   Defaults to 'rocky'
 #
 # [*baseurl*]
 #   (optional) Base URL for the exported repositories
@@ -198,7 +198,7 @@ define dlrn::worker (
   $purge_hour                    = '1',
   $purge_minute                  = '7',
   $symlinks                      = undef,
-  $release                       = 'newton',
+  $release                       = 'rocky',
   $baseurl                       = 'http://localhost',
   $gerrit_user                   = undef,
   $gerrit_email                  = undef,
@@ -495,8 +495,8 @@ python setup.py install",
     }
   }
 
-  # Special case for *-rocky, *-queens, *-pike, *-ocata and *-newton
-  if $name =~ /^(centos|fedora)\-(newton|ocata|pike|queens|rocky)/ {
+  # Special case for *-rocky, *-queens, *-pike, and *-ocata
+  if $name =~ /^(centos|fedora)\-(ocata|pike|queens|rocky)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]

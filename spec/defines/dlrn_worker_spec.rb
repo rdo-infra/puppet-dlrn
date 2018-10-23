@@ -26,7 +26,7 @@ describe 'dlrn::worker' do
 
 
   context 'with default parameters' do
-    ['fedora-master', 'centos-master', 'centos-newton'].each do |user|
+    ['fedora-master', 'centos-master', 'centos-rocky'].each do |user|
       describe "when user is #{user}" do
         let :title do
           user
@@ -116,7 +116,7 @@ describe 'dlrn::worker' do
 
         it 'sets the default release in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
-            .with_content(/tags=newton$/)
+            .with_content(/tags=rocky$/)
         end
 
         it 'does not set a gerrit user in projects.ini' do
@@ -401,7 +401,7 @@ $/)
 
       context 'when specifying release' do
         before :each do
-          params.merge!(:release => 'newton')
+          params.merge!(:release => 'stein')
         end
 
         let :title do
@@ -410,7 +410,7 @@ $/)
 
         it 'sets tags in projects.ini' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
-            .with_content(/tags=newton$/)
+            .with_content(/tags=stein$/)
         end
       end
 
@@ -558,34 +558,34 @@ $/)
     end
   end
 
-  context 'with special case for centos-newton' do
+  context 'with special case for centos-pike' do
     before :each do
-      params.merge!(:release       => 'newton')
-      params.merge!(:target        => 'centos-newton')
-      params.merge!(:distro_branch => 'stable/newton')
+      params.merge!(:release       => 'pike')
+      params.merge!(:target        => 'centos-pike')
+      params.merge!(:distro_branch => 'stable/pike')
       params.merge!(:baseurl       => 'https://trunk.rdoproject.org/centos7-foo')
     end
 
     let :title do
-      'centos-newton'
+      'centos-pike'
     end
 
-    it 'creates specific mock config file for centos-newton' do
-      is_expected.to contain_file('/home/centos-newton/dlrn/scripts/centos-newton.cfg')
-      .with_content(/config_opts\[\'root\'\] = \'dlrn-centos-newton-x86_64\'/)
+    it 'creates specific mock config file for centos-pike' do
+      is_expected.to contain_file('/home/centos-pike/dlrn/scripts/centos-pike.cfg')
+      .with_content(/config_opts\[\'root\'\] = \'dlrn-centos-pike-x86_64\'/)
     end
 
     it 'creates directory under /var/www/html' do
-      is_expected.to contain_file('/var/www/html/centos-newton').with(
+      is_expected.to contain_file('/var/www/html/centos-pike').with(
         :ensure  => 'directory',
         :mode    => '0755',
-        :path    => '/var/www/html/newton',
+        :path    => '/var/www/html/pike',
         :require => 'Package[httpd]',
       )
     end
 
     it 'sets a custom baseurl in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/dlrn/centos-newton/projects.ini")
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-pike/projects.ini")
         .with_content(/baseurl=https:\/\/trunk.rdoproject.org\/centos7-foo$/)
     end
   end
@@ -775,7 +775,7 @@ $/)
     context 'with centos-master name' do
       before :each do
         params.merge!(:distro_branch   => 'master')
-        params.merge!(:release         => 'newton')
+        params.merge!(:release         => 'rocky')
         params.merge!(:enable_cron     => true)
         params.merge!(:rsyncdest       => 'centos-master@backupserver.example.com:/home/centos-master/data/repos')
         params.merge!(:rsyncport       => 1022)
