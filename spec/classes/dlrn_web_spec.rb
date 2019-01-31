@@ -146,11 +146,18 @@ describe 'dlrn::web' do
         :package_name   => 'certbot',
       )
       is_expected.to contain_letsencrypt__certonly('dummy.example.com').with(
-        :plugin               => 'webroot',
-        :webroot_paths        => [ '/var/www/html' ],
-        :domains              => [ 'dummy.example.com' ],
-        :manage_cron          => true,
-        :cron_success_command => '/bin/systemctl reload httpd',
+        :plugin        => 'webroot',
+        :webroot_paths => [ '/var/www/html' ],
+        :domains       => [ 'dummy.example.com' ],
+        :manage_cron   => false,
+      )
+      is_expected.to contain_cron('Renew SSL cert for dummy.example.com').with(
+        :weekday     => '0',
+        :hour        => '3',
+        :minute      => '15',
+        :command     => 'certbot --agree-tos certonly -a webroot --keep-until-expiring --webroot-path /var/www/html -d dummy.example.com && (/bin/systemctl reload httpd)',
+        :environment => 'VENV_PATH=/opt/letsencrypt/.venv',
+        :user        => 'root',
       )
     end
   end
