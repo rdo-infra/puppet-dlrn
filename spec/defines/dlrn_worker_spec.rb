@@ -576,7 +576,7 @@ $/)
     end
 
     it 'creates directory under /var/www/html' do
-      is_expected.to contain_file('/var/www/html/centos-pike').with(
+      is_expected.to contain_file('/var/www/html/pike').with(
         :ensure  => 'directory',
         :mode    => '0755',
         :path    => '/var/www/html/pike',

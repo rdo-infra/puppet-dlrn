@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-master-uc', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'fedora-master']
+dlrn::web::api_workers: ['centos-master-uc', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'fedora-master', 'fedora-stein']
 dlrn::web::cert_mail: undef
 
 dlrn::workers:
@@ -58,6 +58,32 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
+  centos-stein:
+    distro: 'centos7'
+    target: 'centos-stein'
+    distgit_branch: 'stein-rdo'
+    distro_branch: 'stable/stein'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+# TODO(jpena): set as *enable_purge after initial bootstrap
+    enable_purge: false
+    purge_hour: '3'
+    purge_minute: '37'
+# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
+    symlinks: ['/var/www/html/centos7-stein-bootstrap', '/var/www/html/stein/centos7-bootstrap']
+# TODO(jpena): move to stein once the tags have been updated in rdo
+    release: 'stein-uc'
+# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
+    baseurl: 'https://trunk.rdoproject.org/centos7-stein-bootstrap'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+#   gerrit_user: 'rdo-trunk'
+#   gerrit_email: 'rdo-trunk@rdoproject.org'
+#   gerrit_topic: 'rdo-FTBFS-stein'
   centos-rocky:
     distro: 'centos7'
     target: 'centos-rocky'
@@ -69,19 +95,14 @@ dlrn::workers:
     purge_hour: '4'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-rocky', '/var/www/html/rocky/centos7']
-# NOTE(jpena): this will change to rocky once the stein-uc and stein tags are in rdoinfo
     release: 'rocky'
-# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
-    baseurl: 'https://trunk.rdoproject.org/centos7-rocky-bootstrap'
+    baseurl: 'https://trunk.rdoproject.org/centos7-rocky'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
-# TODO(jpena): set to false once all queens-rdo branches have been created, then cleanup rdoinfo
-# to ensure all packages are built
     fallback_to_master: true
-# TODO(jpena): we should enable this once master has switched to Stein
-    enable_deps_sync: false
-    enable_brs_sync: false
+    enable_deps_sync: true
+    enable_brs_sync: true
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-rocky'
@@ -164,6 +185,29 @@ dlrn::workers:
     symlinks: ['/var/www/html/f28', '/var/www/html/fedora28', '/var/www/html/fedora']
     release: 'stein-py3-uc'
     baseurl: 'https://trunk.rdoproject.org/fedora'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: false
+    fallback_to_master: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+  fedora-stein:
+    distro: 'f28'
+    target: 'fedora-stein'
+    distgit_branch: 'stein-rdo'
+    distro_branch: 'stable/stein'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+# TODO(jpena): set as *enable_purge after initial bootstrap
+    enable_purge: *enable_purge
+    purge_hour: '5'
+    purge_minute: '7'
+# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
+    symlinks: ['/var/www/html/fedora28-stein-bootstrap', '/var/www/html/stein/fedora28-bootstrap']
+# TODO(jpena): move to stein once the tags have been updated in rdo
+    release: 'stein-uc'
+# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
+    baseurl: 'https://trunk.rdoproject.org/fedora28-stein-bootstrap'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
