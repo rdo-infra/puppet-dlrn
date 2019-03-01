@@ -18,9 +18,15 @@ DIRS="/home/${USER}/data/repos/deps /home/${USER}/data/repos/build-deps"
 LOGFILE=/home/${USER}/dlrn-logs/purge-deps.$(date +%s).log
 RETENTION=30
 
+if [ ! -d /home/${USER}/dlrn-logs]; then
+    mkdir /home/${USER}/dlrn-logs
+fi
+
 for directory in $DIRS; do
-    find $directory -mindepth 1 -maxdepth 1 -type d -mtime +${RETENTION} |grep -v latest | while read line; do
-        echo "Removing $line" >> $LOGFILE
-        rm -r $line
-    done
+    if [ -d $directory ]; then
+        find $directory -mindepth 1 -maxdepth 1 -type d -mtime +${RETENTION} |grep -v latest | while read line; do
+            echo "Removing $line" >> $LOGFILE
+            rm -r $line
+        done
+    fi
 done
