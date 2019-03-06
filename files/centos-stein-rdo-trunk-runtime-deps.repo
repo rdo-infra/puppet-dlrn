@@ -1,6 +1,6 @@
 [delorean-stein-testing]
 name=dlrn-stein-testing
-baseurl=https://trunk.rdoproject.org/centos7-stein-bootstrap/deps/latest/
+baseurl=https://trunk.rdoproject.org/centos7-stein/deps/latest/
 enabled=1
 gpgcheck=0
 

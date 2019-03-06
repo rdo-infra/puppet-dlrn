@@ -1,12 +1,12 @@
 [delorean-stein-testing]
 name=dlrn-stein-testing
-baseurl=https://trunk.rdoproject.org/centos7-stein-bootstrap/deps/latest/
+baseurl=https://trunk.rdoproject.org/centos7-stein/deps/latest/
 enabled=1
 gpgcheck=0
 
 [delorean-stein-build-deps]
 name=dlrn-stein-build-deps
-baseurl=https://trunk.rdoproject.org/centos7-stein/build-deps-bootstrap/latest/
+baseurl=https://trunk.rdoproject.org/centos7-stein/build-deps/latest/
 enabled=1
 gpgcheck=0
 
