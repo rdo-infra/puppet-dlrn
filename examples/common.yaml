@@ -47,7 +47,7 @@ dlrn::workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
-    release: 'stein-uc'
+    release: 'train-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -69,8 +69,7 @@ dlrn::workers:
     purge_hour: '3'
     purge_minute: '37'
     symlinks: ['/var/www/html/centos7-stein', '/var/www/html/stein/centos7']
-# TODO(jpena): move to stein once the tags have been updated in rdo
-    release: 'stein-uc'
+    release: 'stein'
     baseurl: 'https://trunk.rdoproject.org/centos7-stein'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -180,7 +179,7 @@ dlrn::workers:
     purge_hour: '6'
     purge_minute: '7'
     symlinks: ['/var/www/html/f28', '/var/www/html/fedora28', '/var/www/html/fedora28-master', '/var/www/html/fedora']
-    release: 'stein-py3-uc'
+    release: 'train-uc'
     baseurl: 'https://trunk.rdoproject.org/fedora'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -199,8 +198,7 @@ dlrn::workers:
     purge_hour: '5'
     purge_minute: '7'
     symlinks: ['/var/www/html/fedora28-stein', '/var/www/html/stein/fedora28']
-# TODO(jpena): move to stein once the tags have been updated in rdo
-    release: 'stein-uc'
+    release: 'stein'
     baseurl: 'https://trunk.rdoproject.org/fedora28-stein'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
