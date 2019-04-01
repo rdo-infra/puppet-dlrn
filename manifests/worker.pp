@@ -127,6 +127,11 @@
 #   case the configured branch cannot be found.
 #   Detaults to true
 #
+# [*include_srpm_in_repo*]
+#   (optional) If set to false, DLRN will exclude source RPMs from the
+#   generated repositories.
+#   Defaults to true
+#
 # [*pkginfo_driver*]
 #   (optional) DLRN driver to use to manage the distgit repositories.
 #   The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -208,6 +213,7 @@ define dlrn::worker (
   $server_type                   = $dlrn::server_type,
   $db_connection                 = 'sqlite:///commits.sqlite',
   $fallback_to_master            = true,
+  $include_srpm_in_repo          = true,
   $worker_processes              = 1,
   $pkginfo_driver                = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
   $gitrepo_repo                  = 'http://github.com/openstack/rpm-packaging',

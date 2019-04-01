@@ -253,6 +253,9 @@ This parameter defines a database connection string to be used by DLRN, in the S
 This parameter defines the fallback behavior when a selected branch is not available in the Git repo. If set to `true`, DLRN will fall back to the master branch
 for source repositories if the configured branch cannot be found, and rpm-master for distgit repositories. Defaults to `true`.
 
+####`include_srpm_in_repo`
+If set to `false`, DLRN will exclude source RPMs from the generated repositories. Defaults to `true`, which means source RPMs are included.
+
 ####`worker_processes`
 This parameter defines the number of worker processes to use during build. Defaults to `1`.
 

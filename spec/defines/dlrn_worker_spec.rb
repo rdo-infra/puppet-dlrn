@@ -154,6 +154,11 @@ describe 'dlrn::worker' do
             .with_content(/fallback_to_master=true$/)
         end
 
+        it 'sets include_srpm_in_repo to true' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/include_srpm_in_repo=true$/)
+        end
+
         it 'creates the API directory' do
             is_expected.to contain_file("/home/#{title}/api").with(
               :ensure  => 'directory',
@@ -246,6 +251,21 @@ $/)
         it 'configures fallback_to_master=false' do
             is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
             .with_content(/fallback_to_master=false$/)
+        end
+      end
+
+      context 'when not including srpms in repos' do
+        before :each do
+          params.merge!(:include_srpm_in_repo => 'false')
+        end
+
+        let :title do
+          user
+        end
+
+        it 'configures include_srpm_in_repo=false' do
+            is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
+            .with_content(/include_srpm_in_repo=false$/)
         end
       end
 

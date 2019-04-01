@@ -29,6 +29,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
+    include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
 #   gerrit_user: 'rdo-trunk'
@@ -53,6 +54,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
+    include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
 #   gerrit_user: 'rdo-trunk'
@@ -75,6 +77,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
+    include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
 #   gerrit_user: 'rdo-trunk'
@@ -97,6 +100,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
+    include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: true
 #   gerrit_user: 'rdo-trunk'
@@ -119,6 +123,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: false
+    include_srpm_in_repo: true
     enable_deps_sync: true
     enable_brs_sync: false
 #   gerrit_user: 'rdo-trunk'
@@ -141,6 +146,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: false
+    include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
 #   gerrit_user: 'rdo-trunk'
@@ -163,6 +169,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
     fallback_to_master: false
+    include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
 #   gerrit_user: 'rdo-trunk'
@@ -185,6 +192,7 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
     fallback_to_master: true
+    include_srpm_in_repo: false
     enable_deps_sync: false
     enable_brs_sync: false
   fedora-stein:
@@ -204,5 +212,6 @@ dlrn::workers:
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: false
     fallback_to_master: true
+    include_srpm_in_repo: false
     enable_deps_sync: false
     enable_brs_sync: false

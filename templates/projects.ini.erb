@@ -21,6 +21,7 @@ smtpserver=
 pkginfo_driver=<%= @pkginfo_driver %>
 database_connection=<%= @db_connection %>
 fallback_to_master=<%= @fallback_to_master %>
+include_srpm_in_repo=<%= @include_srpm_in_repo %>
 <% if @pkginfo_driver == 'dlrn.drivers.gitrepo.GitRepoDriver' %>
 [gitrepo_driver]
 repo=<%= @gitrepo_repo %>
