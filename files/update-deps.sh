@@ -14,6 +14,7 @@ RSYNC_REMOTE=${RSYNC_REMOTE:-1}
 TAG_PHASE=${TAG_PHASE:-testing}
 
 ARCHES="aarch64 noarch ppc64le ppc64 x86_64"
+SKIP_ARCHES="armv7hl"
 
 # rdopkg is installed in the dlrn venv
 
@@ -71,6 +72,10 @@ if [ $UPDATED -ne 0 ];then
         for i in $(ls *.$arch*); do
             mv $i ../$arch/
         done
+    done
+    for arch in $SKIP_ARCHES
+    do
+        rm *.$arch.rpm
     done
 fi
 
