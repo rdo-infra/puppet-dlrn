@@ -48,6 +48,15 @@ TEMPDIR=$(mktemp -d)
 repoquery --archlist=x86_64,noarch,ppc64le,aarch64 --repofrompath=deps,file://$LATEST_DEPS_DIR --disablerepo=* --enablerepo=deps -s -q -a|sort -u|sed 's/.src.rpm//g'>$TEMPDIR/current_deps
 rdopkg info -l $RDOINFO_LOCATION "buildsys-tags:$CBS_TAG" "tags:dependency"|grep $CBS_TAG|awk '{print $2}'>$TEMPDIR/required_deps
 
+# We only want to download builds for supported arches
+
+ARCH_OPT="-a src"
+for arch in $ARCHES
+do
+ARCH_OPT="$ARCH_OPT -a $arch"
+done
+#
+
 cd $LATEST_DEPS_DIR
 rm -rf .pending
 mkdir .pending
@@ -56,7 +65,7 @@ for NVR in $(cat $TEMPDIR/required_deps)
 do
   if [ $(grep -c ^$NVR$ $TEMPDIR/current_deps) -eq 0 ]; then
       echo "INFO: adding package $NVR to $LATEST_DEPS_DIR"
-      cbs download-build -q $NVR
+      cbs download-build $ARCH_OPT -q $NVR
   fi
 done
 rm -rf $TEMPDIR
