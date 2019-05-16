@@ -41,7 +41,15 @@ describe 'dlrn::common' do
 
       it 'sets the default port in sshd_config' do
         is_expected.to contain_class('ssh').with(
-          :server_options => { 'Port' => [22, 3300] }
+          :server_options => { 
+            'Port' => [22, 3300],
+            'PasswordAuthentication'   => 'no',
+            'GSSAPIAuthentication'     => 'no',
+            'GSSAPICleanupCredentials' => 'no',
+            'KexAlgorithms'            => 'diffie-hellman-group-exchange-sha256',
+            'MACs'                     => 'hmac-sha2-512,hmac-sha2-256',
+            'Ciphers'                  => 'aes256-ctr,aes192-ctr,aes128-ctr'
+          }
         )
       end
 
@@ -99,7 +107,15 @@ describe 'dlrn::common' do
 
       it 'sets the proper port in sshd_config' do
         is_expected.to contain_class('ssh').with(
-          :server_options => { 'Port' => [22, 1234] }
+          :server_options => { 
+            'Port' => [22, 1234],
+            'PasswordAuthentication'   => 'no',
+            'GSSAPIAuthentication'     => 'no',
+            'GSSAPICleanupCredentials' => 'no',
+            'KexAlgorithms'            => 'diffie-hellman-group-exchange-sha256',
+            'MACs'                     => 'hmac-sha2-512,hmac-sha2-256',
+            'Ciphers'                  => 'aes256-ctr,aes192-ctr,aes128-ctr'
+          }
         )
       end
 
