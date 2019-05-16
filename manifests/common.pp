@@ -51,7 +51,13 @@ class dlrn::common (
   }
   -> class { 'ssh':
     server_options     => {
-      'Port' => [22, $::dlrn::common::sshd_port],
+      'Port'                     => [22, $::dlrn::common::sshd_port],
+      'PasswordAuthentication'   => 'no',
+      'GSSAPIAuthentication'     => 'no',
+      'GSSAPICleanupCredentials' => 'no',
+      'KexAlgorithms'            => 'diffie-hellman-group-exchange-sha256',
+      'MACs'                     => 'hmac-sha2-512,hmac-sha2-256',
+      'Ciphers'                  => 'aes256-ctr,aes192-ctr,aes128-ctr',
     },
     validate_sshd_file => true,
   }
