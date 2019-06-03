@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-master-uc', 'centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'fedora-master', 'fedora-stein']
+dlrn::web::api_workers: ['centos-master-uc', 'centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'fedora-master', 'fedora-stein', 'rhel8-master', 'rhel8-train']
 dlrn::web::cert_mail: undef
 
 dlrn::workers:
@@ -242,5 +242,45 @@ dlrn::workers:
     mock_tmpfs_enable: false
     fallback_to_master: true
     include_srpm_in_repo: false
+    enable_deps_sync: false
+    enable_brs_sync: false
+  rhel8-master:
+    distro: 'rhel8'
+    target: 'rhel8'
+    distgit_branch: 'rpm-master'
+    distro_branch: 'master'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '7'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/rhel8-master']
+    release: 'train-uc'
+    baseurl: 'http://trunk.rdoproject.org/rhel8-master'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
+  rhel8-train:
+    distro: 'rhel8'
+    target: 'rhel8-train'
+    distgit_branch: 'train-rdo'
+    distro_branch: 'stable/train'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '7'
+    purge_minute: '29'
+    symlinks: ['/var/www/html/rhel8-train']
+    release: 'train-uc'
+    baseurl: 'http://trunk.rdoproject.org/rhel8-train'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
