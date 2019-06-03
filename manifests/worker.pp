@@ -446,6 +446,8 @@ python setup.py install",
   }
 
   if $enable_deps_sync or $enable_brs_sync {
+      # FIXME(jpena): The centos-packager package is not available for RHEL 8 yet,
+      #               so we cannot enable enable_deps_sync or enable_brs_sync
       if $::operatingsystem == 'Fedora' {
         # We need to enable a Copr repo for centos-packager in Fedora
         exec { 'Enable Copr repo for centos-packager':
