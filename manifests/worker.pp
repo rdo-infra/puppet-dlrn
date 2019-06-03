@@ -598,6 +598,8 @@ python setup.py install",
   }
 
   if $enable_deps_sync or $enable_brs_sync {
+      # FIXME(jpena): The centos-packager package is not available for RHEL 8 yet,
+      #               so we cannot enable enable_deps_sync or enable_brs_sync
       if $::operatingsystem == 'Fedora' {
         # We need to enable a Copr repo for centos-packager in Fedora
         exec { 'Enable Copr repo for centos-packager':
@@ -654,7 +656,7 @@ python setup.py install",
   }
 
   # Special case for *-train, *-stein, *-rocky, *-queens, *-pike, and *-ocata
-  if $name =~ /^(centos|fedora)\-(ocata|pike|queens|rocky|stein|train)/ {
+  if $name =~ /^(centos|fedora|rhel8)\-(ocata|pike|queens|rocky|stein|train)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
@@ -674,7 +676,7 @@ python setup.py install",
   }
 
   # Special case for centos-master and fedora-master
-  if $name =~ /^(centos|fedora)\-master$/ {
+  if $name =~ /^(centos|fedora|rhel8)\-master$/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_name    = "${worker_os}-master"
