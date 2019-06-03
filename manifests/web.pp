@@ -116,7 +116,19 @@ class dlrn::web(
   }
 
   if $enable_api {
-    include ::apache::mod::wsgi
+    if (versioncmp($::operatingsystemmajrelease, '7') > 0) {
+      # RHEL 8 or later
+      $wsgi_mod_path = 'modules/mod_wsgi_python3.so'
+      $wsgi_pkg_name = 'python3-mod_wsgi'
+    } else {
+      $wsgi_mod_path = 'modules/mod_wsgi.so'
+      $wsgi_pkg_name = 'mod_wsgi'
+    }
+
+    class { '::apache::mod::wsgi':
+      mod_path     => $wsgi_mod_path,
+      package_name => $wsgi_pkg_name
+    }
     apache::listen { '80': }
 
     apache::vhost::custom { $web_domain:
