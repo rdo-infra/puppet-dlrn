@@ -42,8 +42,12 @@ class dlrn (
 
   class { '::dlrn::rdoinfo': }
   class { '::dlrn::promoter': }
-  class { '::dlrn::fail2ban':
-    sshd_port => $sshd_port,
+  if (versioncmp($::operatingsystemmajrelease, '7') > 0) {
+    # RHEL 8 or later
+    # FIXME(jpena): fail2ban is not available yet for RHEL 8
+    class { '::dlrn::fail2ban':
+      sshd_port => $sshd_port,
+    }
   }
   class { '::dlrn::web':
     enable_https => $enable_https
