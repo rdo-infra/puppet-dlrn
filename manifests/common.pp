@@ -48,12 +48,48 @@ class dlrn::common (
     validate_sshd_file => true,
   }
 
-  $required_packages = [ 'lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
-                      'mock', 'rpm-build', 'git', 'python-pip',
-                      'python-virtualenv', 'gcc', 'createrepo',
-                      'screen', 'python-tox', 'git-review', 'python-sh',
-                      'postfix', 'firewalld', 'openssl-devel',
-                      'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools']
+  case $::osfamily {
+    'RedHat': {
+      case $::operatingsystem {
+        'RedHat', 'CentOS': {
+          if (versioncmp($::operatingsystemmajrelease, '7') > 0) {
+            # RHEL 8 or later
+            # FIXME(jpena): we should add git-review, but it is not available yet
+            $required_packages = ['lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
+                                  'mock', 'rpm-build', 'git', 'python3-pip',
+                                  'python3-virtualenv', 'gcc', 'createrepo_c',
+                                  'screen',
+                                  'postfix', 'firewalld', 'openssl-devel',
+                                  'libffi-devel', 'dnf-plugins-core', 'rpmdevtools',
+                                  'selinux-policy-devel']
+          } else {
+            $required_packages = ['lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
+                                  'mock', 'rpm-build', 'git', 'python-pip',
+                                  'python-virtualenv', 'gcc', 'createrepo',
+                                  'screen', 'python-tox', 'git-review', 'python-sh',
+                                  'postfix', 'firewalld', 'openssl-devel',
+                                  'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools',
+                                  'selinux-policy-devel']
+          }
+        }
+        default: {
+          # Fedora
+          $required_packages = ['lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
+                                'mock', 'rpm-build', 'git', 'python-pip',
+                                'python-virtualenv', 'gcc', 'createrepo',
+                                'screen', 'python-tox', 'git-review', 'python-sh',
+                                'postfix', 'firewalld', 'openssl-devel',
+                                'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools',
+                                'selinux-policy-devel']
+        }
+      }
+    }
+    default: {
+      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \
+            puppet-dlrn only supports osfamily RedHat")
+    }
+  }
+
   package { $required_packages: ensure => 'installed', allow_virtual => true }
 
   service { 'postfix':
@@ -73,9 +109,11 @@ class dlrn::common (
     members => ['root'],
   }
 
-  service { 'network':
-    ensure => 'running',
-    enable => true,
+  if (versioncmp($::operatingsystemmajrelease, '8') < 0) {
+    service { 'network':
+      ensure => 'running',
+      enable => true,
+    }
   }
 
   service { 'firewalld':
@@ -140,20 +178,6 @@ class dlrn::common (
       options => 'defaults',
       require => Filesystem['/dev/vgdelorean/lvol1'],
     }
-  }
-
-
-  file { '/etc/sysctl.d/00-disable-ipv6.conf':
-    ensure => present,
-    source => 'puppet:///modules/dlrn/00-disable-ipv6.conf',
-    mode   => '0644',
-    notify => Exec['sysctl-p'],
-  }
-
-  exec { 'sysctl-p':
-    command     => 'sysctl -p /etc/sysctl.d/*',
-    path        => '/usr/sbin',
-    refreshonly => true,
   }
 
   file { '/usr/local/share/dlrn':
