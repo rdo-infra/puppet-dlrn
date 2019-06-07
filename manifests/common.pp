@@ -38,8 +38,11 @@ class dlrn::common (
     value      => on,
   }
 
-  selinux_port { "tcp/${::dlrn::common::sshd_port}":
-    seltype => 'ssh_port_t',
+  selinux::port { 'allow-ssh-port':
+    ensure   => 'present',
+    seltype  => 'ssh_port_t',
+    protocol => 'tcp',
+    port     => $::dlrn::common::sshd_port,
   }
   -> class { 'ssh':
     server_options     => {
