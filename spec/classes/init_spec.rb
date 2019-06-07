@@ -6,11 +6,19 @@ describe 'dlrn' do
     let :facts do
     {   :kernel                    => 'Linux',
         :osfamily                  => 'RedHat',
-        :operatingsystem           => 'Fedora',
-        :operatingsystemrelease    => '24',
-        :operatingsystemmajrelease => '24',
+        :operatingsystem           => 'CentOS',
+        :operatingsystemrelease    => '7',
+        :operatingsystemmajrelease => '7',
+        :os                        => {
+            'family' => 'RedHat',
+            'release' => {
+                'major' => '7',
+                'minor' => '1',
+                'full'  => '7.6.1810',
+             }
+        },
         :concat_basedir            => '/tmp',
-        :puppetversion             => '3.7.0',
+        :puppetversion             => '5.5.10',
         :selinux                   => true,
         :selinux_current_mode      => 'enforcing',
         :sshed25519key             => '',
