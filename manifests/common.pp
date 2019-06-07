@@ -38,8 +38,11 @@ class dlrn::common (
     value      => on,
   }
 
-  selinux_port { "tcp/${::dlrn::common::sshd_port}":
-    seltype => 'ssh_port_t',
+  selinux::port { 'allow-ssh-port':
+    ensure   => 'present',
+    seltype  => 'ssh_port_t',
+    protocol => 'tcp',
+    port     => $::dlrn::common::sshd_port,
   }
   -> class { 'ssh':
     server_options     => {
@@ -53,7 +56,8 @@ class dlrn::common (
                       'python-virtualenv', 'gcc', 'createrepo',
                       'screen', 'python-tox', 'git-review', 'python-sh',
                       'postfix', 'firewalld', 'openssl-devel',
-                      'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools']
+                      'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools',
+                      'selinux-policy-devel']
   package { $required_packages: ensure => 'installed', allow_virtual => true }
 
   service { 'postfix':
