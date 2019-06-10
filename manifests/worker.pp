@@ -585,6 +585,10 @@ python setup.py install",
     mode    => '0755',
     require => File["/home/${name}"],
   }
+  -> file { "/usr/local/share/dlrn/${name}/acl.yml":
+    ensure  => present,
+    content => template('dlrn/acl.yml.erb'),
+  }
   -> file { "/home/${name}/api/dlrn-api-${name}.wsgi":
     ensure  => present,
     content => template('dlrn/dlrn-api.wsgi.erb'),
