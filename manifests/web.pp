@@ -70,11 +70,18 @@ class dlrn::web(
       package_name   => 'certbot',
     }
     letsencrypt::certonly { $web_domain :
-      plugin               => 'webroot',
-      webroot_paths        => [ '/var/www/html' ],
-      domains              => [ $web_domain ],
-      manage_cron          => true,
-      cron_success_command => '/bin/systemctl reload httpd',
+      plugin        => 'webroot',
+      webroot_paths => [ '/var/www/html' ],
+      domains       => [ $web_domain ],
+      manage_cron   => false,
+    }
+    -> cron { "Renew SSL cert for ${web_domain}":
+      command     => "certbot --agree-tos certonly -a webroot --keep-until-expiring --webroot-path /var/www/html -d ${web_domain} && (/bin/systemctl reload httpd)",
+      environment => 'VENV_PATH=/opt/letsencrypt/.venv',
+      user        => 'root',
+      weekday     => '0',
+      hour        => '3',
+      minute      => '15',
     }
     if $enable_api {
       include ::apache::mod::ssl
