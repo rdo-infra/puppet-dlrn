@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos-master-uc', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'fedora-master', 'fedora-stein']
+dlrn::web::api_workers: ['centos-master-uc', 'centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'fedora-master', 'fedora-stein']
 dlrn::web::cert_mail: undef
 
 dlrn::workers:
@@ -60,6 +60,32 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS'
+  centos-train:
+    distro: 'centos7'
+    target: 'centos-train'
+    distgit_branch: 'train-rdo'
+    distro_branch: 'stable/train'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+# TODO(jpena): set as *enable_purge after initial bootstrap
+    enable_purge: false
+    purge_hour: '3'
+    purge_minute: '47'
+# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
+    symlinks: ['/var/www/html/centos7-train-bootstrap', '/var/www/html/train/centos7-bootstrap']
+# TODO(jpena): move to train once the tags have been updated in rdo
+    release: 'train-uc'
+# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
+    baseurl: 'https://trunk.rdoproject.org/centos7-train-bootstrap'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    enable_deps_sync: true
+    enable_brs_sync: true
+#   gerrit_user: 'rdo-trunk'
+#   gerrit_email: 'rdo-trunk@rdoproject.org'
+#   gerrit_topic: 'rdo-FTBFS-train'
   centos-stein:
     distro: 'centos7'
     target: 'centos-stein'
@@ -114,6 +140,8 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     enable_purge: *enable_purge
+    cron_hour: '*/2'
+    cron_minute: '47'
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-queens', '/var/www/html/queens/centos7']
@@ -137,6 +165,8 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     enable_purge: *enable_purge
+    cron_hour: '*/2'
+    cron_minute: '37'
     purge_hour: '0'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-pike', '/var/www/html/pike/centos7']
@@ -160,6 +190,8 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     enable_purge: *enable_purge
+    cron_hour: '*/2'
+    cron_minute: '27'
     purge_hour: '2'
     purge_minute: '37'
     symlinks: ['/var/www/html/centos7-ocata', '/var/www/html/ocata/centos7']
