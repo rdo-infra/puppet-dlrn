@@ -107,6 +107,9 @@ Specifies the alternate port sshd will use to listen to.
 ####`enable_https`
 Enable ssl in apache configuration. Certificates are managed using Let's Encrypt service. Defaults to false.
 
+####`disk_for_builders`
+If set, it will use the specified disk to create a volume group called vgdelorean and mount it as /home, so all builders will be stored there. Defaults to `undef`.
+
 ### Class: dlrn::fail2ban
 
 This class is used internally, and configures fail2ban for DLRN.
