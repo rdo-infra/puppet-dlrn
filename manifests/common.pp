@@ -12,6 +12,10 @@
 #   (optional) Enable ssl in apache configuration.
 #   Defaults to false
 #
+# [*disk_for_builders*]
+#   (optional) Specify a disk to mount as /home, and create all builders there.
+#   Defaults to undef
+#
 # === Examples
 #
 #  class { 'dlrn::common': }
@@ -23,6 +27,7 @@
 class dlrn::common (
   $sshd_port         = 3300,
   $enable_https      = false,
+  $disk_for_builders = undef,
 ) {
   class { 'selinux':
     mode => 'permissive'
@@ -146,37 +151,45 @@ class dlrn::common (
     }
   }
 
-  # Only create vgdelorean in vdb if it exists
+  # Only create vgdelorean in selected disk if it exists
   # Note we are keeping the VG name to avoid issues if applying to an already
   # existing environment
-  if member(split($::blockdevices,','),'vdb') {
-    physical_volume { '/dev/vdb':
-      ensure  => present,
-      require => Package['lvm2'],
+  if $disk_for_builders {
+    $components     = split($disk_for_builders, '/')
+    $device = $components[2]
+
+    if member(split($::blockdevices,','),$device) {
+      physical_volume { $disk_for_builders:
+        ensure  => present,
+        require => Package['lvm2'],
+      }
+      -> volume_group { 'vgdelorean':
+        ensure           => present,
+        physical_volumes => $disk_for_builders,
+      }
+      -> exec { 'activate vgdelorean':
+        command => 'vgchange -a y vgdelorean',
+        path    => '/usr/sbin',
+        creates => '/dev/vgdelorean',
+      }
+      -> logical_volume { 'lvol1':
+        ensure       => present,
+        volume_group => 'vgdelorean',
+      }
+      -> filesystem { '/dev/vgdelorean/lvol1':
+        ensure  => present,
+        fs_type => 'ext4',
+      }
+      -> mount { '/home':
+        ensure  => mounted,
+        device  => '/dev/vgdelorean/lvol1',
+        fstype  => 'ext4',
+        options => 'defaults',
+        require => Filesystem['/dev/vgdelorean/lvol1'],
+      }
     }
-    -> volume_group { 'vgdelorean':
-      ensure           => present,
-      physical_volumes => '/dev/vdb',
-    }
-    -> exec { 'activate vgdelorean':
-      command => 'vgchange -a y vgdelorean',
-      path    => '/usr/sbin',
-      creates => '/dev/vgdelorean',
-    }
-    -> logical_volume { 'lvol1':
-      ensure       => present,
-      volume_group => 'vgdelorean',
-    }
-    -> filesystem { '/dev/vgdelorean/lvol1':
-      ensure  => present,
-      fs_type => 'ext4',
-    }
-    -> mount { '/home':
-      ensure  => mounted,
-      device  => '/dev/vgdelorean/lvol1',
-      fstype  => 'ext4',
-      options => 'defaults',
-      require => Filesystem['/dev/vgdelorean/lvol1'],
+    else {
+      warning("Device ${disk_for_builders} not found")
     }
   }
 

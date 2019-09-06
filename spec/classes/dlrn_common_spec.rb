@@ -45,9 +45,9 @@ describe 'dlrn::common' do
         )
       end
 
-      it 'creates vgdelorean' do
-        is_expected.to contain_volume_group('vgdelorean')
-        is_expected.to contain_physical_volume('/dev/vdb')
+      it 'does not create vgdelorean' do
+        is_expected.not_to contain_volume_group('vgdelorean')
+        is_expected.not_to contain_physical_volume('/dev/vdb')
       end
 
       it 'does not create a mock site-defaults.cfg file' do
@@ -89,12 +89,9 @@ describe 'dlrn::common' do
     context 'with specific parameters' do
       let :params do { 
         :sshd_port         => 1234,
-        :enable_https      => true
+        :enable_https      => true,
+        :disk_for_builders => '/dev/vdb',
       }
-      end
-
-      before :each do
-        facts.merge!(:blockdevices => 'vda')
       end
 
       it 'sets the proper port in sshd_config' do
@@ -103,16 +100,28 @@ describe 'dlrn::common' do
         )
       end
 
-      it 'does not create vgdelorean' do
-        is_expected.not_to contain_volume_group('vgdelorean')
-        is_expected.not_to contain_physical_volume('/dev/vdb')
-      end
-
       it 'creates firewall rule for https' do
        is_expected.to contain_firewalld_service('Allow HTTPS').with(
          :service => 'https',
          :zone    => 'public',
        )
       end
-   end 
+
+      it 'creates vgdelorean' do
+        is_expected.to contain_volume_group('vgdelorean')
+        is_expected.to contain_physical_volume('/dev/vdb')
+      end
+    end
+
+    context 'with a non-existing disk' do
+      let :params do { 
+        :disk_for_builders => '/dev/foo',
+      }
+      end
+
+      it 'warns you and does not create vgdelorean' do
+        is_expected.not_to contain_volume_group('vgdelorean')
+        is_expected.not_to contain_physical_volume('/dev/foo')
+      end
+    end
 end
