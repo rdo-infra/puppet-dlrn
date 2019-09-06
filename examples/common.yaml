@@ -67,16 +67,13 @@ dlrn::workers:
     distro_branch: 'stable/train'
     disable_email: *disable_email
     enable_cron: *enable_cron
-# TODO(jpena): set as *enable_purge after initial bootstrap
-    enable_purge: false
+    enable_purge: *enable_purge
     purge_hour: '3'
     purge_minute: '47'
-# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
-    symlinks: ['/var/www/html/centos7-train-bootstrap', '/var/www/html/train/centos7-bootstrap']
+    symlinks: ['/var/www/html/centos7-train', '/var/www/html/train/centos7']
 # TODO(jpena): move to train once the tags have been updated in rdo
     release: 'train-uc'
-# TODO(jpena): remove bootstrap suffix once the initial bootstrap is completed
-    baseurl: 'https://trunk.rdoproject.org/centos7-train-bootstrap'
+    baseurl: 'https://trunk.rdoproject.org/centos7-train'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true

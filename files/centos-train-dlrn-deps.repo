@@ -1,12 +1,12 @@
 [delorean-train-testing]
 name=dlrn-train-testing
-baseurl=https://trunk.rdoproject.org/centos7-train-bootstrap/deps/latest/
+baseurl=https://trunk.rdoproject.org/centos7-train/deps/latest/
 enabled=1
 gpgcheck=0
 
 [delorean-train-build-deps]
 name=dlrn-train-build-deps
-baseurl=https://trunk.rdoproject.org/centos7-train-bootstrap/build-deps-bootstrap/latest/
+baseurl=https://trunk.rdoproject.org/centos7-train/build-deps/latest/
 enabled=1
 gpgcheck=0
 
