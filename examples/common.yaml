@@ -23,7 +23,7 @@ dlrn::workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-master-head']
-    release: 'train'
+    release: 'ussuri'
     baseurl: 'https://trunk.rdoproject.org/centos7-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -49,7 +49,7 @@ dlrn::workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
-    release: 'train-uc'
+    release: 'ussuri-uc'
     baseurl: 'https://trunk.rdoproject.org/centos7'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -73,8 +73,7 @@ dlrn::workers:
     purge_hour: '3'
     purge_minute: '47'
     symlinks: ['/var/www/html/centos7-train', '/var/www/html/train/centos7']
-# TODO(jpena): move to train once the tags have been updated in rdo
-    release: 'train-uc'
+    release: 'train'
     baseurl: 'https://trunk.rdoproject.org/centos7-train'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -221,7 +220,7 @@ dlrn::workers:
     purge_hour: '6'
     purge_minute: '7'
     symlinks: ['/var/www/html/f28', '/var/www/html/fedora28', '/var/www/html/fedora28-master', '/var/www/html/fedora']
-    release: 'train-uc'
+    release: 'ussuri-uc'
     baseurl: 'https://trunk.rdoproject.org/fedora'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
