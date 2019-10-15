@@ -16,7 +16,7 @@ scratch.
 
 ## Module Description
 
-[DLRN](https://github.com/openstack-packages/DLRN) builds and maintains yum repositories following OpenStack uptream commit streams.
+[DLRN](https://github.com/softwarefactory-project/DLRN) builds and maintains yum repositories following OpenStack uptream commit streams.
 
 The DLRN infrastructure on an instance contains the following components:
 

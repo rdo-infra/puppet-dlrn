@@ -497,7 +497,7 @@ define dlrn::worker (
   vcsrepo { "/home/${name}/dlrn":
     ensure   => present,
     provider => git,
-    source   => 'https://github.com/openstack-packages/DLRN',
+    source   => 'https://github.com/softwarefactory-project/DLRN',
     user     => $name,
     require  => File["/home/${name}"]
   }
