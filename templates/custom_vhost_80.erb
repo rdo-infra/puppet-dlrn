@@ -17,6 +17,7 @@
   # WSGI configuration for worker <%= worker %>
   WSGIDaemonProcess dlrn-<%= worker -%> group=<%= worker -%> processes=5 threads=1 user=<%= worker %>
   WSGIScriptAlias /api-<%= worker -%> "/home/<%= worker -%>/api/dlrn-api-<%= worker -%>.wsgi"
+  <% if worker.start_with?('rhel8') -%>WSGIScriptAlias /api-<%= worker.gsub('rhel8', 'redhat') -%> "/home/<%= worker -%>/api/dlrn-api-<%= worker -%>.wsgi"<% end -%>
 
   <Location "/api-<%= worker -%>">
     Require all granted
@@ -24,6 +25,14 @@
     WSGIProcessGroup dlrn-<%= worker %>
     WSGIPassAuthorization On
   </Location>
+
+  <% if worker.start_with?('rhel8') %>
+  <Location "/api-<%= worker.gsub('rhel8', 'redhat') -%>">
+    Require all granted
+    SetEnv CONFIG_FILE /home/<%= worker -%>/api/dlrn-api-<%= worker -%>.cfg
+    WSGIProcessGroup ssl-dlrn-<%= worker %>
+    WSGIPassAuthorization On
+  </Location><% end %>
 
 <% end -%> <% end %>
   ## Logging
