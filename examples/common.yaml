@@ -260,7 +260,7 @@ dlrn::workers:
     enable_purge: *enable_purge
     purge_hour: '7'
     purge_minute: '7'
-    symlinks: ['/var/www/html/rhel8-master']
+    symlinks: ['/var/www/html/rhel8-master', '/var/www/html/redhat8-master']
     release: 'ussuri-uc'
     baseurl: 'http://trunk.rdoproject.org/rhel8-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
@@ -280,7 +280,7 @@ dlrn::workers:
     enable_purge: *enable_purge
     purge_hour: '7'
     purge_minute: '29'
-    symlinks: ['/var/www/html/rhel8-train']
+    symlinks: ['/var/www/html/rhel8-train', '/var/www/html/redhat8-train']
     release: 'train'
     baseurl: 'http://trunk.rdoproject.org/rhel8-train'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
