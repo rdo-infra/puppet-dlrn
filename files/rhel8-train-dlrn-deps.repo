@@ -1,4 +1,4 @@
-[rhel8-train-deps]
+[delorean-rhel8-train-deps]
 name=dlrn-train-rhel8-deps
 baseurl=http://trunk.rdoproject.org/rhel8-train/deps/latest
 enabled=1

@@ -1,4 +1,4 @@
-[rhel8-master-deps]
+[delorean-rhel8-master-deps]
 name=dlrn-master-rhel8-deps
 baseurl=http://trunk.rdoproject.org/rhel8-master/deps/latest
 enabled=1
