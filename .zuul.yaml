@@ -1,0 +1,6 @@
+- project:
+    check:
+      jobs:
+        - puppet-lint
+        - puppet-spec
+        - puppet-syntax
