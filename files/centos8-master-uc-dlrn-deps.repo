@@ -1,0 +1,17 @@
+[delorean-master-testing]
+name=dlrn-master-testing
+baseurl=https://copr-be.cloud.fedoraproject.org/results/@openstack-sig/centos8-deps/centos-stream-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+enabled=1
+gpgcheck=0
+repo_gpgcheck=0
+enabled_metadata=1
+module_hotfixes=1
+
+[virtualization-test-el8.0]
+name=Virtualization EL8.0
+baseurl=http://38.145.34.66/test-el8/
+enabled=1
+gpgcheck=0
+module_hotfixes=1
