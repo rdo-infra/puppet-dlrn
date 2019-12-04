@@ -419,7 +419,7 @@ define dlrn::worker (
     target => "/home/${name}/data/repos/dlrn-deps.repo",
   }
   # We only have current-tripleo-rdo in some workers
-  if $name =~ /^centos\-(ocata|pike|queens|rocky|stein|train|master-uc)/ {
+  if $name =~ /^(centos|centos8)\-(ocata|pike|queens|rocky|stein|train|master-uc)/ {
     file {"/home/${name}/data/repos/current-passed-ci":    # Use current-tripleo-rdo as source of truth
       ensure  => link,
       target  => "/home/${name}/data/repos/current-tripleo-rdo",
@@ -655,8 +655,20 @@ python setup.py install",
     }
   }
 
+  # Special case for centos8-master-uc
+  if $name == 'centos8-master-uc' {
+    $worker_os      = 'centos8'
+    $worker_version = 'master-uc'
+    $worker_name = 'centos8-master-uc'
+    file { "/home/${name}/dlrn/scripts/${worker_os}-${worker_version}.cfg":
+      ensure  => present,
+      content => template("dlrn/${worker_os}.cfg.erb"),
+      require => Vcsrepo["/home/${name}/dlrn"],
+    }
+  }
+
   # Special case for *-train, *-stein, *-rocky, *-queens, *-pike, and *-ocata
-  if $name =~ /^(centos|fedora|rhel8)\-(ocata|pike|queens|rocky|stein|train)/ {
+  if $name =~ /^(centos|centos8|fedora|rhel8)\-(ocata|pike|queens|rocky|stein|train)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
@@ -676,7 +688,7 @@ python setup.py install",
   }
 
   # Special case for centos-master and fedora-master
-  if $name =~ /^(centos|fedora|rhel8)\-master$/ {
+  if $name =~ /^(centos|centos8|fedora|rhel8)\-master$/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_name    = "${worker_os}-master"
