@@ -108,6 +108,11 @@
 #   (optional) Number of worker processes to use during build.
 #   Defaults to 1
 #
+# [*use_components*]
+#   (optional) If set to true, tell DLRN to use a component-based structure for
+#   its repositories
+#   Defaults to false
+#
 # [*server_type*]
 #   (optional) server_type can be set to primary or passive. Primary server
 #   check periodically for changes in repos and synchronize every build to a
@@ -349,6 +354,7 @@ define dlrn::worker (
   $include_srpm_in_repo          = true,
   $nonfallback_branches          = '^master$,^rpm-master$',
   $worker_processes              = 1,
+  $use_components                = false,
   $pkginfo_driver                = 'dlrn.drivers.rdoinfo.RdoInfoDriver',
   $build_driver                  = 'dlrn.drivers.mockdriver.MockBuildDriver',
   $gitrepo_repo                  = 'http://github.com/openstack/rpm-packaging',
