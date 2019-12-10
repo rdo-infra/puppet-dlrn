@@ -74,7 +74,7 @@ class dlrn::common (
             $required_packages = ['lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
                                   'mock', 'rpm-build', 'git', 'python-pip',
                                   'python-virtualenv', 'gcc', 'createrepo',
-                                  'screen', 'python-tox', 'git-review', 'python-sh',
+                                  'screen', 'git-review',
                                   'postfix', 'firewalld', 'openssl-devel',
                                   'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools',
                                   'selinux-policy-devel']
@@ -83,9 +83,9 @@ class dlrn::common (
         default: {
           # Fedora
           $required_packages = ['lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
-                                'mock', 'rpm-build', 'git', 'python-pip',
-                                'python-virtualenv', 'gcc', 'createrepo',
-                                'screen', 'python-tox', 'git-review', 'python-sh',
+                                'mock', 'rpm-build', 'git', 'python3-pip',
+                                'python3-virtualenv', 'gcc', 'createrepo',
+                                'screen', 'git-review',
                                 'postfix', 'firewalld', 'openssl-devel',
                                 'libffi-devel', 'yum-plugin-priorities', 'rpmdevtools',
                                 'selinux-policy-devel']
