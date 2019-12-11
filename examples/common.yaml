@@ -311,3 +311,24 @@ dlrn::workers:
     include_srpm_in_repo: true
     enable_deps_sync: false
     enable_brs_sync: false
+  centos8-train:
+    distro: 'centos8'
+    target: 'centos8-train'
+    distgit_branch: 'train-rdo'
+    distro_branch: 'stable/train'
+    disable_email: *disable_email
+    enable_cron: *enable_cron
+    enable_purge: *enable_purge
+    purge_hour: '3'
+    purge_minute: '7'
+    symlinks: ['/var/www/html/centos8-train', '/var/www/html/train/centos8']
+    release: 'train'
+    baseurl: 'https://trunk.rdoproject.org/centos8-train'
+    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
+    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
+    db_connection: 'sqlite:///commits.sqlite'
+    mock_tmpfs_enable: true
+    fallback_to_master: true
+    include_srpm_in_repo: true
+    enable_deps_sync: false
+    enable_brs_sync: false
