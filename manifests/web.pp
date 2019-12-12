@@ -66,8 +66,11 @@ class dlrn::web(
   if $enable_https {
     class { '::letsencrypt':
       configure_epel => false,
-      email          => $cert_mail,
       package_name   => 'certbot',
+      config         =>  {
+        email  => $cert_mail,
+        server => 'https://acme-v02.api.letsencrypt.org/directory',
+      }
     }
     letsencrypt::certonly { $web_domain :
       plugin        => 'webroot',
