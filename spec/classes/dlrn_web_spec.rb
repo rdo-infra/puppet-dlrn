@@ -142,8 +142,12 @@ describe 'dlrn::web' do
     it 'does create ssl certificates' do
       is_expected.to contain_class('letsencrypt').with(
         :configure_epel => false,
-        :email          => 'dummy@example.com',
         :package_name   => 'certbot',
+        :config         => {
+            'email'  => 'dummy@example.com',
+            'server' => 'https://acme-v02.api.letsencrypt.org/directory',
+        }
+
       )
       is_expected.to contain_letsencrypt__certonly('dummy.example.com').with(
         :plugin        => 'webroot',
