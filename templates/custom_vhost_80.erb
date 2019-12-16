@@ -30,7 +30,7 @@
   <Location "/api-<%= worker.gsub('rhel8', 'redhat') -%>">
     Require all granted
     SetEnv CONFIG_FILE /home/<%= worker -%>/api/dlrn-api-<%= worker -%>.cfg
-    WSGIProcessGroup ssl-dlrn-<%= worker %>
+    WSGIProcessGroup dlrn-<%= worker %>
     WSGIPassAuthorization On
   </Location><% end %>
 
