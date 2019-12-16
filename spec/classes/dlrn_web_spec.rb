@@ -4,6 +4,14 @@ require 'hiera'
 describe 'dlrn::web' do
   let :facts do
   {   :kernel                    => 'Linux',
+      :os                        => {
+          'family' => 'RedHat',
+          'release' => {
+              'major' => '7',
+              'minor' => '1',
+              'full'  => '7.6.1810',
+           }
+      },
       :osfamily                  => 'RedHat',
       :operatingsystem           => 'Fedora',
       :operatingsystemrelease    => '24',
