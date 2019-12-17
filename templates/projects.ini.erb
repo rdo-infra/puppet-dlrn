@@ -24,6 +24,7 @@ database_connection=<%= @db_connection %>
 fallback_to_master=<%= @fallback_to_master %>
 include_srpm_in_repo=<%= @include_srpm_in_repo %>
 nonfallback_branches=<%= @nonfallback_branches %>
+use_components=<%= @use_components %>
 <% if @pkginfo_driver == 'dlrn.drivers.gitrepo.GitRepoDriver' %>
 [gitrepo_driver]
 repo=<%= @gitrepo_repo %>

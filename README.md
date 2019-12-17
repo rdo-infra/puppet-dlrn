@@ -266,6 +266,9 @@ Defaults to `'^master$,^rpm-master$'`.
 ####`worker_processes`
 This parameter defines the number of worker processes to use during build. Defaults to `1`.
 
+####`use_components`
+If set to `true`, this parameter will tell DLRN to use a component-based structure for its repositories. Defaults to `false`.
+
 ####`pkginfo_driver`
 This is the DLRN driver used to manage the distgit repositories. The current available options are 'dlrn.drivers.rdoinfo.RdoInfoDriver', 'dlrn.drivers.gitrepo.GitRepoDriver' and 'dlrn.drivers.downstream.DownstreamInfoDriver'. Defaults to `'dlrn.drivers.rdoinfo.RdoInfoDriver'`
 
