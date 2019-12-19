@@ -69,7 +69,7 @@ class dlrn::common (
                                   'screen',
                                   'postfix', 'firewalld', 'openssl-devel',
                                   'libffi-devel', 'dnf-plugins-core', 'rpmdevtools',
-                                  'selinux-policy-devel']
+                                  'selinux-policy-devel', 'copr-cli', 'python3-tenacity']
           } else {
             $required_packages = ['lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
                                   'mock', 'rpm-build', 'git', 'python-pip',
@@ -231,6 +231,12 @@ class dlrn::common (
   file { '/usr/local/bin/update-deps.sh':
     ensure => present,
     source => 'puppet:///modules/dlrn/update-deps.sh',
+    mode   => '0755',
+  }
+
+  file { '/usr/local/bin/list_copr_builds':
+    ensure => present,
+    source => 'puppet:///modules/dlrn/list_copr_builds',
     mode   => '0755',
   }
 

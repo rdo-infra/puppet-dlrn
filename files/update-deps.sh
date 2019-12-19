@@ -4,14 +4,18 @@
 
 set -e
 
+source /etc/os-release
+
 MASTER_TAG=${MASTER_TAG:-ussuri}
-RELEASE=${RELEASE:-${USER#centos-}}
+RELEASE=${RELEASE:-${USER#centos*-}}
 DEPS_DIR=${DEPS_DIR:-${HOME}/data/repos/deps/}
 LATEST_DEPS_DIR=${DEPS_DIR}/latest/
 RDOINFO_LOCATION=${RDOINFO_LOCATION:-/home/rdoinfo/rdoinfo}
 DATE_VERSION=$(date +%Y%m%d%H%M)
 RSYNC_REMOTE=${RSYNC_REMOTE:-1}
 TAG_PHASE=${TAG_PHASE:-testing}
+CENTOS_VERSION=$REDHAT_SUPPORT_PRODUCT_VERSION
+COPR_LIST_SCRIPT="/usr/local/bin/list_copr_builds"
 
 ARCHES="aarch64 noarch ppc64le ppc64 x86_64"
 
@@ -38,14 +42,22 @@ fi
 
 echo "INFO: synchronizing dependencies revision $DATE_VERSION to $LATEST_DEPS_DIR"
 if [ $RELEASE = "master-uc" ]; then
-    CBS_TAG=${CBS_TAG:-"cloud7-openstack-${MASTER_TAG}-${TAG_PHASE}"}
+    CBS_TAG=${CBS_TAG:-"cloud${CENTOS_VERSION}-openstack-${MASTER_TAG}-${TAG_PHASE}"}
 else
-    CBS_TAG=${CBS_TAG:-"cloud7-openstack-${RELEASE}-${TAG_PHASE}"}
+    CBS_TAG=${CBS_TAG:-"cloud${CENTOS_VERSION}-openstack-${RELEASE}-${TAG_PHASE}"}
 fi
 
 TEMPDIR=$(mktemp -d)
 
-repoquery --archlist=x86_64,noarch,ppc64le,aarch64 --repofrompath=deps,file://$LATEST_DEPS_DIR --disablerepo=* --enablerepo=deps -s -q -a|sort -u|sed 's/.src.rpm//g'>$TEMPDIR/current_deps
+# For CentOS8 we need to first list the builds in the copr
+
+if [ $CENTOS_VERSION -eq 8 ]; then
+    timeout 10m $COPR_LIST_SCRIPT $TEMPDIR
+fi
+
+#
+
+repoquery --archlist=x86_64,noarch,ppc64le,aarch64 --repofrompath=deps,file://$(realpath $LATEST_DEPS_DIR) --disablerepo=* --enablerepo=deps -s -q -a|sort -u|sed 's/.src.rpm//g'>$TEMPDIR/current_deps
 rdopkg info -l $RDOINFO_LOCATION "buildsys-tags:$CBS_TAG" "tags:dependency"|grep $CBS_TAG|awk '{print $2}'>$TEMPDIR/required_deps
 
 # We only want to download builds for supported arches
@@ -62,8 +74,21 @@ cd .pending
 for NVR in $(cat $TEMPDIR/required_deps)
 do
   if [ $(grep -c ^$NVR$ $TEMPDIR/current_deps) -eq 0 ]; then
-      echo "INFO: adding package $NVR to $LATEST_DEPS_DIR"
-      cbs download-build $ARCH_OPT -q $NVR
+      if [ $CENTOS_VERSION -eq 7 ]; then
+          echo "INFO: adding package $NVR to $LATEST_DEPS_DIR"
+          cbs download-build $ARCH_OPT -q $NVR
+      else
+          # Temporary for CentOS8 until we have proper CBS builds
+          echo "INFO: adding package $NVR to $LATEST_DEPS_DIR from copr repo"
+          BUILD_ID=$(grep $NVR $TEMPDIR/copr_builds|tail -1|awk -F',' '{print $2}')
+          if [ -n "$BUILD_ID" ]; then
+              copr-cli download-build $BUILD_ID
+              mv centos-stream-x86_64/*rpm .
+              rm -rf centos-stream-x86_64
+          else
+              echo "ERROR: package $NVR does not exist in copr project"
+          fi
+      fi
   fi
 done
 rm -rf $TEMPDIR
