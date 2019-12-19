@@ -201,7 +201,7 @@ $/)
 
         it 'does not create a cronjob for build deps sync' do
           is_expected.not_to contain_cron("#{user}-deps").with(
-            :command => 'TAG_PHASE="el7-build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-build-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
+            :command => 'TAG_PHASE="build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-build-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
             :user    => "#{user}",
             :hour    => '*',
             :minute  => '25,55',

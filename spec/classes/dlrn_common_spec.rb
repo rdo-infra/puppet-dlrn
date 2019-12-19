@@ -89,6 +89,10 @@ describe 'dlrn::common' do
         is_expected.to contain_file('/usr/local/bin/update-deps.sh')
       end
 
+      it 'does create a /usr/local/bin/list_copr_builds file' do
+        is_expected.to contain_file('/usr/local/bin/list_copr_builds')
+      end
+
       it 'does create a /usr/local/bin/purge-deps.sh file' do
         is_expected.to contain_file('/usr/local/bin/purge-deps.sh')
       end
