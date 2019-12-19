@@ -1,0 +1,36 @@
+#!/usr/libexec/platform-python
+
+import os
+import re
+import sys
+
+from copr.v3 import Client
+from os.path import expanduser
+from tenacity import *
+
+UNAME = '@openstack-sig'
+PNAME = 'centos8-deps'
+
+destination = sys.argv[1]
+temporary_list = destination + '/.copr_builds'
+final_list = destination + '/copr_builds'
+
+config = {"copr_url": "http://copr.fedoraproject.org", "no_config": True}
+
+client = Client(config)
+packages = client.package_proxy.get_list(ownername=UNAME, projectname=PNAME)
+
+@retry(stop=stop_after_attempt(3))
+def get_builds(pname):
+    return client.build_proxy.get_list(status="succeeded", ownername=UNAME, projectname=PNAME, packagename=pname)
+
+with open(temporary_list, 'w') as writer:
+    for package in packages:
+        pname = package['name']
+        builds = get_builds(pname)
+        for build in builds:
+            vr = build['source_package']['version']
+            nvr = pname + '-' + re.sub('\.[^.]*$','.el8', vr)
+            writer.writelines("%s,%s,%s\n" % (pname, build['id'], nvr))
+
+os.rename(temporary_list, final_list)
