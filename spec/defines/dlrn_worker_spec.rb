@@ -890,6 +890,22 @@ $/)
       end
 
     end
+
+    context 'with centos8-master name' do
+      before :each do
+        params.merge!(:enable_deps_sync => true)
+      end
+
+      let :title do
+        'centos8-master'
+      end
+
+      it 'creates the wsgi file' do
+        is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.wsgi")
+          .with_content(/sys.path.append\(\'\/home\/#{title}\/.venv\/lib\/python3.6\/site-packages\/\'\)
+$/)
+      end
+    end
   end
 end
 
