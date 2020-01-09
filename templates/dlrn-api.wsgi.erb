@@ -1,6 +1,6 @@
 import os
 import sys
-<% if @name.start_with?('centos8') or @name.start_with?('rhel8') %>
+<% if Integer(@operatingsystemmajrelease) > 7 %>
 sys.path.append('/home/<%= @name %>/.venv/lib/python3.6/site-packages/')
 <% else %>
 sys.path.append('/home/<%= @name %>/.venv/lib/python2.7/site-packages/')

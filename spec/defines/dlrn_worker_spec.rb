@@ -176,8 +176,7 @@ describe 'dlrn::worker' do
 
         it 'creates the wsgi file' do
           is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.wsgi")
-            .with_content(/sys.path.append\(\'\/home\/#{title}\/.venv\/lib\/python2.7\/site-packages\/\'\)
-$/)
+            .with_content(/sys.path.append\(\'\/home\/#{title}\/.venv\/lib\/python3.6\/site-packages\/\'\)$/)
         end
 
         it 'creates the WSGI config file' do
@@ -891,15 +890,18 @@ $/)
 
     end
 
-    context 'with centos8-master name' do
+    context 'with centos8-master name, on a centos7 machine' do
+      before :each do
+         facts.merge!(:operatingsystemmajrelease => '7')
+      end
+
       let :title do
         'centos8-master'
       end
 
       it 'creates the wsgi file' do
         is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.wsgi")
-          .with_content(/sys.path.append\(\'\/home\/#{title}\/.venv\/lib\/python3.6\/site-packages\/\'\)
-$/)
+          .with_content(/sys.path.append\(\'\/home\/#{title}\/.venv\/lib\/python2.7\/site-packages\/\'\)$/)
       end
     end
   end
