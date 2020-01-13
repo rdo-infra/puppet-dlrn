@@ -1,0 +1,20 @@
+[delorean-master-testing]
+name=dlrn-master-testing
+baseurl=https://trunk.rdoproject.org/centos8-master/deps/latest/
+enabled=1
+gpgcheck=0
+module_hotfixes=1
+
+[delorean-master-build-deps]
+name=dlrn-master-build-deps
+baseurl=https://trunk.rdoproject.org/centos8-master/build-deps/latest/
+enabled=1
+gpgcheck=0
+module_hotfixes=1
+
+[advanced-virt]
+name=Advanced Virtualization
+baseurl=https://trunk.rdoproject.org/centos8-master/deps/advvirt/8.0/
+gpgcheck=0
+enabled=1
+module_hotfixes=1
