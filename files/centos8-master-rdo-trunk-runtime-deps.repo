@@ -7,7 +7,7 @@ module_hotfixes=1
 
 [advanced-virt]
 name=Advanced Virtualization
-baseurl=https://trunk.rdoproject.org/centos8-master/deps/advvirt/8.0/
+baseurl=https://trunk.rdoproject.org/centos8-master/deps/advvirt/8.1/
 gpgcheck=0
 enabled=1
 module_hotfixes=1
