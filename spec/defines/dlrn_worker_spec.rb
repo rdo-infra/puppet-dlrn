@@ -590,19 +590,6 @@ describe 'dlrn::worker' do
     end
   end
 
-  context 'with special case for fedora-rawhide-master ' do
-    let :title do
-      'fedora-rawhide-master'
-    end
-
-    it 'creates specific mock config file for rawhide' do
-      is_expected.to contain_file('/home/fedora-rawhide-master/dlrn/scripts/fedora-rawhide.cfg').with(
-        :mode   => '0644',
-        :owner  => 'fedora-rawhide-master',
-      ).with_content(/config_opts\[\'plugin_conf\'\]\[\'tmpfs\_enable\'\] = False/)
-    end
-  end
-
   context 'when running on master' do
     let :title do
       'centos-master'

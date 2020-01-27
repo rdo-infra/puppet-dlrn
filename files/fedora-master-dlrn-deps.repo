@@ -1,6 +1,0 @@
-[fedora-stable]
-name=fedora
-baseurl=https://trunk.rdoproject.org/fedora/stable-base/latest
-gpgcheck=0
-enabled=1
-

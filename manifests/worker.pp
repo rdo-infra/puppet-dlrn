@@ -637,18 +637,6 @@ python setup.py install",
     }
   }
 
-  # Special case for fedora-rawhide-master
-  if $name == 'fedora-rawhide-master' {
-    $worker_name = 'fedora-rawhide'
-    file { "/home/${name}/dlrn/scripts/fedora-rawhide.cfg":
-      ensure  => present,
-      mode    => '0644',
-      owner   => $name,
-      content => template('dlrn/fedora-rawhide.cfg.erb'),
-      require => Vcsrepo["/home/${name}/dlrn"],
-    }
-  }
-
   # Special case for centos-master-uc
   if $name == 'centos-master-uc' {
     $worker_os      = 'centos'

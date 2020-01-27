@@ -184,7 +184,7 @@ dlrn::worker { 'fedora-master':
 The distribution used to create DLRN packages. Currently used values are `centos7`, `f24` and `f25`
 
 ####`target`
-Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-newton`, 'centos-ocata' and `fedora-master-rawhide`.
+Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-newton` and `centos-ocata`.
 
 ####`distgit_branch`
 Specifies the branch for the dist-git: `rpm-master` for trunk packages, `ocata-rdo` for stable/ocata, `newton-rdo` for stable/newton.
