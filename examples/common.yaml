@@ -92,6 +92,8 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     enable_purge: *enable_purge
+    cron_hour: '*'
+    cron_minute: '12,42'
     purge_hour: '3'
     purge_minute: '37'
     symlinks: ['/var/www/html/centos7-stein', '/var/www/html/stein/centos7']
@@ -115,6 +117,8 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     enable_purge: *enable_purge
+    cron_hour: '*/2'
+    cron_minute: '7'
     purge_hour: '4'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos7-rocky', '/var/www/html/rocky/centos7']
