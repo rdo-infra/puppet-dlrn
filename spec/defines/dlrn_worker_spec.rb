@@ -478,7 +478,7 @@ describe 'dlrn::worker' do
         it 'sets up the required SSH keys' do
           is_expected.to contain_sshkey('review.rdoproject.org').with(
             :ensure => 'present',
-            :name   => 'review.rdoproject.org',
+            :name   => '[review.rdoproject.org]:29418',
           )
         end
       end
