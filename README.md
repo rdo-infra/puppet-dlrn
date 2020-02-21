@@ -387,6 +387,9 @@ If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver' and 'fetch_mock_con
 This allows us to have different package managers if we are building for  different operating system releases, such as CentOS 7 (yum) and CentOS 8 (dnf).
 Defaults to `undef`.
 
+####`additional_koji_tags`
+If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver', this option defines a list of additional tags to be applied to the build, once  it is finished. Defaults to `undef`
+
 ####`enable_deps_sync`
 When set to true a cron job is created to synchronize dependencies from CBS into $HOME/data/repos/deps/latest in primary server.
 
