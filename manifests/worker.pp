@@ -309,6 +309,12 @@
 #   be done.
 #   Defaults to undef
 #
+# [*additional_koji_tags*]
+#   (optional) If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver'
+#   this option defines a list of additional tags to be applied to the build, once
+#   it is finished.
+#   Defaults to undef
+#
 # [*enable_deps_sync*]
 #   (optional) Enable a cron job to periodically synchronize dependencies repo
 #   with cloud7-openstack-<release>-testing CBS tag.
@@ -389,6 +395,7 @@ define dlrn::worker (
   $koji_fetch_mock_config        = false,
   $koji_use_rhpkg                = false,
   $koji_mock_base_packages       = undef,
+  $additional_koji_tags          = undef,
   $enable_deps_sync              = false,
   $enable_brs_sync               = false,
 
