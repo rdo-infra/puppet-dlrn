@@ -352,6 +352,9 @@ If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver', when this option i
 ####`koji_mock_base_packages`
 If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver' and ``fetch_mock_config`` is set to ``true``, this option will define the set of base packages that will be installed in the mock configuration when creating the source RPM. This list of packages will override the one fetched in the mock configuration, if set. If not set, no overriding will be done.
 
+####`additional_koji_tags`
+If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver', this option defines a list of additional tags to be applied to the build, once  it is finished. Defaults to `undef`
+
 ####`enable_deps_sync`
 When set to true a cron job is created to synchronize dependencies from CBS into $HOME/data/repos/deps/latest in primary server.
 
