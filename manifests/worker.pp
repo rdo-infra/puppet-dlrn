@@ -307,7 +307,7 @@
 #
 # [*enable_brs_sync*]
 #   (optional) Enable a cron job to periodically synchronize build requirements repo
-#   with cloud7-openstack-<release>-el7-build CBS tag.
+#   with cloud{centos-release}-openstack-<release>-el{centos-release}-build CBS tag.
 #   Defaults to false
 #
 # === Example
@@ -596,7 +596,7 @@ python setup.py install",
 
   if $enable_brs_sync and $server_type == 'primary' {
     cron { "${name}-build-deps":
-      command => 'TAG_PHASE="el7-build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-build-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
+      command => 'TAG_PHASE="build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-build-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
       user    => $name,
       hour    => '*',
       minute  => [25, 55],

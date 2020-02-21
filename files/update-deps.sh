@@ -5,13 +5,30 @@
 set -e
 
 MASTER_TAG=${MASTER_TAG:-ussuri}
-RELEASE=${RELEASE:-${USER#centos-}}
+RELEASE=${RELEASE:-$(echo $USER|cut -d'-' -f2-)}
 DEPS_DIR=${DEPS_DIR:-${HOME}/data/repos/deps/}
 LATEST_DEPS_DIR=${DEPS_DIR}/latest/
 RDOINFO_LOCATION=${RDOINFO_LOCATION:-/home/rdoinfo/rdoinfo}
 DATE_VERSION=$(date +%Y%m%d%H%M)
 RSYNC_REMOTE=${RSYNC_REMOTE:-1}
 TAG_PHASE=${TAG_PHASE:-testing}
+
+# Find CentOS version
+
+case $(echo $TEST1|cut -d'-' -f1) in
+centos)
+  CENTOS_RELEASE=7
+  ;;
+centos8)
+  CENTOS_RELEASE=8
+  ;;
+esac
+
+if [ "$TAG_PHASE" = "build" ]; then
+    TAG_SUFFIX="el${CENTOS_RELEASE}-$TAG_PHASE"
+else
+    TAG_SUFFIX=$TAG_PHASE
+fi
 
 ARCHES="aarch64 noarch ppc64le ppc64 x86_64"
 
@@ -38,9 +55,9 @@ fi
 
 echo "INFO: synchronizing dependencies revision $DATE_VERSION to $LATEST_DEPS_DIR"
 if [ $RELEASE = "master-uc" ]; then
-    CBS_TAG=${CBS_TAG:-"cloud7-openstack-${MASTER_TAG}-${TAG_PHASE}"}
+    CBS_TAG=${CBS_TAG:-"cloud${CENTOS_RELEASE}-openstack-${MASTER_TAG}-${TAG_SUFFIX}"}
 else
-    CBS_TAG=${CBS_TAG:-"cloud7-openstack-${RELEASE}-${TAG_PHASE}"}
+    CBS_TAG=${CBS_TAG:-"cloud${CENTOS_RELEASE}-openstack-${RELEASE}-${TAG_SUFFIX}"}
 fi
 
 TEMPDIR=$(mktemp -d)
