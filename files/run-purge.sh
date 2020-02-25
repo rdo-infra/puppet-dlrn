@@ -27,7 +27,7 @@ if [ -n "$ARG" ]; then
     ARGUMENTS=""
 else
     LOGFILE=/home/${USER}/dlrn-logs/dlrn-purge.$(date +%s).log
-    ARGUMENTS="--older-than 60 -y --exclude-dirs /home/${USER}/data/repos/current,/home/${USER}/data/repos/consistent,/home/${USER}/data/repos/current-passed-ci,/home/${USER}/data/repos/current-tripleo,/home/${USER}/data/repos/previous-current-tripleo,/home/${USER}/data/repos/current-tripleo-rdo,/home/${USER}/data/repos/previous-current-tripleo-rdo,/home/${USER}/data/repos/puppet-passed-ci,/home/${USER}/data/repos/current-tripleo-rdo-internal"
+    ARGUMENTS="--older-than 60 -y --exclude-dirs /home/${USER}/data/repos/current,/home/${USER}/data/repos/consistent,/home/${USER}/data/repos/current-passed-ci,/home/${USER}/data/repos/current-tripleo,/home/${USER}/data/repos/previous-current-tripleo,/home/${USER}/data/repos/current-tripleo-rdo,/home/${USER}/data/repos/previous-current-tripleo-rdo,/home/${USER}/data/repos/puppet-passed-ci,/home/${USER}/data/repos/current-tripleo-rdo-internal,/home/${USER}/data/repos/tripleo-ci-testing,/home/${USER}/data/repos/promoted-components"
 fi
 cd ~/dlrn
 
