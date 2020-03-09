@@ -62,11 +62,10 @@ class dlrn::common (
         'RedHat', 'CentOS': {
           if (versioncmp($::operatingsystemmajrelease, '7') > 0) {
             # RHEL 8 or later
-            # FIXME(jpena): we should add git-review, but it is not available yet
             $required_packages = ['lvm2', 'xfsprogs', 'yum-utils', 'vim-enhanced',
                                   'mock', 'rpm-build', 'git', 'python3-pip',
                                   'python3-virtualenv', 'gcc', 'createrepo_c',
-                                  'screen',
+                                  'screen', 'git-review',
                                   'postfix', 'firewalld', 'openssl-devel',
                                   'libffi-devel', 'dnf-plugins-core', 'rpmdevtools',
                                   'selinux-policy-devel']
