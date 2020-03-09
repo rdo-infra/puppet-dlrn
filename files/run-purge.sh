@@ -38,6 +38,10 @@ echo `date` "Starting DLRN-purge run." >> $LOGFILE
         ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos -maxdepth 1 -type l | grep -v -e current$ -e consistent$ -e delorean-deps.repo$"| while read symlink; do
           rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink /home/${USER}/data/repos/
         done
+        # Now try the same for component-based repos
+        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos/component -maxdepth 2 -type l 2>/dev/null| grep -v -e current$ -e consistent$" | while read symlink; do 
+          rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink $symlink
+        done
     fi
 # Now, purge as needed
 dlrn-purge --config-file /usr/local/share/dlrn/${USER}/projects.ini ${ARGUMENTS} "$@" 2>> $LOGFILE
