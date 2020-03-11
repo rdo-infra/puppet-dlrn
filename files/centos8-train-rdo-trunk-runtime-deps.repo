@@ -5,13 +5,6 @@ enabled=1
 gpgcheck=0
 module_hotfixes=1
 
-[delorean-train-build-deps]
-name=dlrn-train-build-deps
-baseurl=https://trunk.rdoproject.org/centos8-train/build-deps/latest/
-enabled=1
-gpgcheck=0
-module_hotfixes=1
-
 [advanced-virt]
 name=Advanced Virtualization
 baseurl=https://trunk.rdoproject.org/centos8/deps/advvirt/8.1/
