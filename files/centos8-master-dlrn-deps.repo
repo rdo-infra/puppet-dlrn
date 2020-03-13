@@ -18,3 +18,17 @@ baseurl=https://trunk.rdoproject.org/centos8-master/deps/advvirt/8.1/
 gpgcheck=0
 enabled=1
 module_hotfixes=1
+
+[messaging]
+name=Messaging
+baseurl=https://trunk.rdoproject.org/centos8-master/deps/messaging/rabbitmq/x86_64/
+gpgcheck=0
+enabled=1
+module_hotfixes=1
+
+[opstools]
+name=opstools
+baseurl=https://trunk.rdoproject.org/centos8-master/deps/opstools/collectd/x86_64/
+gpgcheck=0
+enabled=1
+module_hotfixes=1
