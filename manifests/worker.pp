@@ -617,11 +617,11 @@ python setup.py install",
       }
       # (amoralej) - centos-packager for CentOS 8 is pulled from copr project.
       if ($::operatingsystem == 'CentOS') and (versioncmp($::operatingsystemmajrelease, '8') == 0) {
-        exec { 'Enable Copr repo for centos-packager in CentOS8':
+        ensure_resource('exec', 'Enable Copr repo for centos-packager in CentOS8', {
           command => 'dnf copr enable ykarel/ykarel-centos-stream centos-stream-x86_64 -y',
           path    => '/usr/bin',
           unless  => 'grep enabled=1 /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:ykarel:ykarel-centos-stream.repo',
-        }
+        })
         Exec['Enable Copr repo for centos-packager in CentOS8'] -> Package['centos-packager']
       }
       ensure_packages(['centos-packager'], {'ensure' => 'present'})
