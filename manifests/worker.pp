@@ -524,9 +524,9 @@ define dlrn::worker (
     mode    => '0755',
     content => "source /home/${name}/.venv/bin/activate
 pip install --upgrade pip
-pip install -r requirements.txt
-pip install -r test-requirements.txt
-python setup.py install",
+pip install -r dlrn/requirements.txt
+pip install -r dlrn/test-requirements.txt
+cd dlrn ; python setup.py install",
   }
 
   if $disable_email {
