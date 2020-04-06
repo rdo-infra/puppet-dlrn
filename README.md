@@ -31,10 +31,31 @@ This module can configure the basic parameters required by a DLRN instace, plus 
 ## Setup
 
     $ yum -y install puppet
-    $ git clone https://github.com/javierpena/puppet-dlrn
+    $ git clone https://github.com/rdo-infra/puppet-dlrn
     $ cd puppet-dlrn
     $ puppet module build
     $ puppet module install pkg/jpena-dlrn-*.tar.gz
+
+### Setup on puppet 6:
+
+    sudo dnf install -y https://yum.puppet.com/puppet6-release-el-8.noarch.rpm
+
+Build module:
+
+    sudo dnf install -y https://yum.puppet.com/puppet-tools-release-el-8.noarch.rpm
+    sudo dnf install -y pdk
+    git clone https://github.com/javierpena/puppet-dlrn
+    cd puppet-dlrn
+    pdk build --force
+    puppet module install pkg/jpena-dlrn-0.1.0.tar.gz
+
+Sample site.pp file:
+
+    cp puppet-dlrn/examples/site.pp /etc/puppetlabs/code/environments/production/manifests/
+
+Copy example of hieradata params:
+
+    cp ~/puppet-dlrn/examples/common.yaml /etc/puppetlabs/code/environments/production/data/
 
 ## Usage
 
@@ -167,30 +188,30 @@ If `enable_api` is true, this array will define which workers will be added to t
 This defined resource type creates all required configuration for a DLRN worker. It is used internally by class dlrn, but it may also be used externally from the site manifest to create additional workers.
 
 ```puppet
-dlrn::worker { 'fedora-master':
-  distro         => 'f24',
-  target         => 'fedora',
+dlrn::worker { 'centos-master':
+  distro         => 'centos8',
+  target         => 'centos',
   distgit_branch => 'rpm-master',
   distro_branch  => 'master',
   disable_email  => true,
   enable_cron    => false,
-  symlinks       => ['/var/www/html/f24',
-                      '/var/www/html/fedora24'],
-  release        => 'newton',
+  symlinks       => ['/var/www/html/c8',
+                      '/var/www/html/centos8'],
+  release        => 'train',
 }
 ```
 
 ####`distro`
-The distribution used to create DLRN packages. Currently used values are `centos7`, `f24` and `f25`
+The distribution used to create DLRN packages. Currently used values are `centos7 and centos8.
 
 ####`target`
-Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-newton` and `centos-ocata`.
+Specifies the mock target used by DLRN. The basic mock targets are `centos` and `fedora`, but there are specific code paths that create mock targets for others: `centos-train` and `centos-stein`.
 
 ####`distgit_branch`
-Specifies the branch for the dist-git: `rpm-master` for trunk packages, `ocata-rdo` for stable/ocata, `newton-rdo` for stable/newton.
+Specifies the branch for the dist-git: `rpm-master` for trunk packages, `stein-rdo` for stable/stein, `train-rdo` for stable/train.
 
 ####`distro_branch`
-Specifies the branch for upstream git: `master`, `stable/newton`, etc.
+Specifies the branch for upstream git: `master`, `stable/train`, etc.
 
 ####`uid`
 Specifies the UID to use for the worker user. Defaults to `undef`, which means "let the operating system choose automatically".
@@ -226,10 +247,10 @@ If enable_purge=true, set the minute for the cron job. Defaults to '7'.
 This is a list that specifies a set of symbolic links that will be created, pointing to `/home/$user/data/repos`.
 
 ####`release`
-This is the release name this worker will be targetting, in lower case. For example, 'ocata' or 'newton'.
+This is the release name this worker will be targetting, in lower case. For example, 'stein' or 'train'.
 
 ####`baseurl`
-This is the base URL for the exported repositories. It will be used as part of the generated .repo file. For example, 'https://trunk.rdoproject.org/centos7-ocata'
+This is the base URL for the exported repositories. It will be used as part of the generated .repo file. For example, 'https://trunk.rdoproject.org/centos7-stein'
 
 ####`gerrit_user`
 This is a user to run Gerrit reviews for packages after build failures. If set to undef (default), Gerrit reviews are disabled for this worker.
