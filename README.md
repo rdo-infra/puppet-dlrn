@@ -36,6 +36,35 @@ This module can configure the basic parameters required by a DLRN instace, plus 
     $ puppet module build
     $ puppet module install pkg/jpena-dlrn-*.tar.gz
 
+### Setup on puppet 6:
+
+    sudo dnf install -y https://yum.puppet.com/puppet6-release-el-8.noarch.rpm
+    sudo systemctl puppetserver stop
+    sudo sed -i 's/-Xms2g/-Xms1g/g' /etc/sysconfig/puppetserver
+    sudo sed -i 's/-Xmx2g/-Xmx1g/g' /etc/sysconfig/puppetserver
+    sudo systemctl start puppetserver
+
+Build module:
+
+    sudo dnf install -y https://yum.puppet.com/puppet-tools-release-el-8.noarch.rpm
+    sudo dnf install -y pdk
+    git clone https://github.com/javierpena/puppet-dlrn
+    cd puppet-dlrn
+    pdk build --force
+    puppet module install pkg/jpena-dlrn-0.1.0.tar.gz
+
+Sample site.pp file:
+
+    cat << EOF > /etc/puppetlabs/code/environments/production/manifests/site.pp
+    node 'puppetnode' {
+      class { 'dlrn': }
+    }
+    EOF
+
+Copy example of hieradata params:
+
+    cp ~/puppet-dlrn/examples/common.yaml /etc/puppetlabs/code/environments/production/data/
+
 ## Usage
 
 Once the puppet-dlrn module is installed, you will need to create a suitable Hiera file to define the workers. You have an example file at `examples/common.yaml`. Just place it at `/var/lib/hiera/common.yaml`, and it will create the same configuration that is currently being used at the production DLRN environment. If you need a different set of workers, just modify the file accordingly to suit your needs.
