@@ -40,7 +40,7 @@ echo `date` "Starting DLRN-purge run." >> $LOGFILE
         done
         # Now try the same for component-based repos
         ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos/component -maxdepth 2 -type l 2>/dev/null| grep -v -e current$ -e consistent$" | while read symlink; do 
-          rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink $symlink
+          rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink $(dirname $symlink)
         done
     fi
 # Now, purge as needed
