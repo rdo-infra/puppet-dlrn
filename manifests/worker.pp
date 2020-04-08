@@ -425,7 +425,7 @@ define dlrn::worker (
     target => "/home/${name}/data/repos/dlrn-deps.repo",
   }
   # We only have current-tripleo-rdo in some workers
-  if $name =~ /^(centos|centos8)\-(ocata|pike|queens|rocky|stein|train|master-uc)/ {
+  if $name =~ /^(centos|centos8)\-(ocata|pike|queens|rocky|stein|train|ussuri|master-uc)/ {
     file {"/home/${name}/data/repos/current-passed-ci":    # Use current-tripleo-rdo as source of truth
       ensure  => link,
       target  => "/home/${name}/data/repos/current-tripleo-rdo",
@@ -671,7 +671,7 @@ python setup.py install",
   }
 
   # Special case for *-train, *-stein, *-rocky, *-queens, *-pike, and *-ocata
-  if $name =~ /^(centos|centos8|fedora|rhel8)\-(ocata|pike|queens|rocky|stein|train)/ {
+  if $name =~ /^(centos|centos8|fedora|rhel8)\-(ocata|pike|queens|rocky|stein|train|ussuri)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = $components[1]
