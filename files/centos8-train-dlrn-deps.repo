@@ -21,14 +21,14 @@ module_hotfixes=1
 
 [messaging]
 name=Messaging
-baseurl=https://trunk.rdoproject.org/centos8/deps/messaging/rabbitmq/x86_64/
+baseurl=https://trunk.rdoproject.org/centos8/deps/messaging/rabbitmq/$basearch/
 gpgcheck=0
 enabled=1
 module_hotfixes=1
 
 [opstools]
 name=opstools
-baseurl=https://trunk.rdoproject.org/centos8/deps/opstools/collectd/x86_64/
+baseurl=https://trunk.rdoproject.org/centos8/deps/opstools/collectd/$basearch/
 gpgcheck=0
 enabled=1
 module_hotfixes=1

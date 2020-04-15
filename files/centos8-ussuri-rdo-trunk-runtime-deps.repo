@@ -7,21 +7,21 @@ module_hotfixes=1
 
 [advanced-virtualization]
 name=Advanced Virtualization mirror
-baseurl=http://mirror.centos.org/centos/8/virt/x86_64/advanced-virtualization/
+baseurl=http://mirror.centos.org/centos/8/virt/$basearch/advanced-virtualization/
 gpgcheck=0
 enabled=1
 module_hotfixes=1
 
 [messaging-rabbitmq]
 name=Messaging RabbitMQ
-baseurl=http://mirror.centos.org/centos/8/messaging/x86_64/rabbitmq-38
+baseurl=http://mirror.centos.org/centos/8/messaging/$basearch/rabbitmq-38
 gpgcheck=0
 enabled=1
 module_hotfixes=1
 
 [opstools]
 name=opstools
-baseurl=https://trunk.rdoproject.org/centos8-master/deps/opstools/collectd/x86_64/
+baseurl=https://trunk.rdoproject.org/centos8-master/deps/opstools/collectd/$basearch/
 gpgcheck=0
 enabled=1
 module_hotfixes=1
