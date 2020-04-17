@@ -567,8 +567,8 @@ define dlrn::worker (
     mode    => '0755',
     content => "source /home/${name}/.venv/bin/activate
 pip install --upgrade pip
-pip install -r requirements.txt
-pip install -r test-requirements.txt
+pip install -r --no-use-pep517 requirements.txt
+pip install -r --no-use-pep517 test-requirements.txt
 python setup.py install",
   }
 
