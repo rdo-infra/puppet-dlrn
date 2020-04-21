@@ -15,7 +15,9 @@
 
 <% if @api_workers %> <% @api_workers.each do |worker| -%>
   # WSGI configuration for worker <%= worker %>
-  WSGIDaemonProcess ssl-dlrn-<%= worker -%> group=<%= worker -%> processes=5 threads=1 user=<%= worker %>
+  # NOTE(dpawlik): use python-path param instead of python-home,
+  # if python version required to compile mod_wsgi was different.
+  WSGIDaemonProcess ssl-dlrn-<%= worker -%> python-home=/home/<%= worker %>/.venv group=<%= worker -%> processes=5 threads=1 user=<%= worker %>
   WSGIScriptAlias /api-<%= worker -%> "/home/<%= worker -%>/api/dlrn-api-<%= worker -%>.wsgi"
   <% if worker.start_with?('rhel8') -%>WSGIScriptAlias /api-<%= worker.gsub('rhel8', 'redhat') -%> "/home/<%= worker -%>/api/dlrn-api-<%= worker -%>.wsgi"<% end -%>
 

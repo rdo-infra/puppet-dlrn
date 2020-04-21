@@ -1,10 +1,5 @@
 import os
 import sys
-<% if Integer(@operatingsystemmajrelease) > 7 %>
-sys.path.append('/home/<%= @name %>/.venv/lib/python3.6/site-packages/')
-<% else %>
-sys.path.append('/home/<%= @name %>/.venv/lib/python2.7/site-packages/')
-<% end %>
 
 def application(environ, start_response):
     os.environ['CONFIG_FILE'] = environ['CONFIG_FILE']
