@@ -112,6 +112,12 @@ describe 'dlrn::web' do
     it 'uses the custom vhost template' do
       is_expected.to contain_apache__vhost__custom('dummy.example.com')
     end
+
+    it "should check if python-home is set" do
+      is_expected.to contain_apache__vhost__custom('dummy.example.com').with_content(
+        /^  WSGIDaemonProcess dlrn-centos-ocata python-home\=\/home\/centos-ocata\.venv group\=centos-ocata processes\=5 threads\=1 user\=centos-ocata$/
+      )
+    end
   end
 
   context 'with enable_https enabled' do
