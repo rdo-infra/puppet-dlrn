@@ -175,11 +175,6 @@ describe 'dlrn::worker' do
             )
         end
 
-        it 'creates the wsgi file' do
-          is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.wsgi")
-            .with_content(/sys.path.append\(\'\/home\/#{title}\/.venv\/lib\/python3.6\/site-packages\/\'\)$/)
-        end
-
         it 'creates the WSGI config file' do
           is_expected.to contain_file("/home/#{title}/api/dlrn-api-#{title}.cfg")
             .with_content(/DB_PATH = \'sqlite:\/\/\/\/home\/#{title}\/dlrn\/commits.sqlite\'$/)
