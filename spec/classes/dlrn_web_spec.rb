@@ -112,6 +112,65 @@ describe 'dlrn::web' do
     it 'uses the custom vhost template' do
       is_expected.to contain_apache__vhost__custom('dummy.example.com')
     end
+
+    it "should check if python-home is set" do
+      is_expected.to contain_apache__vhost__custom('dummy.example.com').with(
+        :content =>'
+<VirtualHost *:80>
+  ServerName default
+
+  ## Vhost docroot
+  DocumentRoot "/var/www/html"
+
+  ## Directories, there should at least be a declaration for /var/www/html
+
+  <Directory "/var/www/html">
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride FileInfo
+    AddType text/plain yaml yml
+    Require all granted
+  </Directory>
+
+   # WSGI configuration for worker centos-ocata
+  # NOTE(dpawlik): use python-path param instead of python-home,
+  # if python version required to compile mod_wsgi was different.
+  WSGIDaemonProcess dlrn-centos-ocata python-home=/home/centos-ocata/.venv group=centos-ocata processes=5 threads=1 user=centos-ocata
+  WSGIScriptAlias /api-centos-ocata "/home/centos-ocata/api/dlrn-api-centos-ocata.wsgi"
+
+  <Location "/api-centos-ocata">
+    Require all granted
+    SetEnv CONFIG_FILE /home/centos-ocata/api/dlrn-api-centos-ocata.cfg
+    WSGIProcessGroup dlrn-centos-ocata
+    WSGIPassAuthorization On
+  </Location>
+
+
+
+  # WSGI configuration for worker centos-newton
+  # NOTE(dpawlik): use python-path param instead of python-home,
+  # if python version required to compile mod_wsgi was different.
+  WSGIDaemonProcess dlrn-centos-newton python-home=/home/centos-newton/.venv group=centos-newton processes=5 threads=1 user=centos-newton
+  WSGIScriptAlias /api-centos-newton "/home/centos-newton/api/dlrn-api-centos-newton.wsgi"
+
+  <Location "/api-centos-newton">
+    Require all granted
+    SetEnv CONFIG_FILE /home/centos-newton/api/dlrn-api-centos-newton.cfg
+    WSGIProcessGroup dlrn-centos-newton
+    WSGIPassAuthorization On
+  </Location>
+
+
+
+
+  ## Logging
+  ErrorLog "/var/log/httpd/dummy.example.com_error.log"
+  ServerSignature Off
+  CustomLog "/var/log/httpd/dummy.example.com_access.log" combined
+
+
+</VirtualHost>
+      ')
+    end
   end
 
   context 'with enable_https enabled' do
@@ -192,6 +251,12 @@ describe 'dlrn::web' do
 
     it 'uses the custom vhost template' do
       is_expected.to contain_apache__vhost__custom('ssl-dummy.example.com')
+    end
+
+    it "should check if python-home is set for https" do
+      is_expected.to contain_apache__vhost__custom('ssl-dummy.example.com').with(
+        content: %r{Match "WSGIDaemonProcess dlrn-centos-newton python-home"}
+    )
     end
   end
 end
