@@ -112,6 +112,10 @@ describe 'dlrn::web' do
     it 'uses the custom vhost template' do
       is_expected.to contain_apache__vhost__custom('dummy.example.com')
     end
+
+    it "should check if python-home is set" do
+      is_expected.to contain_apache__vhost__custom('dummy.example.com').with_content(/\spython-home=/)
+    end
   end
 
   context 'with enable_https enabled' do
@@ -192,6 +196,12 @@ describe 'dlrn::web' do
 
     it 'uses the custom vhost template' do
       is_expected.to contain_apache__vhost__custom('ssl-dummy.example.com')
+    end
+
+    it "should check if python-home is set for https" do
+      is_expected.to contain_apache__vhost__custom('ssl-dummy.example.com').with_content(
+        /\spython-home=/
+      )
     end
   end
 end
