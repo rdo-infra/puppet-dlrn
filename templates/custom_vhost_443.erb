@@ -15,7 +15,12 @@
 
 <% if @api_workers %> <% @api_workers.each do |worker| -%>
   # WSGI configuration for worker <%= worker %>
-  WSGIDaemonProcess ssl-dlrn-<%= worker -%> group=<%= worker -%> processes=5 threads=1 user=<%= worker %>
+<% if Integer(@operatingsystemmajrelease) > 7 %>
+  WSGIDaemonProcess ssl-dlrn-<%= worker -%> python-path=/home/<%= @name %>/.venv/lib/python3.6/site-packages/ group=<%= worker -%> processes=5 threads=1 user=<%= worker %>
+<% else %>
+  WSGIDaemonProcess ssl-dlrn-<%= worker -%> python-path=/home/<%= @name %>/.venv/lib/python2.7/site-packages/ group=<%= worker -%> processes=5 threads=1 user=<%= worker %>
+<% end %>
+
   WSGIScriptAlias /api-<%= worker -%> "/home/<%= worker -%>/api/dlrn-api-<%= worker -%>.wsgi"
   <% if worker.start_with?('rhel8') -%>WSGIScriptAlias /api-<%= worker.gsub('rhel8', 'redhat') -%> "/home/<%= worker -%>/api/dlrn-api-<%= worker -%>.wsgi"<% end -%>
 
