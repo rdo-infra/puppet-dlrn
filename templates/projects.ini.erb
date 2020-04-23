@@ -7,6 +7,7 @@ distro=<%= @distgit_branch %>
 source=<%= @distro_branch %>
 target=<%= @target %>
 reponame=delorean
+project_name=<%= @project_name %>
 tags=<%= @release %>
 workers=<%= @worker_processes %>
 <% if @server_type == 'primary' %>
@@ -24,6 +25,9 @@ database_connection=<%= @db_connection %>
 fallback_to_master=<%= @fallback_to_master %>
 include_srpm_in_repo=<%= @include_srpm_in_repo %>
 nonfallback_branches=<%= @nonfallback_branches %>
+custom_preprocess=<%= @custom_preprocess %>
+allow_force_rechecks=<%= @allow_force_rechecks %>
+keep_changelog=<%= @keep_changelog %>
 use_components=<%= @use_components %>
 <% if @pkginfo_driver == 'dlrn.drivers.gitrepo.GitRepoDriver' %>
 [gitrepo_driver]
@@ -53,4 +57,5 @@ arch=<%= @koji_arch %>
 fetch_mock_config=<%= @koji_fetch_mock_config %>
 use_rhpkg=<%= @koji_use_rhpkg %>
 mock_base_packages=<%= @koji_mock_base_packages %>
+<% if @koji_mock_package_manager %>mock_package_manager=<%= @koji_mock_package_manager %><% end %>
 <% end %>

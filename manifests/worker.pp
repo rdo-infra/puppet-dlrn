@@ -129,6 +129,11 @@
 #   primary and redirects current-passed-ci and current-tripleo to buildlogs.
 #   Defaults to parameter dlrn::server_type
 #
+# [*project_name*]
+#   (optional) If set, specify the project name that will be displayed as part
+#   of the HTML reports.
+#   Defaults to 'RDO'
+#
 # [*db_connection*]
 #   (optional) Specify a database connection string, using the SQLAlchemy
 #   syntax
@@ -309,6 +314,14 @@
 #   be done.
 #   Defaults to undef
 #
+# [*koji_mock_package_manager*]
+#   (optional) If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver'
+#   and 'fetch_mock_config' is set to true, this option will  will override the
+#   config_ops['package_manager'] option from the fetched mock configuration.
+#   This allows us to have different package managers if we are building for
+#   different operating system releases, such as CentOS 7 (yum) and CentOS 8 (dnf).
+#   Defaults to undef.
+#
 # [*enable_deps_sync*]
 #   (optional) Enable a cron job to periodically synchronize dependencies repo
 #   with cloud7-openstack-<release>-testing CBS tag.
@@ -318,6 +331,25 @@
 #   (optional) Enable a cron job to periodically synchronize build requirements repo
 #   with cloud{centos-release}-openstack-<release>-el{centos-release}-build CBS tag.
 #   Defaults to false
+#
+# [*allow_force_rechecks*]
+#   (optional) If set to true, allow force rechecks of successfully built commits.
+#   Please note that this is not advisable if you rely on the DLRN-generated
+#   repositories, since it will remove packages that other hashed repositories
+#   may have symlinked.
+#   Defaults to false
+#
+# [*custom_preprocess*]
+#   (optional) If set, defines a comma-separated list of custom programs or scripts
+#   to be called as part of the pre-process step. The custom programs will be executed
+#   sequentially.
+#   Defaults to undef.
+#
+# [*keep_changelog*]
+#   (optional) If set to true, DLRN will not clean the %changelog section from spec files
+#   when building the source RPM. When set to the default value of false, DLRN will remove
+#   all changelog content from specs.
+#   Defaults to false.
 #
 # === Example
 #
@@ -360,6 +392,7 @@ define dlrn::worker (
   $enable_public_rsync           = false,
   $public_rsync_hosts_allow      = undef,
   $server_type                   = $dlrn::server_type,
+  $project_name                  = 'RDO',
   $db_connection                 = 'sqlite:///commits.sqlite',
   $fallback_to_master            = true,
   $include_srpm_in_repo          = true,
@@ -389,9 +422,12 @@ define dlrn::worker (
   $koji_fetch_mock_config        = false,
   $koji_use_rhpkg                = false,
   $koji_mock_base_packages       = undef,
+  $koji_mock_package_manager     = undef,
   $enable_deps_sync              = false,
   $enable_brs_sync               = false,
-
+  $allow_force_rechecks          = false,
+  $custom_preprocess             = undef,
+  $keep_changelog                = false,
 ) {
   user { $name:
     comment    => "User for ${name} worker",
