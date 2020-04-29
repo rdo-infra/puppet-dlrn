@@ -1,5 +1,5 @@
-[delorean-master-testing]
-name=dlrn-master-testing
+[delorean-ussuri-testing]
+name=dlrn-ussuri-testing
 baseurl=https://trunk.rdoproject.org/centos8-master/deps/latest/
 enabled=1
 gpgcheck=0

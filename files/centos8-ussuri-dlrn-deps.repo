@@ -1,12 +1,12 @@
-[delorean-master-testing]
-name=dlrn-master-testing
+[delorean-ussuri-testing]
+name=dlrn-ussuri-testing
 baseurl=https://trunk.rdoproject.org/centos8-master/deps/latest/
 enabled=1
 gpgcheck=0
 module_hotfixes=1
 
-[delorean-master-build-deps]
-name=dlrn-master-build-deps
+[delorean-ussuri-build-deps]
+name=dlrn-ussuri-build-deps
 baseurl=https://trunk.rdoproject.org/centos8-master/build-deps/latest/
 enabled=1
 gpgcheck=0
