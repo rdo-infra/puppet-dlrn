@@ -1,13 +1,13 @@
 [delorean-ussuri-testing]
 name=dlrn-ussuri-testing
-baseurl=https://trunk.rdoproject.org/centos8-master/deps/latest/
+baseurl=https://trunk.rdoproject.org/centos8-ussuri/deps/latest/
 enabled=1
 gpgcheck=0
 module_hotfixes=1
 
 [delorean-ussuri-build-deps]
 name=dlrn-ussuri-build-deps
-baseurl=https://trunk.rdoproject.org/centos8-master/build-deps/latest/
+baseurl=https://trunk.rdoproject.org/centos8-ussuri/build-deps/latest/
 enabled=1
 gpgcheck=0
 module_hotfixes=1
