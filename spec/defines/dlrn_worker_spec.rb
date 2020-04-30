@@ -2,7 +2,17 @@ require 'spec_helper'
 
 describe 'dlrn::worker' do
   let :facts do
-  {   :os                        => { :family => 'RedHat' },
+  {  :os                        => {
+          'family' => 'RedHat',
+          'release' => {
+              'major' => '7',
+              'minor' => '1',
+              'full'  => '7.6.1810',
+           },
+          'selinux' => {
+              'enabled' => true,
+          }
+      },
       :osfamily                  => 'RedHat',
       :operatingsystem           => 'Fedora',
       :operatingsystemrelease    => '24',
@@ -25,6 +35,10 @@ describe 'dlrn::worker' do
     }
   end
 
+  let(:pre_condition) { [
+      'include ::apache',
+      'include ::dlrn::common',
+  ] }
 
   context 'with default parameters' do
     ['fedora-master', 'centos-master', 'centos-rocky'].each do |user|
