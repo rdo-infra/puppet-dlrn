@@ -13,7 +13,10 @@ describe 'dlrn::common' do
                 'major' => '7',
                 'minor' => '1',
                 'full'  => '7.6.1810',
-             }
+             },
+            'selinux' => {
+                'enabled' => true,
+            }
         },
         :concat_basedir            => '/tmp',
         :puppetversion             => '5.5.10',
