@@ -11,6 +11,8 @@ describe 'dlrn::rdoinfo' do
       :processorcount         => 2 }
   end
 
+  let(:pre_condition) { 'include ::apache' }
+
   context 'with default parameters' do
     it 'creates user rdoinfo' do
       is_expected.to contain_user('rdoinfo').with(
