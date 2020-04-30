@@ -2,9 +2,21 @@ require 'spec_helper'
 
 describe 'dlrn::fail2ban' do
   let :facts do
-  {   :osfamily               => 'RedHat',
+  {   :os                        => {
+          'family' => 'RedHat',
+          'release' => {
+              'major' => '7',
+              'minor' => '1',
+              'full'  => '7.6.1810',
+           },
+          'selinux' => {
+              'enabled' => true,
+          }
+      },
+      :osfamily               => 'RedHat',
       :operatingsystem        => 'Fedora',
-      :operatingsystemrelease => '24',
+      :operatingsystemrelease    => '7',
+      :operatingsystemmajrelease => '7',
       :concat_basedir         => '/tmp',
       :puppetversion          => '3.7.0',
       :sudoversion            => '1.8.15',
@@ -16,6 +28,7 @@ describe 'dlrn::fail2ban' do
     }
   end
 
+  let(:pre_condition) { 'include ::dlrn::common' }
 
   context 'with specific parameters' do
     it 'installs the right packages' do
