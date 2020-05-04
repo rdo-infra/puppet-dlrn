@@ -19,7 +19,7 @@ gpgcheck=0
 enabled=1
 module_hotfixes=1
 
-[messaging-rabbitmq]
+[centos-rabbitmq-38]
 name=Messaging RabbitMQ
 baseurl=http://mirror.centos.org/centos/8/messaging/$basearch/rabbitmq-38
 gpgcheck=0
@@ -27,7 +27,7 @@ enabled=1
 module_hotfixes=1
 skip_if_unavailable=1
 
-[opstools]
+[centos-opstools]
 name=opstools
 baseurl=http://mirror.centos.org/centos/8/opstools/$basearch/collectd-5/
 gpgcheck=0
