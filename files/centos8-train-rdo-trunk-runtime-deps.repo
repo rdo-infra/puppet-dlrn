@@ -18,6 +18,7 @@ baseurl=http://mirror.centos.org/centos/8/messaging/$basearch/rabbitmq-38
 gpgcheck=0
 enabled=1
 module_hotfixes=1
+skip_if_unavailable=1
 
 [opstools]
 name=opstools
