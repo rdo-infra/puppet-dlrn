@@ -4,7 +4,7 @@
 
 set -e
 
-MASTER_TAG=${MASTER_TAG:-ussuri}
+MASTER_TAG=${MASTER_TAG:-victoria}
 RELEASE=${RELEASE:-$(echo $USER|cut -d'-' -f2-)}
 DEPS_DIR=${DEPS_DIR:-${HOME}/data/repos/deps/}
 LATEST_DEPS_DIR=${DEPS_DIR}/latest/

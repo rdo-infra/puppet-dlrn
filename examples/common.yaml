@@ -239,7 +239,7 @@ dlrn::workers:
     purge_hour: '7'
     purge_minute: '7'
     symlinks: ['/var/www/html/rhel8-master', '/var/www/html/redhat8-master']
-    release: 'ussuri-uc'
+    release: 'victoria-uc'
     baseurl: 'http://trunk.rdoproject.org/rhel8-master'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -281,7 +281,7 @@ dlrn::workers:
     purge_hour: '2'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8', '/var/www/html/centos8-master']
-    release: 'ussuri-uc'
+    release: 'victoria-uc'
     baseurl: 'https://trunk.rdoproject.org/centos8'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -307,7 +307,7 @@ dlrn::workers:
     purge_hour: '1'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-master-head']
-    release: 'ussuri'
+    release: 'victoria'
     baseurl: 'https://trunk.rdoproject.org/centos8-master-head'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
@@ -335,8 +335,7 @@ dlrn::workers:
     purge_hour: '3'
     purge_minute: '7'
     symlinks: ['/var/www/html/centos8-ussuri', '/var/www/html/ussuri/centos8']
-# TODO: move to ussuri once the tags have been updated in rdo
-    release: 'ussuri-uc'
+    release: 'ussuri'
     baseurl: 'https://trunk.rdoproject.org/centos8-ussuri'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
