@@ -1,0 +1,25 @@
+---
+- job:
+    name: dlrn-puppet-lint
+    run: playbooks/puppet/lint.yaml
+    nodeset: rdo-centos-7
+
+- job:
+    name: dlrn-puppet-spec
+    run: playbooks/puppet/spec.yaml
+    nodeset: rdo-centos-7
+
+- job:
+    name: dlrn-puppet-syntax
+    run: playbooks/puppet/syntax.yaml
+    nodeset: rdo-centos-7
+
+# This is only a test
+
+- project:
+    name: rdo-infra/puppet-dlrn
+    check:
+      jobs:
+        - dlrn-puppet-lint
+        - dlrn-puppet-spec
+        - dlrn-puppet-syntax
