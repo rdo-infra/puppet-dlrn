@@ -255,6 +255,10 @@ If `enable_public_rsync` is true, this variable defines a list of hosts/networks
 ####`server_type`
 This defines if the server where the worker is being configured is primary or passive (see explanation in Class: dlrn section). Defaults to the value defined in class dlrn.
 
+####`project_name`
+If set, this parameter specifies the project name that will be displayed as part of the HTML reports.
+Defaults to 'RDO'
+
 ####`db_connection`
 This parameter defines a database connection string to be used by DLRN, in the SQLAlchemy syntax. Defaults to 'sqlite://commits.sqlite', which is a local SQLite3 database.
 
@@ -352,12 +356,26 @@ If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver', when this option i
 ####`koji_mock_base_packages`
 If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver' and ``fetch_mock_config`` is set to ``true``, this option will define the set of base packages that will be installed in the mock configuration when creating the source RPM. This list of packages will override the one fetched in the mock configuration, if set. If not set, no overriding will be done.
 
+####`koji_mock_package_manager`
+If build_driver is 'dlrn.drivers.kojidriver.KojiBuildDriver' and 'fetch_mock_config' is set to ``true``, this option will  will override the `config_ops['package_manager']` option from the fetched mock configuration.
+This allows us to have different package managers if we are building for  different operating system releases, such as CentOS 7 (yum) and CentOS 8 (dnf).
+Defaults to `undef`.
+
 ####`enable_deps_sync`
 When set to true a cron job is created to synchronize dependencies from CBS into $HOME/data/repos/deps/latest in primary server.
 
 ####`enable_brs_sync`
 When set to true a cron job is created to synchronize build dependencies from CBS into $HOME/data/repos/build-deps/latest in primary server.
 
+####`allow_force_rechecks`
+When set to `true`, allow force rechecks of successfully built commits. Please note that this is not advisable if you rely on the DLRN-generated repositories, since it will remove packages that other hashed repositories may have symlinked. Defaults to `false`.
+
+####`custom_preprocess`
+If set, this parameter defines a comma-separated list of custom programs or scripts to be called as part of the pre-process step. The custom programs will be executed sequentially. Defaults to `undef`.
+
+####`keep_changelog`
+If set to `true`, DLRN will not clean the %changelog section from spec files when building the source RPM. When set to the default value of false, DLRN will remove all changelog content from specs.
+Defaults to `false`.
 
 ## Limitations
 
