@@ -123,7 +123,10 @@ describe 'dlrn::worker' do
           )
         end
 
-        it { is_expected.not_to contain_cron("#{user}") }
+        it { is_expected.to contain_cron("#{user}").with(
+            :ensure => 'absent',
+          )
+        }
         it 'does not set smtpserver in projects.ini' do
           is_expected.to contain_file("/usr/local/share/dlrn/#{user}/projects.ini")
           .with_content(/smtpserver=$/)
