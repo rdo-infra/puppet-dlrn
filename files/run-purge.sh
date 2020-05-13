@@ -39,8 +39,22 @@ echo `date` "Starting DLRN-purge run." >> $LOGFILE
           rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink /home/${USER}/data/repos/
         done
         # Now try the same for component-based repos
-        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos/component -maxdepth 2 -type l 2>/dev/null| grep -v -e current$ -e consistent$" | while read symlink; do 
+        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos/component -maxdepth 2 -type l 2>/dev/null| grep -v -e current$ -e consistent$" | while read symlink; do
           rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink $(dirname $symlink)
+        done
+        # Sync directories, to which symlink is set
+        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos -maxdepth 1 -type l | grep -v -e current$ -e consistent$ -e delorean-deps.repo$"| while read symlink; do
+            # This var takes e.g.: /home/centos8-master-uc/data/repos/current-tripleo-rdo
+            MAIN_DIR=$(ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "readlink -f $symlink")
+            # SUBDIR: /home/centos8-master-uc/data/repos/current-tripleo-rdo/e5/8f/e58f190578fa8e82b539f29fcafb3edf/delorean.repo
+            SUBDIR=$(ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find ${MAIN_DIR} -maxdepth 1 -type l | grep -e delorean.repo$ | head -1 | xargs readlink -f")
+            # TO_SYNC_DIR: /home/centos8-master-uc/data/repos/current-tripleo-rdo/e5
+            TO_SYNC_DIR=$(dirname $(dirname $(dirname $SUBDIR)))
+            rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$TO_SYNC_DIR /home/${USER}/data/repos/
+            # Sync also all symlinks inside MAIN_DIR, that are related to files inside the SUBDIR
+            ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find ${MAIN_DIR} -maxdepth 1 -type l" | while read slink; do
+              rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$slink /home/${USER}/data/repos/
+            done
         done
     fi
 # Now, purge as needed
