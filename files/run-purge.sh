@@ -3,6 +3,8 @@ LOCK="/home/${USER}/dlrn.lock"
 RSYNC_DEST=$(grep rsyncdest /usr/local/share/dlrn/${USER}/projects.ini | awk -F= '{print $2}')
 RSYNC_SERVER=$(echo $RSYNC_DEST | awk -F: '{print $1}')
 RSYNC_PORT=$(grep rsyncport /usr/local/share/dlrn/${USER}/projects.ini | awk -F= '{print $2}')
+BLACKLIST_DIRS=${BLACKLIST_DIRS:-'deps|component$|panda'}
+USE_COMPONENTS=$(grep use_components /usr/local/share/dlrn/${USER}/projects.ini | awk -F= '{print $2}')
 set -e
 
 # if any arguments are given, assume console foreground execution
@@ -33,15 +35,23 @@ cd ~/dlrn
 
 set +e
 echo `date` "Starting DLRN-purge run." >> $LOGFILE
-    if [ -n "${RSYNC_DEST}" ]; then
-        # First, synchronize promotion-based symlinks from the primary server, which is where promotions run
-        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos -maxdepth 1 -type l | grep -v -e current$ -e consistent$ -e delorean-deps.repo$"| while read symlink; do
-          rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink /home/${USER}/data/repos/
-        done
+    if [ -n "${RSYNC_DEST}" ] && [[ $USE_COMPONENTS =~ ^[Tt]rue$ ]]; then
+        echo "$(date) Synchronizing components directory" | tee -a "${LOGFILE}"
         # Now try the same for component-based repos
-        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos/component -maxdepth 2 -type l 2>/dev/null| grep -v -e current$ -e consistent$" | while read symlink; do 
-          rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink $(dirname $symlink)
+        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos/component -maxdepth 2 -type l 2>/dev/null| grep -v -e current$ -e consistent$" | while read symlink; do
+            rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink $(dirname $symlink)
         done
+    elif [ -n "${RSYNC_DEST}" ]; then
+        # First, synchronize all directories that are not set in BLACKLIST_DIRS.
+        # Skip also the root directory: /home/${USER}/data/repos/.
+        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos -maxdepth 1 | grep -vE /home/${USER}/data/repos/[0-9a-f]{2} | grep -vE ${BLACKLIST_DIRS}" | while read directory; do
+            rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$directory /home/${USER}/data/repos/
+        done
+        # Sync directories where symlink to which symlink are set
+        ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no $RSYNC_SERVER "find /home/${USER}/data/repos -maxdepth 1 -type l -exec readlink -f {} \; | grep -vE 'current$|consistent$|delorean-deps.repo$'" | while read symlink; do
+            rsync -avz -e "ssh -p ${RSYNC_PORT} -o StrictHostKeyChecking=no" ${RSYNC_SERVER}:$symlink /home/${USER}/data/repos/
+        done
+
     fi
 # Now, purge as needed
 dlrn-purge --config-file /usr/local/share/dlrn/${USER}/projects.ini ${ARGUMENTS} "$@" 2>> $LOGFILE
