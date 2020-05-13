@@ -613,40 +613,57 @@ python setup.py install",
     minute  => '0'
   }
 
-
-  if $enable_cron and $server_type == 'primary' {
-    cron { $name:
-      command => "DLRN_ENV=${cron_env} /usr/local/bin/run-dlrn.sh",
-      user    => $name,
-      hour    => $cron_hour,
-      minute  => $cron_minute,
+  if $server_type == 'primary' {
+    if $enable_cron {
+      cron { $name:
+        command => "DLRN_ENV=${cron_env} /usr/local/bin/run-dlrn.sh",
+        user    => $name,
+        hour    => $cron_hour,
+        minute  => $cron_minute,
+      }
+    } else {
+      cron { $name:
+        ensure => absent,
+      }
     }
-  }
 
-  if $enable_purge and $server_type == 'primary' {
-    cron { "${name}-purge":
-      command => '/usr/local/bin/run-purge.sh',
-      user    => $name,
-      hour    => $purge_hour,
-      minute  => $purge_minute,
+    if $enable_purge {
+      cron { "${name}-purge":
+        command => '/usr/local/bin/run-purge.sh',
+        user    => $name,
+        hour    => $purge_hour,
+        minute  => $purge_minute,
+      } 
+    } else {
+        cron { "${name}-purge":
+          ensure => absent,
+        }
     }
-  }
 
-  if $enable_deps_sync and $server_type == 'primary' {
-    cron { "${name}-deps":
-      command => '/usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
-      user    => $name,
-      hour    => '*',
-      minute  => [10, 40],
+    if $enable_deps_sync {
+      cron { "${name}-deps":
+        command => '/usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
+        user    => $name,
+        hour    => '*',
+        minute  => [10, 40],
+      } 
+    } else {
+        cron { "${name}-deps":
+          ensure => absent,
+        }
     }
-  }
 
-  if $enable_brs_sync and $server_type == 'primary' {
-    cron { "${name}-build-deps":
-      command => 'TAG_PHASE="build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-build-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
-      user    => $name,
-      hour    => '*',
-      minute  => [25, 55],
+    if $enable_brs_sync {
+      cron { "${name}-build-deps":
+        command => 'TAG_PHASE="build" DEPS_DIR="${HOME}/data/repos/build-deps/" /usr/local/bin/update-deps.sh > $HOME/dlrn-logs/update-build-deps-$(date +\%Y\%m\%d\%H\%M).log 2>&1',
+        user    => $name,
+        hour    => '*',
+        minute  => [25, 55],
+      }
+    } else {
+        cron { "${name}-build-deps":
+          ensure => absent,
+        }
     }
   }
 
