@@ -745,7 +745,7 @@ python setup.py install",
   if $name =~ /^(centos|centos8|fedora|rhel8)\-(ocata|pike|queens|rocky|stein|train|ussuri)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
-    $worker_version = $components[1]
+    $worker_version = join($components[1,length($components)], '-')
     $worker_name    = "${worker_os}-${worker_version}"
 
     file { "/home/${name}/dlrn/scripts/${worker_os}-${worker_version}.cfg":
