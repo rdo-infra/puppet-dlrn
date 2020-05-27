@@ -1,0 +1,18 @@
+[delorean-train-testing]
+name=dlrn-train-testing
+baseurl=https://trunk.rdoproject.org/centos7-train/deps/latest/
+enabled=1
+gpgcheck=0
+
+[delorean-train-build-deps]
+name=dlrn-train-build-deps
+baseurl=https://trunk.rdoproject.org/centos7-train/build-deps/latest/
+enabled=1
+gpgcheck=0
+
+[rdo-qemu-ev]
+name=RDO CentOS-$releasever - QEMU EV
+baseurl=http://mirror.centos.org/$contentdir/7/virt/$basearch/kvm-common/
+gpgcheck=0
+enabled=1
+skip_if_unavailable=1
