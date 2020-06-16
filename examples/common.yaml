@@ -351,9 +351,9 @@ dlrn::workers:
     use_components: true
     enable_public_rsync: true
     public_rsync_hosts_allow: ['dummy.example.com']
-  centos8-train:
+  centos8-train-old:
     distro: 'centos8'
-    target: 'centos8-train'
+    target: 'centos8-train-old'
     distgit_branch: 'train-rdo'
     distro_branch: 'stable/train'
     disable_email: *disable_email
@@ -361,9 +361,9 @@ dlrn::workers:
     enable_purge: *enable_purge
     purge_hour: '3'
     purge_minute: '7'
-    symlinks: ['/var/www/html/centos8-train', '/var/www/html/train/centos8']
+    symlinks: ['/var/www/html/centos8-train-old', '/var/www/html/train-old/centos8']
     release: 'train'
-    baseurl: 'https://trunk.rdoproject.org/centos8-train'
+    baseurl: 'https://trunk.rdoproject.org/centos8-train-old'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
@@ -374,9 +374,9 @@ dlrn::workers:
     enable_brs_sync: false
     enable_public_rsync: true
     public_rsync_hosts_allow: ['dummy.example.com']
-  centos8-train-components:
+  centos8-train:
     distro: 'centos8'
-    target: 'centos8-train-components'
+    target: 'centos8-train'
     distgit_branch: 'train-rdo'
     distro_branch: 'stable/train'
     disable_email: *disable_email
@@ -384,17 +384,17 @@ dlrn::workers:
     enable_purge: false
     purge_hour: '3'
     purge_minute: '30'
-    symlinks: ['/var/www/html/centos8-train-components', '/var/www/html/train-components/centos8']
+    symlinks: ['/var/www/html/centos8-train', '/var/www/html/train/centos8']
     release: 'train'
-    baseurl: 'https://trunk.rdoproject.org/centos8-train-components'
+    baseurl: 'https://trunk.rdoproject.org/centos8'
     pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
     build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
     db_connection: 'sqlite:///commits.sqlite'
     mock_tmpfs_enable: true
     fallback_to_master: true
     include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
+    enable_deps_sync: true
+    enable_brs_sync: true
 #    gerrit_user: 'rdo-trunk'
 #    gerrit_email: 'javier.pena@redhat.com'
 #    gerrit_topic: 'rdo-FTBFS-train'
