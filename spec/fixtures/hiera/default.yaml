@@ -14,13 +14,13 @@ dlrn::workers:
     disable_email: *disable_email
     enable_cron: *enable_cron
     symlinks: ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
-  centos-newton:
-    name: 'centos-newton'
+  centos-train:
+    name: 'centos-train'
     distro: 'centos7'
-    target: 'centos-newton'
-    distgit_branch: 'newton-rdo'
-    distro_branch: 'stable/newton'
+    target: 'centos-train'
+    distgit_branch: 'train-rdo'
+    distro_branch: 'stable/train'
     disable_email: *disable_email
     enable_cron: *enable_cron
-    symlinks: ['/var/www/html/centos7-newton', '/var/www/html/newton/centos7']
-    release: 'newton'
+    symlinks: ['/var/www/html/centos7-train', '/var/www/html/train/centos7']
+    release: 'train'

@@ -25,7 +25,7 @@
 #   (optional) If enable_api is true, this array will define which workers
 #   will be added to the vhost configuration as WSGI. Each worker will have
 #   a url of /api-${worker} associated to its WSGI script.
-#   Example: ['centos-master-uc', 'centos-ocata']
+#   Example: ['centos-master-uc', 'centos-train']
 #   Defaults to []
 
 class dlrn::web(
