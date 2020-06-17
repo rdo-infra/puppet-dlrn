@@ -67,12 +67,12 @@
 #
 # [*release*]
 #   (optional) Release this worker will be using (all lowercase)
-#   Example: 'ocata'
-#   Defaults to 'rocky'
+#   Example: 'train'
+#   Defaults to 'train'
 #
 # [*baseurl*]
 #   (optional) Base URL for the exported repositories
-#   Example: 'https://trunk.rdoproject.org/centos7-ocata'
+#   Example: 'https://trunk.rdoproject.org/centos7-train'
 #   Defaults to 'http://localhost'
 #
 # [*gerrit_user*]
@@ -89,7 +89,7 @@
 # [*gerrit_topic*]
 #   (optional) Gerrit topic to use when opening a review. Only used it gerrit_user
 #   is set
-#   Example: 'rdo-FTBFS-ocata'
+#   Example: 'rdo-FTBFS-train'
 #   Defaults to 'rdo-FTBFS'
 #
 # [*rsyncdest*]
@@ -367,7 +367,7 @@
 #    uid               => 1000,
 #    disable_email     => true,
 #    enable_cron       => false,
-#    release           => 'ocata',
+#    release           => 'train',
 #    enable_deps_sync  => false,
 #    enable_brs_sync   => false,
 #  }
@@ -388,7 +388,7 @@ define dlrn::worker (
   $purge_hour                    = '1',
   $purge_minute                  = '7',
   $symlinks                      = undef,
-  $release                       = 'rocky',
+  $release                       = 'train',
   $baseurl                       = 'http://localhost',
   $gerrit_user                   = undef,
   $gerrit_email                  = undef,
@@ -479,7 +479,7 @@ define dlrn::worker (
     target => "/home/${name}/data/repos/dlrn-deps.repo",
   }
   # We only have current-tripleo-rdo in some workers
-  if $name =~ /^(centos|centos8)\-(ocata|pike|queens|rocky|stein|train|ussuri|master-uc)/ {
+  if $name =~ /^(centos|centos8)\-(queens|rocky|stein|train|ussuri|master-uc)/ {
     file {"/home/${name}/data/repos/current-passed-ci":    # Use current-tripleo-rdo as source of truth
       ensure  => link,
       target  => "/home/${name}/data/repos/current-tripleo-rdo",
@@ -741,8 +741,8 @@ python setup.py install",
     }
   }
 
-  # Special case for *-train, *-stein, *-rocky, *-queens, *-pike, and *-ocata
-  if $name =~ /^(centos|centos8|fedora|rhel8)\-(ocata|pike|queens|rocky|stein|train|ussuri)/ {
+  # Special case for *-train, *-stein, *-rocky, and *-queens
+  if $name =~ /^(centos|centos8|fedora|rhel8)\-(queens|rocky|stein|train|ussuri)/ {
     $components     = split($name, '-')
     $worker_os      = $components[0]
     $worker_version = join($components[1,length($components)], '-')

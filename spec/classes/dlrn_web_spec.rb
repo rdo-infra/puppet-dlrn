@@ -97,7 +97,7 @@ describe 'dlrn::web' do
   context 'with api enabled' do
     let :params do {
       :enable_api  => true,
-      :api_workers => ['centos-ocata', 'centos-newton'],
+      :api_workers => ['centos-stein', 'centos-train'],
     }
     end
 
@@ -182,7 +182,7 @@ describe 'dlrn::web' do
     let :params do {
       :enable_https => true,
       :enable_api  => true,
-      :api_workers => ['centos-ocata', 'centos-newton'],
+      :api_workers => ['centos-stein', 'centos-train'],
     }
     end
 
