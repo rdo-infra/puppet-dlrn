@@ -48,16 +48,16 @@ describe 'dlrn' do
           :enable_cron    => :false,
           :symlinks       => ['/var/www/html/centos7', '/var/www/html/centos70', '/var/www/html/centos7-master']
         )
-        is_expected.to contain_dlrn__worker('centos-newton').with(
-          :name           => 'centos-newton',
+        is_expected.to contain_dlrn__worker('centos-train').with(
+          :name           => 'centos-train',
           :distro         => 'centos7',
-          :target         => 'centos-newton',
-          :distgit_branch => 'newton-rdo',
-          :distro_branch  => 'stable/newton',
+          :target         => 'centos-train',
+          :distgit_branch => 'train-rdo',
+          :distro_branch  => 'stable/train',
           :disable_email  => :true,
           :enable_cron    => :false,
-          :symlinks       => ['/var/www/html/centos7-newton', '/var/www/html/newton/centos7'],
-          :release        => 'newton'
+          :symlinks       => ['/var/www/html/centos7-train', '/var/www/html/train/centos7'],
+          :release        => 'train'
         )
       end
 

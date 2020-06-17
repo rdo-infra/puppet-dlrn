@@ -5,7 +5,7 @@ disable_worker_email: &disable_email true
 
 dlrn::web::web_domain: 'trunk.rdoproject.org'
 dlrn::web::enable_api: true
-dlrn::web::api_workers: ['centos8-master-uc', 'centos8-ussuri', 'centos8-train', 'centos8-train-components', 'centos-master-uc', 'centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'centos-pike', 'centos-ocata', 'rhel8-master', 'rhel8-train']
+dlrn::web::api_workers: ['centos8-master-uc', 'centos8-ussuri', 'centos8-train', 'centos8-train-components', 'centos-master-uc', 'centos-train', 'centos-stein', 'centos-rocky', 'centos-queens', 'rhel8-master', 'rhel8-train']
 dlrn::web::cert_mail: undef
 
 dlrn::workers:
@@ -170,62 +170,6 @@ dlrn::workers:
 #   gerrit_user: 'rdo-trunk'
 #   gerrit_email: 'rdo-trunk@rdoproject.org'
 #   gerrit_topic: 'rdo-FTBFS-queens'
-    enable_public_rsync: true
-    public_rsync_hosts_allow: ['dummy.example.com']
-  centos-pike:
-    distro: 'centos7'
-    target: 'centos-pike'
-    distgit_branch: 'pike-rdo'
-    distro_branch: 'stable/pike'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
-    cron_hour: '*/2'
-    cron_minute: '37'
-    purge_hour: '0'
-    purge_minute: '7'
-    symlinks: ['/var/www/html/centos7-pike', '/var/www/html/pike/centos7']
-    release: 'pike'
-    baseurl: 'https://trunk.rdoproject.org/centos7-pike'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'sqlite:///commits.sqlite'
-    mock_tmpfs_enable: true
-    fallback_to_master: false
-    include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
-#   gerrit_user: 'rdo-trunk'
-#   gerrit_email: 'rdo-trunk@rdoproject.org'
-#   gerrit_topic: 'rdo-FTBFS-pike'
-    enable_public_rsync: true
-    public_rsync_hosts_allow: ['dummy.example.com']
-  centos-ocata:
-    distro: 'centos7'
-    target: 'centos-ocata'
-    distgit_branch: 'ocata-rdo'
-    distro_branch: 'stable/ocata'
-    disable_email: *disable_email
-    enable_cron: *enable_cron
-    enable_purge: *enable_purge
-    cron_hour: '*/2'
-    cron_minute: '27'
-    purge_hour: '2'
-    purge_minute: '37'
-    symlinks: ['/var/www/html/centos7-ocata', '/var/www/html/ocata/centos7']
-    release: 'ocata'
-    baseurl: 'https://trunk.rdoproject.org/centos7-ocata'
-    pkginfo_driver: 'dlrn.drivers.rdoinfo.RdoInfoDriver'
-    build_driver: 'dlrn.drivers.mockdriver.MockBuildDriver'
-    db_connection: 'sqlite:///commits.sqlite'
-    mock_tmpfs_enable: false
-    fallback_to_master: false
-    include_srpm_in_repo: true
-    enable_deps_sync: false
-    enable_brs_sync: false
-#   gerrit_user: 'rdo-trunk'
-#   gerrit_email: 'rdo-trunk@rdoproject.org'
-#   gerrit_topic: 'rdo-FTBFS-ocata'
     enable_public_rsync: true
     public_rsync_hosts_allow: ['dummy.example.com']
   rhel8-master:
