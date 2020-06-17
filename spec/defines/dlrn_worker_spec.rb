@@ -630,41 +630,41 @@ describe 'dlrn::worker' do
     end
   end
 
-  context 'with special case for centos-pike' do
+  context 'with special case for centos-train' do
     before :each do
-      params.merge!(:release             => 'pike')
-      params.merge!(:target              => 'centos-pike')
-      params.merge!(:distro_branch       => 'stable/pike')
+      params.merge!(:release             => 'train')
+      params.merge!(:target              => 'centos-train')
+      params.merge!(:distro_branch       => 'stable/train')
       params.merge!(:baseurl             => 'https://trunk.rdoproject.org/centos7-foo')
       params.merge!(:enable_public_rsync => true)
     end
 
     let :title do
-      'centos-pike'
+      'centos-train'
     end
 
-    it 'creates specific mock config file for centos-pike' do
-      is_expected.to contain_file('/home/centos-pike/dlrn/scripts/centos-pike.cfg')
-      .with_content(/config_opts\[\'root\'\] = \'dlrn-centos-pike-x86_64\'/)
+    it 'creates specific mock config file for centos-train' do
+      is_expected.to contain_file('/home/centos-train/dlrn/scripts/centos-train.cfg')
+      .with_content(/config_opts\[\'root\'\] = \'dlrn-centos-train-x86_64\'/)
     end
 
     it 'creates directory under /var/www/html' do
-      is_expected.to contain_file('/var/www/html/pike').with(
+      is_expected.to contain_file('/var/www/html/train').with(
         :ensure  => 'directory',
         :mode    => '0755',
-        :path    => '/var/www/html/pike',
+        :path    => '/var/www/html/train',
         :require => 'Package[httpd]',
       )
     end
 
     it 'sets a custom baseurl in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/dlrn/centos-pike/projects.ini")
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-train/projects.ini")
         .with_content(/baseurl=https:\/\/trunk.rdoproject.org\/centos7-foo$/)
     end
 
     it 'configures rsync module' do
-        is_expected.to contain_rsync__server__module('centos-pike').with(
-            :path        => '/home/centos-pike/data/repos',
+        is_expected.to contain_rsync__server__module('centos-train').with(
+            :path        => '/home/centos-train/data/repos',
             :hosts_allow => nil,
         )
     end
@@ -672,7 +672,7 @@ describe 'dlrn::worker' do
 
   context 'when enabling public rsync for centos-master-uc, and setting specific allowed hosts' do
     before :each do
-      params.merge!(:release                  => 'pike-uc')
+      params.merge!(:release                  => 'train-uc')
       params.merge!(:target                   => 'centos-master-uc')
       params.merge!(:distro_branch            => 'master')
       params.merge!(:baseurl                  => 'https://trunk.rdoproject.org/centos7')
@@ -694,21 +694,21 @@ describe 'dlrn::worker' do
 
   context 'with rsyncdest parameter parameter' do
     before :each do
-      params.merge!(:rsyncdest       => 'centos-ocata@backupserver.example.com:/home/centos-ocata/data/repos')
+      params.merge!(:rsyncdest       => 'centos-stein@backupserver.example.com:/home/centos-stein/data/repos')
       params.merge!(:rsyncport       => 1022)
     end
 
     let :title do
-      'centos-ocata'
+      'centos-stein'
     end
 
     it 'sets rsyncdest in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/dlrn/centos-ocata/projects.ini")
-        .with_content(/rsyncdest=centos-ocata@backupserver.example.com:\/home\/centos-ocata\/data\/repos$/)
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-stein/projects.ini")
+        .with_content(/rsyncdest=centos-stein@backupserver.example.com:\/home\/centos-stein\/data\/repos$/)
     end
 
     it 'does set rsyncport to 1022 in projects.ini' do
-        is_expected.to contain_file("/usr/local/share/dlrn/centos-ocata/projects.ini")
+        is_expected.to contain_file("/usr/local/share/dlrn/centos-stein/projects.ini")
         .with_content(/rsyncport=1022$/)
     end
   end
@@ -834,10 +834,10 @@ describe 'dlrn::worker' do
       params.merge!(:server_type    => 'passive')
     end
 
-    context 'with centos-ocata name' do
+    context 'with centos-stein name' do
       before :each do
-        params.merge!(:distro_branch   => 'stable/ocata')
-        params.merge!(:release         => 'ocata')
+        params.merge!(:distro_branch   => 'stable/stein')
+        params.merge!(:release         => 'stein')
         params.merge!(:enable_cron     => true)
         params.merge!(:gerrit_user     => 'foo')
         params.merge!(:gerrit_email    => 'foo@rdoproject.org')
@@ -845,7 +845,7 @@ describe 'dlrn::worker' do
       end
 
       let :title do
-        'centos-ocata'
+        'centos-stein'
       end
 
       it { is_expected.not_to contain_cron("#{title}") }
@@ -861,14 +861,14 @@ describe 'dlrn::worker' do
       end
     end
 
-    context 'with fedora-ocata name' do
+    context 'with fedora-stein name' do
       before :each do
-        params.merge!(:distro_branch   => 'stable/ocata')
-        params.merge!(:release         => 'ocata')
+        params.merge!(:distro_branch   => 'stable/stein')
+        params.merge!(:release         => 'stein')
       end
 
       let :title do
-        'fedora-ocata'
+        'fedora-stein'
       end
 
       it { is_expected.not_to contain_cron("#{title}") }
