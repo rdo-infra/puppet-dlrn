@@ -1,5 +1,13 @@
 # puppet-dlrn
 
+# Deprecation notice
+
+This module is now DEPRECATED. We have migrated its functionality to
+[an Ansible role](https://github.com/rdo-infra/ansible-role-dlrn/). Refer to that module
+for up-to-date deployment information.
+
+The rest of the information is kept for archival purposes.
+
 #### Table of Contents
 
 1. [Overview](#overview)
