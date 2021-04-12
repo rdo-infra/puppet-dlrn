@@ -12,7 +12,7 @@ enabled=1
 gpgcheck=0
 module_hotfixes=1
 
-[advanced-virtualization]
+[centos-advanced-virtualization]
 name=Advanced Virtualization mirror
 baseurl=http://mirror.centos.org/centos/8/virt/$basearch/advanced-virtualization/
 gpgcheck=0
